@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            android:padding="2dp" >
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/pageSectionHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/groups_addgroup_header" />
+
+            <View
+                android:id="@+id/basicInfoRule"
+                style="@style/horizontalLine"
+                android:layout_below="@id/textView2" >
+            </View>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/relativeLayout2"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <EditText
+                android:id="@+id/newGroupName"
+                style="@style/editTextField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:hint="@string/groups_new_groupname"
+                android:inputType="textPersonName" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/groupIcon"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/imagebox"
+        android:contentDescription="@string/group_icon"
+        android:src="@drawable/ic_group" />
+
+    <Button
+        android:id="@+id/addGroupButton"
+        style="@style/buttonStyleRound"
+        android:layout_below="@+id/groupIcon"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/ic_action_content_new_white" />
+
+</RelativeLayout>

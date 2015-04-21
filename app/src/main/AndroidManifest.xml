@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.prateek.gem"
+    android:versionCode="16"
+    android:versionName="4.4" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Permission to vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Creates a custom permission so only this app can receive its messages. -->
+    <permission
+        android:name="com.prateek.gem.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.prateek.gem.permission.C2D_MESSAGE" />
+
+    <!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".LoginScreen"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="RegisterActivity"
+            android:parentActivityName=".LoginScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.LoginScreen" />
+        </activity>
+
+        <activity
+            android:name=".views.GroupsLandingActivity"
+            android:label="@string/title_activity_groups_landing"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name=".FirstTimeLoadService" >
+        </service>
+        <service android:name=".services.MyDBService" >
+        </service>
+        <activity
+            android:name=".views.ExpensesActivity"
+            android:label="@string/title_activity_expenses"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.GroupsLandingActivity" />
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value="com.prateek.gem.views.ExpenseSearchableActivity" />
+        </activity>
+        <activity
+            android:name=".views.AddExpenseActivity"
+            android:label="@string/title_activity_add_expense"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.MembersActivity"
+            android:label="@string/title_activity_members"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.ItemsActivity"
+            android:label="@string/title_activity_items"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.HisabActivity"
+            android:label="@string/title_activity_hisab"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.SettlementHistoryActivity"
+            android:label="@string/title_activity_settlement_history"
+            android:parentActivityName=".views.HisabActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.HisabActivity" />
+        </activity>
+
+        <service
+            android:name=".FullFlowService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name=".views.AddMembersActivity"
+            android:label="@string/title_activity_add_members"
+            android:parentActivityName=".views.MembersActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.MembersActivity" />
+        </activity>
+        <activity
+            android:name=".views.ExpenseSearchableActivity"
+            android:label="@string/title_activity_expense_searchable"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".views.NewGroupActivity"
+            android:label="@string/title_activity_new_group"
+            android:parentActivityName=".views.GroupsLandingActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.GroupsLandingActivity" />
+        </activity>
+        <activity
+            android:name=".views.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.MyStatsActivity"
+            android:label="@string/title_activity_stats"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".personal.expense.AddExpense"
+            android:label="@string/title_activity_add_expense"
+            android:parentActivityName=".views.GroupsLandingActivity"
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data
+                android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.GroupsLandingActivity" />
+        </activity>
+
+        <service
+            android:name=".SyncService"
+            android:exported="false" >
+        </service>
+        <activity
+            android:name="com.prateek.gem.personal.expense.ViewExpenses"
+            android:label="@string/title_activity_view_expenses" >
+        </activity>
+    </application>
+
+</manifest>

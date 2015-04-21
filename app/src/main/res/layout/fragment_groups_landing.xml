@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prateek.gem.GroupsLandingActivity$PlaceholderFragment" >
+
+    <ListView
+        android:id="@+id/groupsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent" >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/noGroupsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerHorizontal="true"
+            android:text="@string/labelNoGroupsInfo"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#5c5858"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="176dp"
+            android:contentDescription="@string/group_icon"
+            android:src="@drawable/ic_oops" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:text="@string/labeladdgroupfrotop"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#5c5858"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

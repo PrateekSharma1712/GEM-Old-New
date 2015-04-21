@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:background="@drawable/dialog_rounded_box"
+    android:paddingBottom="@dimen/dialog_button_bottom_margin"
+    android:paddingLeft="@dimen/dialog_margin_left_right"
+    android:paddingRight="@dimen/dialog_margin_left_right"
+    android:paddingTop="@dimen/dialog_margin_left_right">
+
+    <TextView
+        android:id="@+id/dialogHeading"
+        style="@style/dialog_heading"
+        android:paddingBottom="5dp"
+        android:paddingTop="8dp"
+        android:text="@string/amount" />
+
+    <RelativeLayout
+        android:id="@+id/detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialogHeading">
+
+        <Spinner
+            android:id="@+id/vCategories"
+            style="@style/editTextStyle"
+            android:ems="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></Spinner>
+
+        <com.prateek.gem.widgets.FloatingHint
+            android:id="@+id/vItemName"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/psitem"
+            android:layout_below="@id/vCategories" />
+
+
+    </RelativeLayout>
+
+
+    <GridView
+        android:id="@+id/buttonsGrid"
+        android:layout_width="180dp"
+        android:layout_height="48dp"
+        android:layout_alignEnd="@+id/detail"
+        android:layout_alignRight="@+id/detail"
+        android:layout_below="@+id/detail"
+        android:layout_marginTop="@dimen/dialog_content_margin_bottom"
+        android:gravity="right"
+        android:minWidth="160dp"
+        android:numColumns="2"
+        android:padding="0dp"
+        android:scrollbars="none"></GridView>
+
+</RelativeLayout>

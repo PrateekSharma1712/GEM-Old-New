@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/global_right_frame_item"
+    android:orientation="vertical"
+    android:padding="@dimen/expenseList_padding" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="0.70"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="0.50"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/by"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/expenseBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/by"
+                    android:layout_marginLeft="5dp"
+                    android:ellipsize="marquee"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="0.50"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"                    
+                    android:text="@string/item"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/expenseItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"                    
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/label_amount"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/expenseAmount"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="0.30"
+            android:gravity="right"
+            android:text="@string/amount"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expenseDetailsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.38"
+                android:text="@string/participants"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:id="@+id/scrollViewParticipants"
+                style="@drawable/button_style_round"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.52"
+                android:fadingEdge="none"
+                android:fillViewport="true"
+                android:scrollbarSize="10dp" >
+
+                <LinearLayout
+                    android:id="@+id/expenseParticipants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/editExpense"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grid_button_selector"
+                android:drawableLeft="@drawable/ic_action_content_edit"
+                android:text="@string/button_edit"
+                android:textColor="#716e6e"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/deleteExpense"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/grid_button_selector"
+                android:drawableLeft="@drawable/ic_action_content_discard"
+                android:text="@string/button_delete"
+                android:textColor="#716e6e"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/expanderImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:contentDescription="@string/imageEdit"
+        android:src="@drawable/ic_navigation_expand" />
+
+</LinearLayout>

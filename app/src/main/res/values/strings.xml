@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="app_name">Group Expense Manager</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add_group">Add Group</string>
+    <string name="action_set_history">Settlement History</string>
+    <string name="code">+91</string>
+    <string name="prompt_password" tools:ignore="MissingTranslation">Password</string>
+    <string name="confirmpassword" tools:ignore="MissingTranslation">Confirm Password</string>
+    <string name="prompt_number" tools:ignore="MissingTranslation">Phone Number</string>
+    <string name="prompt_name" tools:ignore="MissingTranslation">Name</string>
+    <string name="prompt_email" tools:ignore="MissingTranslation">Email</string>
+    <string name="password">Atleast 4 letters password</string>
+    <string name="confirmassword">Confirm Password</string>
+    <string name="notmatch">Password and Confirm Password doesnot match</string>
+    <string name="wrongnumber">Please enter a valid phone number</string>
+    <string name="notregistered">Number not registered, please register or login with correct number</string>
+    <string name="alreadyregistered">Number already registered</string>
+    <string name="cannotempty">Cannot be empty</string>
+    <string name="button_register" tools:ignore="MissingTranslation">Register</string>
+    <string name="button_login" tools:ignore="MissingTranslation">Login</string>
+    <string name="button_confirm_mode" tools:ignore="MissingTranslation">Confirm</string>
+    <string name="action_sign_in_short" tools:ignore="MissingTranslation">Sign in</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="reg_hint">You should join GEM with phone number which is distributed among your friends in order to remain in sync with them.</string>
+    <string name="warning_enter_group_message" tools:ignore="MissingTranslation">Group name cannot be empty</string>
+    <string name="nonetwork">Network unavailable, please try after sometime</string>
+    <string name="load_checking_number">Checking Number</string>
+    <string name="registering">Registering you in GEM</string>
+    <string name="gcm_registered">From GCM: device successfully registered!</string>
+    <string name="gcm_unregistered">From GCM: device successfully unregistered!</string>
+    <string name="gcm_message">From GCM: you got message!</string>
+    <string name="gcm_error">From GCM: error (%1$s).</string>
+    <string name="gcm_recoverable_error">From GCM: recoverable error (%1$s).</string>
+    <string name="gcm_deleted">From GCM: server deleted %1$d pending messages!</string>
+    <string name="server_registering">Trying (attempt %1$d/%2$d) to register device on Demo Server.</string>
+    <string name="server_registered">From Demo Server: successfully added device!</string>
+    <string name="server_unregistered">From Demo Server: successfully removed device!</string>
+    <string name="server_register_error">Could not register device on Demo Server after %1$d attempts.</string>
+    <string name="server_unregister_error">Could not unregister device on Demo Server (%1$s).</string>
+    <string name="congrats">Congratulatiions!! You are successfully registerd with GEM</string>
+    <string name="title_activity_groups_landing">Groups</string>
+    <string name="title_activity_expenses">Expenses</string>
+    <string name="helptextinitialisation">        \tEasy steps to follow: \n\n        
+        1. Create a Group\n\n
+        2. Add your friends\n\n
+        3. Add items to make expense for\n\n
+        4. Done. You can now make expenses and mark your friends as participants in the expense.\n\n
+        5. Your friends who have installed this app will see the group and expenses.</string>
+    <string name="labelNoExpensesInfo">No expenses, please make some expenses.</string>
+    <string name="labelNoGroupsInfo">No Groups</string>
+    <string name="labeladdgroupfrotop">Tap on + sign on top</string>
+    <string name="labelNoMembersInfo" tools:ignore="MissingTranslation">No members, please add some members.</string>
+    <string name="group_icon">Group Icon</string>
+    <string name="by">Expense by: </string>
+    <string name="participants">Participants: </string>
+    <string name="item">Item: </string>
+    <string name="psdate">Please select a date</string>
+    <string name="psitem">Please enter a item</string>
+    <string name="psamountempty">Amount cannot be empty</string>
+    <string name="psamountvalid">Please enter valid amount</string>
+    <string name="label_amount">Amount</string>
+    <string name="label_date">Date</string>
+    <string name="label_particiapnts">Tap to choose participants</string>
+    <string name="inr">Rs. </string>
+    <string name="amount">Amount</string>
+    <string name="button_add" tools:ignore="MissingTranslation">Add</string>
+    <string name="button_cancel" tools:ignore="MissingTranslation">Cancel</string>
+    <string name="button_ok">OK</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_edit">Edit</string>
+    <string name="imageEdit">Edit Image</string>
+    <string name="imageRemove">Remove Image</string>
+    <string name="empty_string" tools:ignore="MissingTranslation"></string>
+    <string name="deleteExpense">Delete Expense</string>
+    <string name="date">10 October 2013</string>
+    <string name="option_addexpense">Add Expense</string>
+    <string name="option_save">Save</string>
+    <string name="option_item">Items</string>
+    <string name="option_members">Members</string>
+    <string name="option_settlements">Settlements</string>
+    <string name="option_calculate">Calculate</string>
+    <string name="option_graph">Graph</string>
+    <string name="title_activity_add_expense">Add Expense</string>
+    <string name="psparticipants">Please select who all are present in expense</string>
+    <string name="title_fragment_participants">Participants</string>
+    <string name="title_activity_members">Members</string>
+    <string name="memberName">Member Name</string>
+    <string name="memberPhoneNumber">Member Phone Number</string>
+    <string name="title_activity_items">Items</string>
+    <string name="groups_additem_header" tools:ignore="MissingTranslation">Add Item</string>
+    <string name="groups_existingitems_header" tools:ignore="MissingTranslation">Existing Items</string>
+    <string name="groups_new_itemname" tools:ignore="MissingTranslation">Enter New Item Name</string>
+    <string name="groups_NoItems" tools:ignore="MissingTranslation">No Items Present</string>
+    <string name="itemName">Item Name</string>
+    <string name="deleteItem">Delete Item</string>
+    <string name="warning_enter_item_message" tools:ignore="MissingTranslation">Item name cannot be empty</string>
+    <string name="title_activity_hisab">Calculation</string>
+    <string name="label_settlement_heading">Settlement</string>
+    <string name="giver">giver</string>
+    <string name="taker">taker</string>
+    <string name="title_activity_settlement_history">Settlement History</string>
+    <string name="title_activity_add_members">Add Members</string>
+    <string name="cannotdeleteadmin">Admin can not be deleted from group.</string>
+    <string name="deleteMember">Delete Member</string>
+    <string name="admindeletemembers">Only admin has right to delete members.</string>
+    <string name="search">Search</string>
+    <string name="sync">Sync</string>
+    <string name="groups_new_groupname">Enter New Group Name</string>
+    <string name="title_activity_expense_searchable">Expense Search</string>
+    <string name="title_activity_new_group">Add New Group</string>
+    <string name="groups_addgroup_header">Add New Group</string>
+    <string name="addGroup">Add Group</string>
+    <string name="existing_group">Group already exists, please give a different name</string>
+    <string name="title_activity_graph">GraphActivity</string>
+    <string name="addItemsMessage">Please add a item first, Then add expense</string>
+    <string name="nosettlements">No Settlements. Tap on any calculation entry to make settlement.</string>
+    <string name="title_activity_stats">My Statistics</string>
+    <string name="label_mytotalspent">How much I have spent total?</string>
+    <string name="label_grouptotalspent">How much amount spent in  group?</string>
+    <string name="howmuchgetfromothers">How much I have to get from other members?</string>
+    <string name="howmuchyougivetoothers">How much you have to give to others?</string>
+    <string name="nothingtocalculate">No calculations</string>
+    <string name="export">Export</string>
+    <string name="title_activity_ads">AdsActivity</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>My Expenses</item>
+        <item>Groups</item>
+    </string-array>
+
+    <string name="title_activity_">A</string>
+    <string name="title_activity_view_expenses">Expenses</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    
+    <string name="handleText">Filtering and sorting</string>
+    <string name="sortByText">SORT BY</string>
+    <string name="filterByText">FILTER BY</string>
+    <string name="dateSort">DATE</string>
+    <string name="categoryFilter">CATEGORY</string>
+    <string name="asc">ASC</string>
+    <string name="desc">DESC</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="clear">Clear</string>
+    <string name="done">Done</string>
+
+</resources>

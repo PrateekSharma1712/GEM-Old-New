@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/layer_card_background" >
+
+    <TextView
+        android:id="@+id/dialogHeading"
+        style="@style/dialog_heading"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="Select" />
+
+    <View
+        android:id="@+id/view1"
+        style="@style/horizontalLineappSecColor"
+        android:layout_alignBottom="@+id/dialogHeading" />
+
+    <ImageView
+        android:id="@+id/existingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ic_gallery" />
+    
+    <ImageView
+        android:id="@+id/cameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dialogHeading"
+        android:layout_alignTop="@+id/existingButton"
+        android:layout_marginLeft="30dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_camera" />
+
+</RelativeLayout>

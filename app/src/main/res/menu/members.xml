@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.prateek.gem.MembersActivity" >
+
+    <item
+        android:id="@+id/action_addMembers"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_content_new_white"
+        android:title="@string/option_save"
+        app:showAsAction="always"/>
+
+</menu>

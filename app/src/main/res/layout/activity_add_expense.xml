@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rightContentBg"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin" >
+
+    <EditText
+        android:id="@+id/dateField"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/label_date"
+        android:inputType="date" >
+
+        <requestFocus />
+    </EditText>
+
+    <Spinner
+        android:id="@+id/expenseBy"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/dateField"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="0dp"
+        android:ems="10"
+        android:layout_marginTop="25dp" />
+
+    <Spinner
+        android:id="@+id/expenseFor"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/expenseBy"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="0dp"
+        android:inputType="textAutoComplete"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:id="@+id/expenseAmount"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenseFor"
+        android:layout_alignRight="@+id/expenseFor"
+        android:layout_below="@+id/expenseFor"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="@string/label_amount"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/participantsButton"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenseAmount"
+        android:layout_alignRight="@+id/expenseAmount"
+        android:layout_below="@+id/expenseAmount"
+        android:layout_marginTop="24dp"
+        android:ellipsize="end"
+        android:ems="10"
+        android:hint="@string/label_particiapnts"
+        android:singleLine="true" />
+
+</RelativeLayout>

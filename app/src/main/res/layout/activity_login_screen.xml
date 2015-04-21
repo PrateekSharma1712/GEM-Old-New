@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    tools:context="com.prateek.gem.MainActivity$PlaceholderFragment"
+   >
+
+    <LinearLayout
+        android:id="@+id/buttonBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        style="?android:buttonBarStyle"
+        android:divider="@android:color/transparent"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/registerButton"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/button_register"
+            android:textColor="@color/theme_default_primary"
+            android:textSize="@dimen/buttonTextSize"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/loginButton"
+            style="?android:buttonBarButtonStyle"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/button_login"
+            android:textColor="@color/theme_default_primary_dark"
+            android:textSize="@dimen/buttonTextSize"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <com.prateek.gem.widgets.FloatingHint
+        android:id="@+id/code"
+        style="@style/editTextStyle"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/password"
+        android:layout_alignTop="@+id/phoneNumber"
+        android:gravity="right"
+        android:inputType="phone"
+        android:text="@string/code" />
+
+    <com.prateek.gem.widgets.FloatingHint
+        android:id="@+id/phoneNumber"
+        style="@style/editTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/password"
+        android:layout_alignRight="@+id/password"
+        android:layout_marginBottom="@dimen/margin_fields_top_or_bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/code"
+        android:hint="@string/prompt_number"
+        android:inputType="number"
+        android:maxLines="1"
+        android:nextFocusForward="@+id/password"
+        android:singleLine="true">
+
+    </com.prateek.gem.widgets.FloatingHint>
+
+
+    <com.prateek.gem.widgets.FloatingHint
+        android:id="@+id/password"
+        style="@style/editTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonBar"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/margin_fields_top_or_bottom"
+        android:hint="@string/prompt_password"
+        android:imeActionId="@+id/login"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionUnspecified"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+</RelativeLayout>

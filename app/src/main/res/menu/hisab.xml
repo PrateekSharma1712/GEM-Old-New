@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.prateek.gem.HisabActivity" >
+
+    <item
+        android:id="@+id/action_set_history"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_set_histoy"
+        android:title="@string/action_settings"
+        app:showAsAction="always"/>
+
+</menu>

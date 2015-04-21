@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rightContentBg"
+    android:padding="@dimen/expenseList_padding" >
+
+    <ListView
+        android:id="@+id/hisabs"
+        style="@style/listStyle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"        
+        android:divider="@color/rightContentBg"
+        android:visibility="visible" >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/settlementSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/android_basic_blue"
+        android:padding="5dp"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_settlement_heading"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/amountField"
+            style="@style/editTextField1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/querySentence"
+            android:layout_alignRight="@+id/querySentence"
+            android:layout_below="@+id/querySentence"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="@string/amount"
+            android:inputType="number" />
+
+        <ImageView
+            android:id="@+id/cancelSettlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/saveSettlement"
+            android:layout_alignTop="@+id/amountField"
+            android:padding="5dp"
+            android:src="@drawable/ic_action_content_remove" />
+
+        <ImageView
+            android:id="@+id/saveSettlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/date"
+            android:padding="5dp"
+            android:src="@drawable/ic_action_navigation_accept_white" />
+
+        <TextView
+            android:id="@+id/querySentence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/saveSettlement"
+            android:text="How much"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

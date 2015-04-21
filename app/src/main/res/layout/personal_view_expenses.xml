@@ -1,0 +1,159 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prateek.gem.ViewExpenses$PlaceholderFragment" >
+
+    <ListView
+        android:id="@+id/expensesList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin" >
+    </ListView>
+
+    <SlidingDrawer
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:content="@+id/content"
+        android:handle="@+id/handle" >
+
+        <TextView
+            android:id="@id/handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ab_background_textured_gemtheme"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/handleText"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:id="@+id/sortByText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transaparent_label_bgcolor"
+                android:padding="5dp"
+                android:text="@string/sortByText"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sortByText"
+                android:layout_marginLeft="15dp"
+                android:background="@android:color/white"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@string/dateSort"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/dateToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/date"
+                android:layout_alignBottom="@+id/date"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textOff="@string/desc"
+                android:textOn="@string/asc" />
+
+            <TextView
+                android:id="@+id/filterByText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date"
+                android:layout_marginTop="15dp"
+                android:background="@color/transaparent_label_bgcolor"
+                android:padding="5dp"
+                android:text="@string/filterByText"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/filterByText"
+                android:layout_marginLeft="15dp"
+                android:background="@android:color/white"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text="@string/categoryFilter"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/categoryToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/category"
+                android:layout_alignBottom="@+id/category"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textOff="@string/off"
+                android:textOn="@string/on" />
+
+            <ListView
+                android:id="@+id/categoryList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="45dp"
+                android:layout_below="@+id/category"
+                android:layout_alignLeft="@+id/category"
+                android:layout_alignRight="@+id/categoryToggle"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:scrollbars="none"
+                android:divider="@android:color/transparent" >
+            </ListView>
+
+            <LinearLayout
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ab_background_textured_gemtheme"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/clearFilter"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/clear"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/done"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/done"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </SlidingDrawer>
+
+</RelativeLayout>

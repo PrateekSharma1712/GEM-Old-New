@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/rightContentBg"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin" >
+
+    <EditText
+        android:id="@+id/dateField"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:focusableInTouchMode="false"
+        android:hint="@string/label_date"
+        android:inputType="date" >
+
+    </EditText>
+
+    <Spinner
+        android:id="@+id/categories"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dateField"
+        android:layout_alignRight="@+id/dateField"
+        android:layout_below="@+id/dateField"
+        android:layout_marginTop="25dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/expenseFor"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/categories"
+        android:layout_alignRight="@+id/categories"
+        android:layout_below="@+id/categories"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:id="@+id/expenseAmount"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenseFor"
+        android:layout_alignRight="@+id/expenseFor"
+        android:layout_below="@+id/expenseFor"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="@string/label_amount"
+        android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/modeOfPayment"
+        style="@style/editTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/expenseAmount"
+        android:layout_alignRight="@+id/expenseAmount"
+        android:layout_below="@+id/expenseAmount"
+        android:layout_marginTop="25dp" />
+
+</RelativeLayout>

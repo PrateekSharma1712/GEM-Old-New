@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="categoryarray" tools:ignore="MissingTranslation">
+        <item name="food">Food</item>
+        <item name="rashan">Rashan</item>
+        <item name="houseneeds">House needs</item>
+        <item name="milk">Milk</item>
+        <item name="bills">Bills</item>
+        <item name="vegetables">Vegetables</item>
+        <item name="fruits">Fruits</item>
+        <item name="water">Water</item>
+        <item name="gas">Gas</item>
+        <item name="party">Party</item>
+        <item name="electrical">Electrical</item>
+        <item name="medical">Medical</item>
+        <item name="transport">Transport</item>
+        <item name="entertainment">Entertainment</item>
+        <item name="other">Other</item>
+    </string-array>
+    
+    <string-array name="modesarray">
+        <item name="netbanking">Net banking</item>
+        <item name="card">Card</item>
+        <item name="cash">Cash</item>
+    </string-array>
+
+</resources>

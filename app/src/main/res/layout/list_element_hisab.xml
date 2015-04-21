@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/global_right_frame_item_selector"
+    android:orientation="vertical"
+    android:padding="@dimen/expenseList_padding" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/giver"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:gravity="left"
+            android:text="@string/giver"            
+            android:textColor="@color/android_basic_darkred"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.1"
+            android:contentDescription="@string/inr"
+            android:src="@drawable/ic_navigation_forward" />
+
+        <TextView
+            android:id="@+id/taker"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:gravity="right"
+            android:text="@string/taker"            
+            android:textColor="@color/android_basic_darkgreen"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/amount"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+</LinearLayout>
