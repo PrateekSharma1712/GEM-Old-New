@@ -45,7 +45,7 @@ import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.Item;
 import com.prateek.gem.model.SectionHeaderObject;
-import com.prateek.gem.views.MyToast;
+import com.prateek.gem.widgets.MyToast;
 
 public class Utils {
 	
@@ -142,7 +142,7 @@ public class Utils {
      */
     public static void showToast(Context context, String message){
     	//Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    	new MyToast(context,message,false);    	
+    	new MyToast(context,message,false);
     }
     
     /*
