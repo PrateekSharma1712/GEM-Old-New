@@ -43,7 +43,30 @@
     <dimen name="dialog_margin_left_right">24dp</dimen>
     <dimen name="dialog_content_margin_bottom">16dp</dimen>
     <dimen name="dialog_button_bottom_margin">8dp</dimen>
-    
-    
+
+    <dimen name="smallest">10sp</dimen>
+    <dimen name="smaller">12sp</dimen>
+    <dimen name="small">14sp</dimen>
+    <dimen name="base">16sp</dimen>
+    <dimen name="large">18sp</dimen>
+    <dimen name="larger">20sp</dimen>
+    <dimen name="largest">22sp</dimen>
+
+    <dimen name="group_image">120dp</dimen>
+
+    <dimen name="group_card_radius">2dp</dimen>
+    <dimen name="group_card_content_padding">5dp</dimen>
+
+    <dimen name="listPadding">8dp</dimen>
+    <dimen name="list_item_left_right_margin">16dp</dimen>
+    <dimen name="group_avatar">44dp</dimen>
+    <dimen name="item_row_height">72dp</dimen>
+    <dimen name="item_row_height_small">48dp</dimen>
+
+    <dimen name="titleSize">16sp</dimen>
+    <dimen name="subTitleSize">14sp</dimen>
+
+    <dimen name="legend_font_size">10sp</dimen>
+
 
 </resources>

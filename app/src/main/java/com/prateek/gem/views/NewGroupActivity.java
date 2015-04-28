@@ -46,12 +46,14 @@ import com.prateek.gem.OnModeConfirmListener;
 import com.prateek.gem.R;
 import com.prateek.gem.model.Group;
 import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TGroups;
-import com.prateek.gem.persistence.DBAdapter.TMembers;
+import com.prateek.gem.persistence.DB.TGroups;
+import com.prateek.gem.persistence.DB.TMembers;
+import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.services.ServiceHandler;
 import com.prateek.gem.utils.Utils;
+import com.prateek.gem.widgets.ConfirmationDialog;
 
-public class NewGroupActivity extends ActionBarActivity implements OnClickListener,OnModeConfirmListener{
+public class NewGroupActivity extends MainActivity implements OnClickListener,OnModeConfirmListener{
 
 	Context context;
 	Button addGroupButton;
@@ -62,18 +64,26 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 	public MyProgressDialog pd,pd1,pd2;
 	ServiceHandler handler;
 	Group recentlyAddedGroup;
-	DBAdapter db;
 	int addedMemberIntoGroup;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_group);
-		
 		initUI();
 	}
-	
-	@Override
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_new_group;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setToolbar("Add Group", R.drawable.ic_group);
+    }
+
+    @Override
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.addGroupButton:
@@ -309,24 +319,6 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 	public void modeConfirmed() {
 		new AddGroupTask().execute((Void)null);
 	}
-
-	@Override
-	public void deleteMemberConfirmed(int memberId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteExpenseConfirmed(int expenseId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteItemConfirmed(String deleteItemConfirmed) {
-		// TODO Auto-generated method stub 
-		
-	}
 	
 	public class AddGroupTask extends AsyncTask<Void, Void, Integer>{
 
@@ -350,12 +342,12 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 			int i = Utils.uploadFile(groupIconUri.getPath());
 			System.out.println(i);
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
-			list.add(new BasicNameValuePair(DBAdapter.TGroups.GROUPNAME,Utils.stringify(newGroupName.getText())));
-			list.add(new BasicNameValuePair(DBAdapter.TGroups.DATEOFCREATION,d.toString()));
+			list.add(new BasicNameValuePair(TGroups.GROUPNAME,Utils.stringify(newGroupName.getText())));
+			list.add(new BasicNameValuePair(TGroups.DATEOFCREATION,d.toString()));
 			if(recordedTime == 0){
-				list.add(new BasicNameValuePair(DBAdapter.TGroups.GROUPICON,recordedTime+""));
+				list.add(new BasicNameValuePair(TGroups.GROUPICON,recordedTime+""));
 			}else{
-				list.add(new BasicNameValuePair(DBAdapter.TGroups.GROUPICON,recordedTime+".jpg"));
+				list.add(new BasicNameValuePair(TGroups.GROUPICON,recordedTime+".jpg"));
 			}		
 			list.add(new BasicNameValuePair("ADMIN",""+ App.getInstance().getAdmin().getPhoneNumber()));
 			list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.ADD_GROUP));
@@ -366,12 +358,12 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 				object = new JSONObject(json);
 				if(!object.getBoolean("error")){
 					recentlyAddedGroup = new Group();
-					recentlyAddedGroup.setGroupIdServer(object.getInt(DBAdapter.TGroups.GROUPID));
-					recentlyAddedGroup.setGroupName(object.getString(DBAdapter.TGroups.GROUPNAME));
-					recentlyAddedGroup.setGroupIcon(Uri.parse(object.getString(DBAdapter.TGroups.GROUPICON)));
-					recentlyAddedGroup.setDate(object.getString(DBAdapter.TGroups.DATEOFCREATION));
-					recentlyAddedGroup.setMembersCount(object.getInt(DBAdapter.TGroups.TOTALMEMBERS));
-					recentlyAddedGroup.setTotalOfExpense((float) object.getDouble(DBAdapter.TGroups.TOTALOFEXPENSE));
+					recentlyAddedGroup.setGroupIdServer(object.getInt(TGroups.GROUPID));
+					recentlyAddedGroup.setGroupName(object.getString(TGroups.GROUPNAME));
+					recentlyAddedGroup.setGroupIcon(object.getString(TGroups.GROUPICON));
+					recentlyAddedGroup.setDate(object.getString(TGroups.DATEOFCREATION));
+					recentlyAddedGroup.setMembersCount(object.getInt(TGroups.TOTALMEMBERS));
+					recentlyAddedGroup.setTotalOfExpense((float) object.getDouble(TGroups.TOTALOFEXPENSE));
 					recentlyAddedGroup.setAdmin(object.getString("admin"));
 					return recentlyAddedGroup.getGroupIdServer();
 				}
@@ -406,9 +398,8 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 		protected Boolean doInBackground(Integer... params) {
 			// TODO Auto-generated method stub
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
-			list.add(new BasicNameValuePair(DBAdapter.TMembers.GROUP_ID_FK,""+params[0]));
-			list.add(new BasicNameValuePair(DBAdapter.TMembers.NAME, App.getInstance().getAdmin().getUserName()));
-			list.add(new BasicNameValuePair(DBAdapter.TMembers.PHONE_NUMBER, App.getInstance().getAdmin().getPhoneNumber()));
+			list.add(new BasicNameValuePair(TMembers.GROUP_ID_FK,""+params[0]));
+			list.add(new BasicNameValuePair(TMembers.PHONE_NUMBER, App.getInstance().getAdmin().getPhoneNumber()));
 			list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.ADD_MEMBER));
 			String json = handler.makeServiceCall(AppConstants.URL_API, AppConstants.REQUEST_METHOD_POST,list);
 			JSONObject object = null;
@@ -431,10 +422,8 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 			pd2.dismiss();
 			if(result){
 				recentlyAddedGroup.setMembersCount(1);				
-				
-				db = new DBAdapter(context);
-				db.open();
-				ContentValues cv = new ContentValues();
+
+                ContentValues cv = new ContentValues();
 				cv.put(TGroups.GROUPID_SERVER, recentlyAddedGroup.getGroupIdServer());				
 				cv.put(TGroups.GROUPNAME, recentlyAddedGroup.getGroupName());
 				cv.put(TGroups.GROUPICON, recentlyAddedGroup.getGroupIcon().toString());
@@ -442,20 +431,17 @@ public class NewGroupActivity extends ActionBarActivity implements OnClickListen
 				cv.put(TGroups.TOTALMEMBERS, recentlyAddedGroup.getMembersCount());
 				cv.put(TGroups.TOTALOFEXPENSE, recentlyAddedGroup.getTotalOfExpense());
 				cv.put(TGroups.ADMIN, recentlyAddedGroup.getAdmin());
-				long rowId = db.insert(TGroups.TGROUPS, cv);
+				long rowId = DBImpl.insert(TGroups.TGROUPS, cv);
 				recentlyAddedGroup.setGroupId((int) rowId);
-				db.close();
-				
-				db.open();
+
 				cv = new ContentValues();
 				cv.put(TMembers.MEMBER_ID_SERVER, addedMemberIntoGroup);
 				cv.put(TMembers.NAME, App.getInstance().getAdmin().getUserName());
 				cv.put(TMembers.PHONE_NUMBER, App.getInstance().getAdmin().getPhoneNumber());
 				cv.put(TMembers.GROUP_ID_FK, recentlyAddedGroup.getGroupIdServer());
 				//System.out.println("Content Values"+cv.toString());
-				db.insert(TMembers.TMEMBERS, cv);
-				db.close();
-				
+				DBImpl.insert(TMembers.TMEMBERS, cv);
+
 				App.getInstance().getAllGroups().add(recentlyAddedGroup);
 				finish();
 			}

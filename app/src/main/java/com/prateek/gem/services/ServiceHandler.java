@@ -49,8 +49,6 @@ public class ServiceHandler {
 	 * */
 	public String makeServiceCall(String url, int method,
 			List<NameValuePair> params) {
-		System.out.print("outside try");
-		System.out.println(new Date().getTime());
 		try {
 			// http client
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -62,12 +60,8 @@ public class ServiceHandler {
 				HttpPost httpPost = new HttpPost(url);
 				// adding post params
 				if (params != null) {
-					System.out.print("before sending entity");
-					System.out.println(new Date().getTime());
 					httpPost.setEntity(new UrlEncodedFormEntity(params));
 				}
-
-
 
 				httpResponse = httpClient.execute(httpPost);
 
@@ -87,13 +81,8 @@ public class ServiceHandler {
 
 			}
 			httpEntity = httpResponse.getEntity();
-			System.out.print("before gettign content");
-			System.out.println(new Date().getTime());
 			is = httpEntity.getContent();
-			System.out.print("after sending entity");
-			System.out.println(new Date().getTime());
 		} catch(NoHttpResponseException e){
-			System.out.println("No http response......");
 			e.printStackTrace();
 		}
 		catch (UnsupportedEncodingException e) {
@@ -114,17 +103,10 @@ public class ServiceHandler {
 			}
 			
 			is.close();
-			System.out.print("before converting is to respnse");
-			System.out.println(new Date().getTime());
 			response = sb.toString();
-			System.out.print("after converting is to respnse");
-			System.out.println(new Date().getTime());
 		} catch (Exception e) {
 			Log.e("Buffer Error", "Error: " + e.toString());
 		}
-		System.out.print("returning converting is to respnse");
-		System.out.println(new Date().getTime());
-		System.out.println("Final response"+response);
 		return response;
 
 	}

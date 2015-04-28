@@ -1,6 +1,7 @@
 /home/prateek/my/GEM-Old-New/app/build/intermediates/classes/debug
 /home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-9c968de30731993213e9b3457d70ed2d354ce5ff.jar
 /home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/classes-a5b682b65c984c2ee9d47e4aca4b49bf4ebbb794.jar
+/home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/picasso-2.5.2-c0d07781785052a7dc4813285994cb64f82447d2.jar
 /home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-41ae339faf1daac9f86fee968c85334dbd3b2a50.jar
 /home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/classes-f90b4841675310905042cc7dbb189b167288f8d8.jar
 /home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/classes-968db888e4a5c1e24c0ecfbf76b3d1bb2d5b989b.jar

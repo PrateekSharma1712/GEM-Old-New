@@ -6,8 +6,8 @@ import java.util.List;
 import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
 import com.prateek.gem.model.Group;
-import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TGroups;
+import com.prateek.gem.persistence.DB.TGroups;
+import com.prateek.gem.persistence.DBImpl;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -72,54 +72,34 @@ public class MyDBService extends IntentService {
 
 	private void getGroups(Context context) {
 		List<Group> newGroupList = new ArrayList<Group>();
-		DBAdapter db = new DBAdapter(context);
-		db.open();
-		App.getInstance().setAllGroups(db.getGroups());
-		db.close();		
-		db.open();
+		App.getInstance().setAllGroups(DBImpl.getGroups());
 		for(Group group: App.getInstance().getAllGroups()){
-			float totalexpense = db.getExpenseTotal(group.getGroupIdServer());
+			float totalexpense = DBImpl.getExpenseTotal(group.getGroupIdServer());
 			Group newGroup = group;
 			newGroup.setTotalOfExpense(totalexpense);
 			newGroupList.add(newGroup);
 		}
-		db.close();
 		App.getInstance().setAllGroups(newGroupList);
 	}
 	
 	public void getExpenses(Context context,int groupId){
-		DBAdapter db = new DBAdapter(context);
-		db.open();		
-		App.getInstance().setExpensesList(db.getExpenses(groupId));
-		System.out.println("....."+db.getExpenses(groupId));
-		db.close();		
+		App.getInstance().setExpensesList(DBImpl.getExpenses(groupId));
+		System.out.println("....."+DBImpl.getExpenses(groupId));
 	}
 	
 	private void getGroupDetail(Context context,int groupId){
-		DBAdapter db = new DBAdapter(context);
-		db.open();		
-		App.getInstance().setCurr_group(db.getGroup(groupId));
-		db.close();		
+		App.getInstance().setCurr_group(DBImpl.getGroup(groupId));
 	}
 	
 	public void getMembers(Context context,int groupId){
-		DBAdapter db = new DBAdapter(context);
-		db.open();		
-		App.getInstance().setCurr_Members(db.getMembersOfGroup(groupId));
-		db.close();		
+		App.getInstance().setCurr_Members(DBImpl.getMembersOfGroup(groupId));
 	}
 	
 	public void getItems(Context context,int groupId){
-		DBAdapter db = new DBAdapter(context);
-		db.open();		
-		App.getInstance().setItems(db.getItems(groupId));
-		db.close();		
+		App.getInstance().setItems(DBImpl.getItems(String.valueOf(groupId)));
 	}
 	
 	public void getSettlements(Context context, int groupId) {
-		DBAdapter db = new DBAdapter(context);
-		db.open();		
-		App.getInstance().setSettlements(db.getSettlements(groupId));
-		db.close();	
+		App.getInstance().setSettlements(DBImpl.getSettlements(groupId));
 	}
 }

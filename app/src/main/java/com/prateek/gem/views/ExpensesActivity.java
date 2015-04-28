@@ -46,26 +46,27 @@ import com.prateek.gem.AppConstants.ServiceIDs;
 import com.prateek.gem.FullFlowService;
 import com.prateek.gem.R;
 import com.prateek.gem.SyncService;
+import com.prateek.gem.items.ItemsActivity;
 import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.Group;
 import com.prateek.gem.model.Item;
 import com.prateek.gem.model.SectionHeaderObject;
 import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TExpenses;
-import com.prateek.gem.persistence.DBAdapter.TGroups;
+import com.prateek.gem.persistence.DB.TExpenses;
+import com.prateek.gem.persistence.DB.TGroups;
+import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.services.MyDBService;
 import com.prateek.gem.utils.CreateExcel;
 import com.prateek.gem.utils.Utils;
 
-public class ExpensesActivity extends ActionBarActivity {
+public class ExpensesActivity extends MainActivity {
 
-	DBAdapter db;	
 	ListView expenses;
 	ExpensesAdapter expenseAdapter;
 	RelativeLayout noExpensesView;
 	ScrollView instructionsView;
 	private Context context;
-	Intent intent,dbServiceIntent,addExpenseIntent,membersIntent,itemsIntent,calculateIntent,graphIntent,mystatsIntent;
+	Intent intent,dbServiceIntent,addExpenseIntent,membersIntent,itemsIntent,calculateIntent,graphIntent,mystatsIntent, pieChartIntent;
 	MyResultReceiver resultReceiver;
 	IntentFilter dbIntentFilter;
 	int currentGroupId;
@@ -78,7 +79,6 @@ public class ExpensesActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_expenses);
 		System.out.println("CREATE");
 		System.out.println(App.getInstance().getCurr_group());
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,7 +103,12 @@ public class ExpensesActivity extends ActionBarActivity {
 		}*/
 	}
 
-	private void initUI() {
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_expenses;
+    }
+
+    private void initUI() {
 		context = this;
 		expenses = (ListView) findViewById(R.id.expenses);
 		noExpensesView = (RelativeLayout) findViewById(R.id.noExpensesView);
@@ -114,8 +119,8 @@ public class ExpensesActivity extends ActionBarActivity {
 		calculateIntent = new Intent(ExpensesActivity.this, HisabActivity.class);
 		mystatsIntent = new Intent(ExpensesActivity.this, MyStatsActivity.class);
 		graphIntent = new Intent(ExpensesActivity.this, GraphActivity.class);
-		db = new DBAdapter(context);
-		
+        pieChartIntent = new Intent(ExpensesActivity.this, PieChartActivity.class);
+
 		deleteExpenseReceiver = new DeleteExpenseRecevier();
         deleteExpenseIntentFilter = new IntentFilter(DeleteExpenseRecevier.DELETEEXPENSESUCCESSRECEIVER);
         deleteExpenseIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -191,24 +196,31 @@ public class ExpensesActivity extends ActionBarActivity {
 		case R.id.export:
 				final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Choose month");
-			final String[] months = Utils.getMonths();
-			builder.setItems(months, new OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface arg0, int position) {
-						try {
-							handleExport(months[position]);
-						} catch (WriteException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				
-				builder.show();
-			}
-		
+                final String[] months = Utils.getMonths();
+                builder.setItems(months, new OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface arg0, int position) {
+                            try {
+                                handleExport(months[position]);
+                            } catch (WriteException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    builder.show();
+            return true;
+        case R.id.action_piechart:
+            startActivity(pieChartIntent);
+            return true;
+        }
+
+
+
+
 	    return super.onOptionsItemSelected(item);
 	}	
 	
@@ -221,9 +233,7 @@ public class ExpensesActivity extends ActionBarActivity {
 
 	private void performSync() {
 		System.out.println(App.getInstance().getCurr_group().getGroupIdServer());
-		db.open();
-		db.deleteAllStuff(App.getInstance().getCurr_group().getGroupIdServer(),false);
-		db.close();
+		DBImpl.deleteAllStuff(App.getInstance().getCurr_group().getGroupIdServer(), false);
 		
 		//load full data related to group
 		
@@ -298,7 +308,6 @@ public class ExpensesActivity extends ActionBarActivity {
 					textView.setTextColor(getResources().getColor(android.R.color.black));
 					textView.setSingleLine(true);
 					textView.setTextSize(18);
-					textView.setTextAppearance(context,android.R.attr.textAppearanceMedium);
 					expenseParticipants.addView(textView);
 					
 					expanderImage.setOnClickListener(new View.OnClickListener() {
@@ -363,7 +372,6 @@ public class ExpensesActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				db = new DBAdapter(context);
 				App.getInstance().getExpensesList().remove(deletingExpense);
 				List<NameValuePair> list = new ArrayList<NameValuePair>();
 				list.add(new BasicNameValuePair(TExpenses.EXPENSE_ID, ""+deletingExpense.getExpenseIdServer()));
@@ -484,6 +492,8 @@ public class ExpensesActivity extends ActionBarActivity {
 	protected void onResume() {
 		super.onResume();
 		System.out.println("RESUME");
+        setToolbar("Expenses", R.drawable.ic_group);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		if(App.getInstance().getExpensesList() != null){
 			System.out.println("inside");
 			populateExpenses();

@@ -13,6 +13,7 @@ import com.prateek.gem.model.Items;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.model.SettlementObject;
 import com.prateek.gem.model.Users;
+import com.prateek.gem.utils.AppDataManager;
 
 public class App extends Application {
 
@@ -26,18 +27,18 @@ public class App extends Application {
 	private List<Member> participantsList;
 	private Users admin;
 	private Map<GiverTakerObject,Float> giverTakermap;
-	
-	/**
-	 * @return single ton instance of the class
-	 */
-	public static App getInstance()
-	{
-		if(_instance == null)
-			_instance = new App();
-		return _instance;
-	}
 
-	public List<Group> getAllGroups() {
+    public static synchronized App getInstance() {
+        return _instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        _instance = this;
+    }
+
+    public List<Group> getAllGroups() {
 		return allGroups;
 	}
 

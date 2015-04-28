@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.prateek.gem"
     android:versionCode="16"
-    android:versionName="4.4" >
+    android:versionName="4.4">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -38,10 +38,11 @@
         android:required="false" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -66,22 +67,20 @@
         </activity>
 
         <activity
-            android:name=".views.GroupsLandingActivity"
+            android:name=".groups.MainLandingScreen"
             android:label="@string/title_activity_groups_landing"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
-        <service android:name=".FirstTimeLoadService" >
-        </service>
-        <service android:name=".services.MyDBService" >
-        </service>
+        <service android:name=".FirstTimeLoadService"></service>
+        <service android:name=".services.MyDBService"></service>
+
         <activity
             android:name=".views.ExpensesActivity"
             android:label="@string/title_activity_expenses"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.prateek.gem.views.GroupsLandingActivity" />
+                android:value="com.prateek.gem.groups.MainLandingScreen" />
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="com.prateek.gem.views.ExpenseSearchableActivity" />
@@ -90,7 +89,7 @@
             android:name=".views.AddExpenseActivity"
             android:label="@string/title_activity_add_expense"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
@@ -99,25 +98,29 @@
             android:name=".views.MembersActivity"
             android:label="@string/title_activity_members"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
         </activity>
         <activity
-            android:name=".views.ItemsActivity"
+            android:name=".items.ItemsActivity"
             android:label="@string/title_activity_items"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+
+        <activity android:name=".items.SelectingItemsActivity">
+
         </activity>
         <activity
             android:name=".views.HisabActivity"
             android:label="@string/title_activity_hisab"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
@@ -125,23 +128,32 @@
         <activity
             android:name=".views.SettlementHistoryActivity"
             android:label="@string/title_activity_settlement_history"
+            android:parentActivityName=".views.ExpensesActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
+        <activity
+            android:name=".views.PieChartActivity"
+            android:label="@string/title_activity_settlement_history"
             android:parentActivityName=".views.HisabActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.HisabActivity" />
         </activity>
 
+
         <service
             android:name=".FullFlowService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".views.AddMembersActivity"
             android:label="@string/title_activity_add_members"
             android:parentActivityName=".views.MembersActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.MembersActivity" />
@@ -150,7 +162,7 @@
             android:name=".views.ExpenseSearchableActivity"
             android:label="@string/title_activity_expense_searchable"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
@@ -166,17 +178,28 @@
         <activity
             android:name=".views.NewGroupActivity"
             android:label="@string/title_activity_new_group"
-            android:parentActivityName=".views.GroupsLandingActivity"
-            android:screenOrientation="portrait" >
+            android:parentActivityName=".groups.MainLandingScreen"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.prateek.gem.views.GroupsLandingActivity" />
+                android:value="com.prateek.gem.groups.MainLandingScreen" />
         </activity>
+        <activity
+            android:name=".groups.AddGroupScreen"
+            android:label="@string/title_activity_new_group"
+            android:parentActivityName=".groups.MainLandingScreen"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.groups.MainLandingScreen" />
+        </activity>
+
+
         <activity
             android:name=".views.GraphActivity"
             android:label="@string/title_activity_graph"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
@@ -185,33 +208,16 @@
             android:name=".views.MyStatsActivity"
             android:label="@string/title_activity_stats"
             android:parentActivityName=".views.ExpensesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.prateek.gem.views.ExpensesActivity" />
         </activity>
-        <activity
-            android:name=".personal.expense.AddExpense"
-            android:label="@string/title_activity_add_expense"
-            android:parentActivityName=".views.GroupsLandingActivity"
-            android:screenOrientation="portrait"
-            android:uiOptions="splitActionBarWhenNarrow" >
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.prateek.gem.views.GroupsLandingActivity" />
-        </activity>
 
         <service
             android:name=".SyncService"
-            android:exported="false" >
-        </service>
-        <activity
-            android:name="com.prateek.gem.personal.expense.ViewExpenses"
-            android:label="@string/title_activity_view_expenses" >
-        </activity>
+            android:exported="false"></service>
+
     </application>
 
 </manifest>

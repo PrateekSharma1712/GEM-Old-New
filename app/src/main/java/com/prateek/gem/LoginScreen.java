@@ -238,8 +238,11 @@ public class LoginScreen extends BaseActivity {
                 AppSharedPreference.storePreferences(AppConstants.ADMIN_EMAIL, user.getEmail());
                 AppSharedPreference.storePreferences(AppConstants.ADMIN_PHONE, user.getPhoneNumber());
                 AppSharedPreference.storePreferences(AppConstants.ADMIN_PASSWORD, user.getPassword());
+
+
                 finish();
                 startActivity(mainLandingIntent);
+                App.getInstance().setAdmin(user);
             }
             else {
                 System.out.println("Message " + message);

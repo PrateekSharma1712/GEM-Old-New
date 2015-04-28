@@ -23,11 +23,9 @@ public class MyProgressDialog extends AlertDialog {
 		this.dialogText = dialogText;
 	}
 
-
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		super.show();	 	 
 		setContentView(R.layout.dialog_loading);
 		dialogTextView = (TextView) findViewById(R.id.dialogText);
 		if(dialogText != null){
@@ -38,5 +36,6 @@ public class MyProgressDialog extends AlertDialog {
 			dialogTextView.setVisibility(View.GONE);
 		}
 		setCancelable(true);
+        super.show();
 	}
 }

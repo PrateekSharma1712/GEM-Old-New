@@ -25,13 +25,13 @@ import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.GiverTakerObject;
 import com.prateek.gem.model.SettlementObject;
 import com.prateek.gem.persistence.DBAdapter;
+import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.utils.Utils;
 
 public class MyStatsActivity extends ActionBarActivity {
 
 	private TextView totalSpentView,totalSpentViewByMember,howmuchgetfromothers,howmuchgivetoothers; 
 	private Context context;
-	private DBAdapter db;
 	private SharedPreferences preferences;
 	
 	@Override
@@ -43,12 +43,12 @@ public class MyStatsActivity extends ActionBarActivity {
 		
 		String memberName = preferences.getString(AppConstants.ADMIN_NAME, null);
 		System.out.println("Member Name"+memberName);
-		
-		db.open();
-		Float totalExpenseInGroup = db.getExpenseTotal(App.getInstance().getCurr_group().getGroupIdServer());
+
+
+		Float totalExpenseInGroup = DBImpl.getExpenseTotal(App.getInstance().getCurr_group().getGroupIdServer());
 		App.getInstance().getCurr_group().setTotalOfExpense(totalExpenseInGroup);
-		Float totalExpenseByMember = db.getExpenseTotalByMember(App.getInstance().getCurr_group().getGroupIdServer(), memberName);
-		db.close();
+		Float totalExpenseByMember = DBImpl.getExpenseTotalByMember(App.getInstance().getCurr_group().getGroupIdServer(), memberName);
+
 		float percentage = (totalExpenseByMember/totalExpenseInGroup)*100;
 		if(App.getInstance().getExpensesList() != null && App.getInstance().getExpensesList().size() != 0) {
 			totalSpentView.setText(getString(R.string.inr)+" "+totalExpenseInGroup.toString());
@@ -144,7 +144,6 @@ public class MyStatsActivity extends ActionBarActivity {
 
 	private void initUI() {
 		context = this;
-		db  =  new DBAdapter(context);
 		preferences = getSharedPreferences(AppConstants.CUSTOM_PREFERENCE, 0);
 		totalSpentView = (TextView) findViewById(R.id.totalSpentView);
 		totalSpentViewByMember = (TextView) findViewById(R.id.totalSpentViewByMember);

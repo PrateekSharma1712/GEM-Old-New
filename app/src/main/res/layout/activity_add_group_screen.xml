@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prateek.gem.groups.AddGroupScreen">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/vToolbar">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/vToolbar"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:fillViewport="false">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+
+                <ImageView
+                    android:id="@+id/vGroupIcon"
+                    android:layout_width="@dimen/group_image"
+                    android:layout_height="@dimen/group_image"
+
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/imagebox"
+                    android:contentDescription="@string/group_icon"
+                    android:src="@drawable/ic_group" />
+
+                <com.prateek.gem.widgets.FloatingHint
+                    android:id="@+id/vGroupName"
+                    style="@style/editTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vGroupIcon"
+                    android:hint="@string/groups_new_groupname"
+                    android:inputType="text" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/vExpenseBrief"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vGroupName"
+                    android:layout_marginTop="15dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    card_view:cardBackgroundColor="@color/theme_default_icons"
+                    card_view:cardCornerRadius="@dimen/group_card_radius"
+                    card_view:contentPadding="@dimen/group_card_content_padding">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expenses"
+                        android:visibility="gone"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutExpenseView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/vMembersBrief"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vExpenseBrief"
+                    android:layout_marginTop="10dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    card_view:cardBackgroundColor="@color/theme_default_icons"
+                    card_view:cardCornerRadius="@dimen/group_card_radius"
+                    card_view:contentPadding="@dimen/group_card_content_padding">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Members"
+                        android:visibility="gone"
+                        android:gravity="center_horizontal"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutMembersView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/vItemsBrief"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vMembersBrief"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    card_view:cardBackgroundColor="@color/theme_default_icons"
+                    card_view:cardCornerRadius="@dimen/group_card_radius"
+                    card_view:contentPadding="@dimen/group_card_content_padding">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Items"
+                        android:visibility="gone"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutItemsView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+        </ScrollView>
+    </FrameLayout>
+
+
+    <include
+        android:id="@+id/vToolbar"
+        layout="@layout/toolbar" />
+
+</RelativeLayout>

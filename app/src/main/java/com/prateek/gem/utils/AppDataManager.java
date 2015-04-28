@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneNumberUtils;
 import android.widget.EditText;
 
+import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
 import com.prateek.gem.R;
 import com.prateek.gem.logger.DebugLogger;
@@ -143,7 +144,7 @@ public class AppDataManager {
     }
 
     public static Group getCurrentGroup() {
-        return mGroup;
+        return App.getInstance().getCurr_group();
     }
 
     public static Users getUser() {

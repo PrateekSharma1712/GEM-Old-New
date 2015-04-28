@@ -13,7 +13,7 @@ import com.prateek.gem.R;
 import com.prateek.gem.AppConstants.ServiceIDs;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TMembers;
+import com.prateek.gem.persistence.DB.TMembers;
 import com.prateek.gem.utils.Utils;
 
 import android.support.v7.app.ActionBarActivity;
@@ -41,7 +41,6 @@ public class MembersActivity extends ActionBarActivity {
 
 	ListView membersView;
 	RelativeLayout noMembersView;
-	DBAdapter db;
 	MembersAdapter memberAdapter;
 	int currentGroupId;
 	int selectedMemberPosition;
@@ -170,7 +169,6 @@ public class MembersActivity extends ActionBarActivity {
 				holder.editMemberButton = (ImageView) v.findViewById(R.id.button_edit_member);
 				holder.removeMemberButton = (ImageView) v.findViewById(R.id.button_remove_member);				
 				v.setTag(holder);
-				System.out.println("Admin"+ App.getInstance().getAdmin().getPhoneNumber());
 				
 		        
 			}else{
@@ -187,18 +185,14 @@ public class MembersActivity extends ActionBarActivity {
 				public void onClick(View view) {
 					selectedMemberPosition = position;
 					System.out.println("Position"+selectedMemberPosition);
-					//if(GEMApp.getInstance().getAdmin().getPhoneNumber().equals(GEMApp.getInstance().getCurr_group().getAdmin())){
-						if(members.get(selectedMemberPosition).getPhoneNumber().equals(App.getInstance().getCurr_group().getAdmin())){
-							Utils.showToast(context, getString(R.string.cannotdeleteadmin));
-						}else{
-							System.out.println("MEMBER ID"+members.get(selectedMemberPosition).getMemberId());
-							System.out.println("MEMBER ID"+members.get(selectedMemberPosition).getMemberIdServer());
-							deleteMember(members.get(selectedMemberPosition).getMemberId(),members.get(selectedMemberPosition).getMemberIdServer(),selectedMemberPosition);	
-						}
-					//}
-					//else{
-					//	Utils.showToast(context, getString(R.string.admindeletemembers));						
-					//}
+
+                    if(members.get(selectedMemberPosition).getPhoneNumber().equals(App.getInstance().getCurr_group().getAdmin())){
+                        Utils.showToast(context, getString(R.string.cannotdeleteadmin));
+                    }else{
+                        System.out.println("MEMBER ID"+members.get(selectedMemberPosition).getMemberId());
+                        System.out.println("MEMBER ID"+members.get(selectedMemberPosition).getMemberIdServer());
+                        deleteMember(members.get(selectedMemberPosition).getMemberId(),members.get(selectedMemberPosition).getMemberIdServer(),selectedMemberPosition);
+                    }
 					
 				}
 
@@ -215,7 +209,6 @@ public class MembersActivity extends ActionBarActivity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							db = new DBAdapter(context);							
 							System.out.println("Member server id "+memberIdServer);
 							final List<NameValuePair> list = new ArrayList<NameValuePair>();
 							list.add(new BasicNameValuePair(TMembers.MEMBER_ID, ""+memberIdServer));

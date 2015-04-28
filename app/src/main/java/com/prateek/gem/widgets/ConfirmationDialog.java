@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.prateek.gem.AppConstants.ConfirmConstants;
+import com.prateek.gem.OnModeConfirmListener;
 import com.prateek.gem.R;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.Items;
@@ -33,21 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfirmationDialog extends DialogFragment {
-
-
-    public interface OnModeConfirmListener {
-        public void modeConfirmed();
-
-        public void deleteMemberConfirmed(int memberId);
-
-        public void deleteExpenseConfirmed(int expenseId);
-
-        public void deleteItemConfirmed(boolean deleteItemConfirmed);
-
-        public void openNewActivity(int requestCodeClickImage);
-
-        public void onItemsAdded(String category, String item);
-    }
 
     OnModeConfirmListener onModeConfirmListener;
     private int confirmId;
@@ -156,7 +142,7 @@ public class ConfirmationDialog extends DialogFragment {
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += view.getMeasuredHeight();
         }
-        DebugLogger.message("total height" + totalHeight);
+        DebugLogger.message("total height"+totalHeight);
         return totalHeight;
     }
 
@@ -226,21 +212,22 @@ public class ConfirmationDialog extends DialogFragment {
 							onModeConfirmListener.deleteExpenseConfirmed(expenseId);*/
                                 break;
                             case ConfirmConstants.ITEM_DELETE:
-                                onModeConfirmListener.deleteItemConfirmed(true);
                                 dismiss();
+                                onModeConfirmListener.deleteItemConfirmed(true);
                                 break;
 
                             case ConfirmConstants.ITEM_ADD:
+                                Utils.hideKeyboard(vItemName);
+                                dismiss();
                                 if(validateItems(vCategories.getSelectedItem().toString(), vItemName.getText().toString())) {
                                     onModeConfirmListener.onItemsAdded(vCategories.getSelectedItem().toString(), vItemName.getText().toString());
-                                    Utils.hideKeyboard(vItemName);
-                                    dismiss();
+
                                 }
                                 break;
 
                             case ConfirmConstants.CONFIRM_SELECTED_ITEMS_LIST:
-                                onModeConfirmListener.modeConfirmed();
                                 dismiss();
+                                onModeConfirmListener.modeConfirmed();
                                 break;
                         }
 
@@ -312,5 +299,4 @@ public class ConfirmationDialog extends DialogFragment {
             vListItem.setTextColor(AppDataManager.getThemePrimaryTextColor());
         }
     }
-
 }

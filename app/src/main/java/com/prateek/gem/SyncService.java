@@ -30,26 +30,19 @@ public class SyncService extends IntentService {
 		broadcastIntent.setAction(SyncSuccessReceiver.SUCCESS_RECEIVER);
 		broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
 		broadcastIntent.putExtra("done", true);
-		
-		db = new DBAdapter(getApplicationContext());
-		db.open();
-		
+
 		FirstTimeLoadService loadingService = new FirstTimeLoadService();
-		loadingService.insertMembers(App.getInstance().getCurr_group().getGroupIdServer(), db);
-		loadingService.insertExpenses(App.getInstance().getCurr_group().getGroupIdServer(), db);
-		loadingService.insertItems(App.getInstance().getCurr_group().getGroupIdServer(), db);
-		loadingService.insertSettlements(App.getInstance().getCurr_group().getGroupIdServer(), db);
-		
-		db.close();
-		
-		db.open();
+		loadingService.insertMembers(App.getInstance().getCurr_group().getGroupIdServer());
+		loadingService.insertExpenses(App.getInstance().getCurr_group().getGroupIdServer());
+		loadingService.insertItems(App.getInstance().getCurr_group().getGroupIdServer());
+		loadingService.insertSettlements(App.getInstance().getCurr_group().getGroupIdServer());
+
 		MyDBService dbService = new MyDBService();
 		dbService.getMembers(this, App.getInstance().getCurr_group().getGroupIdServer());
 		dbService.getExpenses(this, App.getInstance().getCurr_group().getGroupIdServer());
 		dbService.getItems(this, App.getInstance().getCurr_group().getGroupIdServer());
 		dbService.getSettlements(this, App.getInstance().getCurr_group().getGroupIdServer());
-		db.close();
-		
+
 		sendBroadcast(broadcastIntent);
 		
 	}

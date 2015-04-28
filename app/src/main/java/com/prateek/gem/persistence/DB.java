@@ -16,8 +16,8 @@ import com.prateek.gem.utils.AppSharedPreference;
 public class DB extends SQLiteOpenHelper{
 
     private static Context context;
-    public static final String DATABASE_NAME = "gemdatabase";
-    public static final int DATABASE_VERSION = 7;
+    public static final String DATABASE_NAME = "gemdatabase1";
+    public static final int DATABASE_VERSION = 31;
     private static DB mInstance = null;
 
     public class TGroups{
@@ -62,7 +62,7 @@ public class DB extends SQLiteOpenHelper{
         public static final String GROUP_ID_FK = "group_fk";
         public static final String NAME = "member_name";
         public static final String PHONE_NUMBER = "phone_number";
-        public static final String GCM_REG_NO = "gcm_reg_no";
+        //public static final String GCM_REG_NO = "gcm_reg_no";
         public static final String CREATE_QUERY_MEMBERS = "CREATE TABLE IF NOT EXISTS "+ TMEMBERS+" ("
                 + MEMBER_ID
                 + " integer primary key autoincrement, "
@@ -75,7 +75,7 @@ public class DB extends SQLiteOpenHelper{
                 + PHONE_NUMBER
                 + " text not null)";
 
-        public static final String ALTER_MEMBERS_TABLE1 = "ALTER TABLE "+ TMEMBERS +" ADD COLUMN "+GCM_REG_NO+" text";
+        //public static final String ALTER_MEMBERS_TABLE1 = "ALTER TABLE "+ TMEMBERS +" ADD COLUMN "+GCM_REG_NO+" text";
     }
 
     public class TItems{
@@ -193,6 +193,46 @@ public class DB extends SQLiteOpenHelper{
                 " TEXT NOT NULL)";
     }
 
+    /**************** PERSONAL EXPENSES ***************/
+    public static final String TABLE_ITEMS = "table_items";
+    public static final String TABLE_EXPENSES = "table_expenses";
+
+    public static final String ITEMS_ID = "item_id";
+    public static final String ITEMS_NAME = "item_name";
+    public static final String ITEMS_CATEGORY = "item_category";
+
+    public static final String EXP_ID = "exp_id";
+    public static final String EXP_DATE = "exp_date";
+    public static final String EXP_AMOUNT = "exp_amount";
+    public static final String EXP_ITEM = "item_id";
+    public static final String EXP_MODE = "exp_mode";
+
+    public static final String CREATE_ITEMS = "CREATE TABLE IF NOT EXISTS " +
+            TABLE_ITEMS +
+            "(" +
+            ITEMS_ID +
+            " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            ITEMS_NAME +
+            " TEXT NOT NULL, " +
+            ITEMS_CATEGORY +
+            " TEXT NOT NULL)";
+
+    public static final String CREATE_EXPENSE = "CREATE TABLE IF NOT EXISTS " +
+            TABLE_EXPENSES +
+            "(" +
+            EXP_ID +
+            " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            EXP_DATE +
+            " TEXT NOT NULL, " +
+            EXP_ITEM +
+            " INTEGER, " +
+            EXP_AMOUNT +
+            " FLOAT, " +
+            EXP_MODE +
+            " TEXT NOT NULL)";
+
+
+
     private static SQLiteDatabase database;
 
     /**
@@ -228,13 +268,13 @@ public class DB extends SQLiteOpenHelper{
     }
 
     @Override
-    public void onCreate(SQLiteDatabase database) {
-        database.execSQL(TGroups.CREATE_QUERY_GROUPS);
-        database.execSQL(TMembers.CREATE_QUERY_MEMBERS);
-        database.execSQL(TExpenses.CREATE_QUERY_EXPENSES);
-        database.execSQL(TItems.CREATE_QUERY_ITEMS);
-        database.execSQL(TSettlement.CREATE_QUERY_SETTLEMENT);
-        database.execSQL(TCategories.CREATE_QUERY_CATEGORY);
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(TGroups.CREATE_QUERY_GROUPS);
+        db.execSQL(TMembers.CREATE_QUERY_MEMBERS);
+        db.execSQL(TExpenses.CREATE_QUERY_EXPENSES);
+        db.execSQL(TItems.CREATE_QUERY_ITEMS);
+        db.execSQL(TSettlement.CREATE_QUERY_SETTLEMENT);
+        db.execSQL(TCategories.CREATE_QUERY_CATEGORY);
 
 
 
@@ -245,12 +285,7 @@ public class DB extends SQLiteOpenHelper{
             DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1));
         }*/
 
-        if(!AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)) {
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1));
-            getDatabase().execSQL(TGroups.ALTER_GROUP_TABLE1);
-            AppSharedPreference.storeAccPreference(AppConstants.ALTER_GROUP_TABLE1, true);
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1));
-        }
+
 
     }
 
@@ -264,20 +299,6 @@ public class DB extends SQLiteOpenHelper{
             db.execSQL("DROP TABLE IF EXISTS " + table);
         }*/
         onCreate(db);
-
-        /*if(!AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1)) {
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1));
-            db.execSQL(TMembers.ALTER_MEMBERS_TABLE1);
-            AppSharedPreference.storeAccPreference(AppConstants.ALTER_MEMBER_TABLE1, true);
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_MEMBER_TABLE1));
-        }*/
-
-        if(!AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)) {
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1));
-            db.execSQL(TGroups.ALTER_GROUP_TABLE1);
-            AppSharedPreference.storeAccPreference(AppConstants.ALTER_GROUP_TABLE1, true);
-            DebugLogger.message("AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1)" + AppSharedPreference.getPreferenceBoolean(AppConstants.ALTER_GROUP_TABLE1));
-        }
     }
 
     /**
@@ -298,12 +319,13 @@ public class DB extends SQLiteOpenHelper{
     public static SQLiteDatabase getDatabase() {
         DebugLogger.error("context.." + context);
         if (database == null) {
-            return DB.getInstance(context).getWritableDatabase();
+            DebugLogger.message("DB.getInstance(context)"+DB.getInstance(context));
+            database = DB.getInstance(context).getWritableDatabase();
         }
         return database;
     }
 
-    public void closeDatabase() {
+    public static void closeDatabase() {
         DebugLogger.method("DB :: databaseClose");
         if (database != null && database.isOpen()) {
             database.close();
@@ -311,7 +333,7 @@ public class DB extends SQLiteOpenHelper{
         }
     }
 
-    protected static String[] memberFields = new String[]{TMembers.MEMBER_ID, TMembers.MEMBER_ID_SERVER, TMembers.GCM_REG_NO, TMembers.GROUP_ID_FK, TMembers.NAME, TMembers.PHONE_NUMBER};
+    protected static String[] memberFields = new String[]{TMembers.MEMBER_ID, TMembers.MEMBER_ID_SERVER, TMembers.GROUP_ID_FK, TMembers.NAME, TMembers.PHONE_NUMBER};
 
     protected static String[] itemFields = new String[]{TItems.CATEGORY, TItems.GROUP_FK, TItems.ITEM_ID, TItems.ITEM_ID_SERVER, TItems.ITEM_NAME};
 }

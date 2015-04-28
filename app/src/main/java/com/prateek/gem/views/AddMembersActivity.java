@@ -1,18 +1,5 @@
 package com.prateek.gem.views;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.prateek.gem.App;
-import com.prateek.gem.AppConstants;
-import com.prateek.gem.FullFlowService;
-import com.prateek.gem.R;
-import com.prateek.gem.model.Member;
-import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.services.ServiceHandler;
-import com.prateek.gem.utils.Utils;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -29,6 +16,18 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.prateek.gem.App;
+import com.prateek.gem.AppConstants;
+import com.prateek.gem.FullFlowService;
+import com.prateek.gem.R;
+import com.prateek.gem.model.Member;
+import com.prateek.gem.services.ServiceHandler;
+import com.prateek.gem.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class AddMembersActivity extends ActionBarActivity {
 
 	List<Member> phoneContacts;
@@ -43,14 +42,12 @@ public class AddMembersActivity extends ActionBarActivity {
 	private Context context;
 	IntentFilter addMemberIntentFilter;
 	AddMemberRecevier addMemberReceiver;
-	DBAdapter db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_members);		
 		initUI();
-		db = new DBAdapter(context);
 		PopulatePhoneContacts populatePhoneContacts = new PopulatePhoneContacts();
 		populatePhoneContacts.execute(new String[]{""});
 		

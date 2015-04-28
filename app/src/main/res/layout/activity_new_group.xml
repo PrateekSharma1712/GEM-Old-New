@@ -4,12 +4,15 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/vToolbar" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_below="@+id/vToolbar"
+        android:layout_alignParentLeft="true" >
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"

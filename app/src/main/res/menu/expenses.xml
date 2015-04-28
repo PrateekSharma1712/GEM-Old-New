@@ -35,6 +35,9 @@
             
             <item android:id="@+id/export"
                 android:title="@string/export"/>
+
+            <item android:id="@+id/action_piechart"
+                android:title="@string/export"/>
         </menu>
     </item>
     <item

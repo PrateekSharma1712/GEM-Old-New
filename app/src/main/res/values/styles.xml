@@ -5,7 +5,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
         <item name="actionBarIconColor">#fff</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">true</item>
+        <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/AppBaseThemeMaterial.ActionMode</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
@@ -256,5 +256,20 @@
     <color name="dividerColor">#B6B6B6</color>
 
     <color name="theme_background">#f2f2f2</color>
+
+    <array name="pie_colors">
+        <item>#F2D06B</item>
+        <item>#F15441</item>
+        <item>#F28705</item>
+        <item>#BFA27E</item>
+        <item>#F23005</item>
+        <item>#BF1A0B</item>
+        <item>#590202</item>
+        <item>#BBBF34</item>
+        <item>#038C17</item>
+        <item>#2E707B</item>
+        <item>#5CC9CB</item>
+        <item>#CAF1E7</item>
+    </array>
 
 </resources>

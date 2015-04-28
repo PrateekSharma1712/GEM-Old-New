@@ -17,10 +17,8 @@ import com.prateek.gem.model.Group;
 import com.prateek.gem.model.Items;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.model.SettlementObject;
-import com.prateek.gem.personal.expense.MyExpenses;
-import com.prateek.gem.personal.expense.MyItems;
 
-public class DBAdapter {
+public class DBAdapter {/*
 
 	public static final String DATABASE_NAME = "gemdatabase";
 	public static final int DATABASE_VERSION = 30;
@@ -217,7 +215,7 @@ public class DBAdapter {
 		dbHelper.close();
 	}
 	
-	/********* GROUP RELATED METHODS STARTS ************/
+	*//********* GROUP RELATED METHODS STARTS ************//*
 	
 	public long addGroup(String groupName, String path, String date){
 		ContentValues initialValues = new ContentValues();
@@ -247,7 +245,7 @@ public class DBAdapter {
 				group.setGroupId(c.getInt(c.getColumnIndex(TGroups.GROUPID)));
 				group.setGroupIdServer(c.getInt(c.getColumnIndex(TGroups.GROUPID_SERVER)));
 				group.setGroupName(c.getString(c.getColumnIndex(TGroups.GROUPNAME)));
-				group.setGroupIcon(Uri.parse(c.getString(c.getColumnIndex(TGroups.GROUPICON))));
+				group.setGroupIcon(c.getString(c.getColumnIndex(TGroups.GROUPICON)));
 				group.setDate(c.getString(c.getColumnIndex(TGroups.DATEOFCREATION)));
 				group.setMembersCount(c.getInt(c.getColumnIndex(TGroups.TOTALMEMBERS)));				
 				group.setTotalOfExpense(c.getFloat(c.getColumnIndex(TGroups.TOTALOFEXPENSE)));
@@ -268,7 +266,7 @@ public class DBAdapter {
 				group.setGroupId(c.getInt(c.getColumnIndex(TGroups.GROUPID)));
 				group.setGroupIdServer(c.getInt(c.getColumnIndex(TGroups.GROUPID_SERVER)));
 				group.setGroupName(c.getString(c.getColumnIndex(TGroups.GROUPNAME)));
-				group.setGroupIcon(Uri.parse(c.getString(c.getColumnIndex(TGroups.GROUPICON))));
+				group.setGroupIcon(c.getString(c.getColumnIndex(TGroups.GROUPICON)));
 				group.setDate(c.getString(c.getColumnIndex(TGroups.DATEOFCREATION)));
 				group.setAdmin(c.getString(c.getColumnIndex(TGroups.ADMIN)));
 				group.setMembersCount(c.getInt(c.getColumnIndex(TGroups.TOTALMEMBERS)));
@@ -308,9 +306,9 @@ public class DBAdapter {
 		rowAffected = db.delete(TGroups.TGROUPS,TGroups.GROUPID +" = "+groupId, null);
 		return rowAffected;
 	}
-	/*********** GROUP RELATED METHODS ENDS ************/
+	*//*********** GROUP RELATED METHODS ENDS ************//*
 	
-	/*********** MEMBER REALTED METHODS STARTS *********/
+	*//*********** MEMBER REALTED METHODS STARTS *********//*
 	public long addMembers(Member member,int groupId){
 		ContentValues iniContentValues = new ContentValues();
 		iniContentValues.put(TMembers.GROUP_ID_FK, groupId);
@@ -409,9 +407,9 @@ public class DBAdapter {
 		return rowAffected;
 		
 	}
-	/************ MEMBER REALTED METHODS ENDS **********/
+	*//************ MEMBER REALTED METHODS ENDS **********//*
 	
-	/************ ITEMS RELATED METHODS STARTS *********/
+	*//************ ITEMS RELATED METHODS STARTS *********//*
 	public List<Items> getItems(int groupId){
 		List<Items> items = new ArrayList<Items>();
 		Cursor c = db.query(TItems.TITEMS, null, TItems.GROUP_FK + " = "+groupId, null, null, null,TItems.ITEM_NAME + " ASC ");
@@ -470,8 +468,8 @@ public class DBAdapter {
 		return items;
 		
 	}
-	/************ ITEMS RELATED METHODS ENDS ***********/
-	/******** SETTLEMENTS RELATED METHODS STARTS *******/
+	*//************ ITEMS RELATED METHODS ENDS ***********//*
+	*//******** SETTLEMENTS RELATED METHODS STARTS *******//*
 	public List<SettlementObject> getSettlements(int groupId) {
 		List<SettlementObject> settlements = new ArrayList<SettlementObject>();
 		Cursor c = db.query(TSettlement.TABLENAME, null, TSettlement.GROUP_ID_FK + " = " +groupId, null, null, null,null);
@@ -498,8 +496,8 @@ public class DBAdapter {
 		return rowAffected;
 	}
 	
-	/********** SETTLEMENTS RELATED METHODS ENDS *******/
-	/************ EXPENSE RELATED METHODS ENDS *********/
+	*//********** SETTLEMENTS RELATED METHODS ENDS *******//*
+	*//************ EXPENSE RELATED METHODS ENDS *********//*
 	public List<ExpenseOject> getExpenses(int groupId){
 		List<ExpenseOject> expenses = new ArrayList<ExpenseOject>();
 		Cursor expensesCursor = db.query(TExpenses.TABLENAME, null, 
@@ -594,24 +592,24 @@ public class DBAdapter {
 		}
 		return totalOfExpense;
 	}
-	/************ EXPENSE RELATED METHODS ENDS *********/
-	/********* SETTLEMENT RELATED METHODS STARTS *******/
+	*//************ EXPENSE RELATED METHODS ENDS *********//*
+	*//********* SETTLEMENT RELATED METHODS STARTS *******//*
 	public int updateSettlementServerId(long settlementId,int settlementserverId){
 		ContentValues cv= new ContentValues();
 		cv.put(TSettlement.SET_ID_SERVER, settlementserverId);		
 		return db.update(TSettlement.TABLENAME, cv, TSettlement.SET_ID+ " = " + settlementId, null);
 	}
-	/********** SETTLEMENT RELATED METHODS ENDS ********/
+	*//********** SETTLEMENT RELATED METHODS ENDS ********//*
 	
 	
 	
-	/*************** COMMON FUNCTIONS STARTS ***********/
+	*//*************** COMMON FUNCTIONS STARTS ***********//*
 	public long insert(String tableName,ContentValues values){
 		return db.insert(tableName, null, values);
 	}
-	/**************** COMMON FUNCTIONS ENDS ************/
+	*//**************** COMMON FUNCTIONS ENDS ************//*
 
-	/*************** COMMON FUNCTIONS STARTS ***********/
+	*//*************** COMMON FUNCTIONS STARTS ***********//*
 	public boolean deleteAllStuff(int groupId,boolean dodeletegroup){
 		boolean result = false;
 		int memUpdated = db.delete(TMembers.TMEMBERS, TMembers.GROUP_ID_FK +" = "+groupId, null);
@@ -625,9 +623,9 @@ public class DBAdapter {
 		return result;
 		
 	}
-	/**************** COMMON FUNCTIONS ENDS ************/
+	*//**************** COMMON FUNCTIONS ENDS ************//*
 	
-	/**************** PERSONAL EXPENSES ***************/
+	*//**************** PERSONAL EXPENSES ***************//*
 	public static final String TABLE_ITEMS = "table_items";
     public static final String TABLE_EXPENSES = "table_expenses";
 
@@ -724,5 +722,5 @@ public class DBAdapter {
     	}
     	
     	return expenses;
-    }
+    }*/
 }

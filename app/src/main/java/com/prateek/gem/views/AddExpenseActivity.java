@@ -42,13 +42,12 @@ import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.Group;
 import com.prateek.gem.model.Items;
 import com.prateek.gem.model.Member;
-import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TExpenses;
+import com.prateek.gem.persistence.DB.TExpenses;
+import com.prateek.gem.utils.LoadingScreen;
 import com.prateek.gem.utils.Utils;
 
-public class AddExpenseActivity extends ActionBarActivity implements OnClickListener,OnDateSetListener{
+public class AddExpenseActivity extends MainActivity implements OnClickListener,OnDateSetListener{
 
-	DBAdapter db;	
 	private Spinner expenseBy,expenseFor;
 	private EditText dateField,amountField;
 	private Button participantsButton;
@@ -60,7 +59,6 @@ public class AddExpenseActivity extends ActionBarActivity implements OnClickList
 	List<String> items;	
 	private Context context;
 	private AlertDialog ad;
-	MyProgressDialog pd;
 	IntentFilter addExpenseIntentFilter;
 	AddExpenseRecevier addExpenseReceiver;
 	ExpenseOject addingExpense;
@@ -70,14 +68,23 @@ public class AddExpenseActivity extends ActionBarActivity implements OnClickList
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_expense);
 		initUI();
 	}
 
-	
-	public void initUI(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setToolbar("Add Expense", R.drawable.ic_group);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_add_expense;
+    }
+
+    public void initUI(){
 		context = this;
-		db = new DBAdapter(context);
 		dateField = (EditText) findViewById(R.id.dateField);
 		dateField.setOnClickListener(this);
 		participantsButton = (Button) findViewById(R.id.participantsButton);
@@ -193,8 +200,7 @@ public class AddExpenseActivity extends ActionBarActivity implements OnClickList
 			cv.put(TExpenses.PARTICIPANTS, addingExpense.getParticipants());
 			cv.put(TExpenses.SHARE, ""+addingExpense.getShare());
 			
-			pd = new MyProgressDialog(context, true, "Adding Expense");
-			pd.show();
+			LoadingScreen.showLoading(context, "Adding Expense");
 			FullFlowService.ServiceAddExpense(context,AppConstants.NOT_ADDEXPENSE,list,cv);
 			
 			//new AddExpenseTask(expense).execute();
@@ -318,7 +324,7 @@ public class AddExpenseActivity extends ActionBarActivity implements OnClickList
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			pd.dismiss();
+			LoadingScreen.dismissProgressDialog();
 			int notId = intent.getIntExtra(FullFlowService.EXTRA_NOTID, 0);
 			boolean result = intent.getBooleanExtra(AppConstants.RESULT, false);
 			switch (notId) {
@@ -326,7 +332,7 @@ public class AddExpenseActivity extends ActionBarActivity implements OnClickList
 				if(result){					
 					Utils.showToast(context, "Added Succesfully");
 					App.getInstance().getExpensesList().add(addingExpense);
-					App.getInstance().setAllGroups(Group.updateTotalExpense(addingExpense.getGroupId(), App.getInstance().getAllGroups(), App.getInstance().getCurr_group().getTotalOfExpense(), addingExpense.getAmount(), 1));
+					//App.getInstance().setAllGroups(Group.updateTotalExpense(addingExpense.getGroupId(), App.getInstance().getAllGroups(), App.getInstance().getCurr_group().getTotalOfExpense(), addingExpense.getAmount(), 1));
 					finish();
 				}else{
 					Utils.showToast(context, "Cannot add, Please try after some time");	

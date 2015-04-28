@@ -51,7 +51,8 @@
         2. Add your friends\n\n
         3. Add items to make expense for\n\n
         4. Done. You can now make expenses and mark your friends as participants in the expense.\n\n
-        5. Your friends who have installed this app will see the group and expenses.</string>
+        5. Your friends who have installed this app will see the group and expenses.
+</string>
     <string name="labelNoExpensesInfo">No expenses, please make some expenses.</string>
     <string name="labelNoGroupsInfo">No Groups</string>
     <string name="labeladdgroupfrotop">Tap on + sign on top</string>
@@ -127,6 +128,7 @@
     <string name="howmuchyougivetoothers">How much you have to give to others?</string>
     <string name="nothingtocalculate">No calculations</string>
     <string name="export">Export</string>
+    <string name="piechart">Pie chart</string>
     <string name="title_activity_ads">AdsActivity</string>
 
     <!-- Nav Drawer Menu Items -->
@@ -152,5 +154,17 @@
     <string name="off">OFF</string>
     <string name="clear">Clear</string>
     <string name="done">Done</string>
+
+    <string name="select_item">Select item</string>
+    <string name="selected_item">Selected items</string>
+    <string name="tap_to_view_select_item">Tap to view selected items</string>
+
+    <string name="no">No %s</string>
+
+    <string name="menu_search">Search</string>
+
+    <string name="groups_edit_groupname">Tap on edit to edit group</string>
+
+    <string name="takephoto">Take Photo</string>
 
 </resources>

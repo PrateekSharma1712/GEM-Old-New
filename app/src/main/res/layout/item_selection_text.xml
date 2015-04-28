@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/text1"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="llnclds kcjdnk"
+        android:textColor="@color/theme_default_text_primary"
+        android:textSize="@dimen/base" />
+
+    <ImageView
+        android:id="@+id/vDeleteItem"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_action_navigation_accept_white"/>
+
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_row_height">
+
+
+    <ImageView
+        android:layout_marginLeft="@dimen/list_item_left_right_margin"
+        android:layout_marginStart="@dimen/list_item_left_right_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_group"
+        android:id="@+id/vGroupAvatar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/item_row_height"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/vGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:text="Text 1"
+            android:textColor="@color/theme_default_text_primary"
+            android:textSize="@dimen/titleSize" />
+
+        <TextView
+            android:id="@+id/vGroupDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text 2"
+            android:textColor="@color/theme_default_text_secondary"
+            android:textSize="@dimen/subTitleSize" />
+    </LinearLayout>
+
+
+</RelativeLayout>

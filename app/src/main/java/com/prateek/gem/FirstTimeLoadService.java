@@ -1,7 +1,20 @@
 package com.prateek.gem;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.IntentService;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.IBinder;
+
+import com.prateek.gem.AppConstants.ServiceIDs;
+import com.prateek.gem.model.Group;
+import com.prateek.gem.persistence.DB.TExpenses;
+import com.prateek.gem.persistence.DB.TGroups;
+import com.prateek.gem.persistence.DB.TItems;
+import com.prateek.gem.persistence.DB.TMembers;
+import com.prateek.gem.persistence.DB.TSettlement;
+import com.prateek.gem.persistence.DBImpl;
+import com.prateek.gem.services.ServiceHandler;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -9,28 +22,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.IntentService;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.IBinder;
-
-import com.prateek.gem.AppConstants.ServiceIDs;
-import com.prateek.gem.model.Group;
-import com.prateek.gem.persistence.DBAdapter;
-import com.prateek.gem.persistence.DBAdapter.TExpenses;
-import com.prateek.gem.persistence.DBAdapter.TGroups;
-import com.prateek.gem.persistence.DBAdapter.TItems;
-import com.prateek.gem.persistence.DBAdapter.TMembers;
-import com.prateek.gem.persistence.DBAdapter.TSettlement;
-import com.prateek.gem.services.ServiceHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirstTimeLoadService extends IntentService {
 	
 	Intent broadcastIntent;
 	String adminPhoneNumber;
-	DBAdapter db;
 	
 	public FirstTimeLoadService() {
 		super("FirstTimeLoadService");
@@ -50,29 +48,25 @@ public class FirstTimeLoadService extends IntentService {
 		broadcastIntent.putExtra("done", true);
 		SharedPreferences preferences = getSharedPreferences(AppConstants.CUSTOM_PREFERENCE, 0);
 		adminPhoneNumber = preferences.getString(AppConstants.ADMIN_PHONE, null);
-		
-		db = new DBAdapter(getApplicationContext());
-		db.open();
+
 		/** Insert Group in load groups method**/
 		List<Group> groups = loadGroups();
 		/** Insert Members **/
 		for(Group group:groups){
-			insertMembers(group.getGroupIdServer(),db);
-			insertExpenses(group.getGroupIdServer(),db);
-			insertItems(group.getGroupIdServer(),db);
-			insertSettlements(group.getGroupIdServer(),db);
+			insertMembers(group.getGroupIdServer());
+			insertExpenses(group.getGroupIdServer());
+			insertItems(group.getGroupIdServer());
+			insertSettlements(group.getGroupIdServer());
 		}
 		
 		sendBroadcast(broadcastIntent);
-		db.close();
-			
 		
 	}
 	
 	private List<Group> loadGroups() {
 		List<Group> groups;
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
-		list.add(new BasicNameValuePair(DBAdapter.TMembers.PHONE_NUMBER, adminPhoneNumber));
+		list.add(new BasicNameValuePair(TMembers.PHONE_NUMBER, adminPhoneNumber));
 		list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.GET_GROUPS_OF_MEMBER));
 		ServiceHandler serviceHandler = new ServiceHandler();
 		String jsonString = serviceHandler.makeServiceCall(AppConstants.URL_API, AppConstants.REQUEST_METHOD_POST,list);
@@ -86,26 +80,26 @@ public class FirstTimeLoadService extends IntentService {
 				jsonObject = groupsArray.getJSONObject(i);
 				Group group = new Group();
 				ContentValues cv = new ContentValues();
-				cv.put(TGroups.GROUPID_SERVER, jsonObject.getInt(DBAdapter.TGroups.GROUPID));				
-				cv.put(TGroups.GROUPNAME, jsonObject.getString(DBAdapter.TGroups.GROUPNAME));
-				cv.put(TGroups.GROUPICON, jsonObject.getString(DBAdapter.TGroups.GROUPICON));
-				cv.put(TGroups.DATEOFCREATION, jsonObject.getString(DBAdapter.TGroups.DATEOFCREATION));
-				cv.put(TGroups.TOTALMEMBERS, jsonObject.getInt(DBAdapter.TGroups.TOTALMEMBERS));
-				cv.put(TGroups.TOTALOFEXPENSE, (float) jsonObject.getDouble(DBAdapter.TGroups.TOTALOFEXPENSE));
+				cv.put(TGroups.GROUPID_SERVER, jsonObject.getInt(TGroups.GROUPID));
+				cv.put(TGroups.GROUPNAME, jsonObject.getString(TGroups.GROUPNAME));
+				cv.put(TGroups.GROUPICON, jsonObject.getString(TGroups.GROUPICON));
+				cv.put(TGroups.DATEOFCREATION, jsonObject.getString(TGroups.DATEOFCREATION));
+				cv.put(TGroups.TOTALMEMBERS, jsonObject.getInt(TGroups.TOTALMEMBERS));
+				cv.put(TGroups.TOTALOFEXPENSE, (float) jsonObject.getDouble(TGroups.TOTALOFEXPENSE));
 				cv.put(TGroups.ADMIN, jsonObject.getString("admin"));
-				group.setGroupIdServer(jsonObject.getInt(DBAdapter.TGroups.GROUPID));
-				group.setGroupName(jsonObject.getString(DBAdapter.TGroups.GROUPNAME));
-				group.setGroupIcon(Uri.parse(jsonObject.getString(DBAdapter.TGroups.GROUPICON)));
-				group.setDate(jsonObject.getString(DBAdapter.TGroups.DATEOFCREATION));
-				group.setMembersCount(jsonObject.getInt(DBAdapter.TGroups.TOTALMEMBERS));
-				group.setTotalOfExpense((float) jsonObject.getDouble(DBAdapter.TGroups.TOTALOFEXPENSE));
+				group.setGroupIdServer(jsonObject.getInt(TGroups.GROUPID));
+				group.setGroupName(jsonObject.getString(TGroups.GROUPNAME));
+				group.setGroupIcon(jsonObject.getString(TGroups.GROUPICON));
+				group.setDate(jsonObject.getString(TGroups.DATEOFCREATION));
+				group.setMembersCount(jsonObject.getInt(TGroups.TOTALMEMBERS));
+				group.setTotalOfExpense((float) jsonObject.getDouble(TGroups.TOTALOFEXPENSE));
 				group.setAdmin(jsonObject.getString("admin"));
 				
 				//adding group for local references
 				groups.add(group);
 				
 				// adding group to db
-				long rowId = db.insert(TGroups.TGROUPS, cv);
+				long rowId = DBImpl.insert(TGroups.TGROUPS, cv);
 				System.out.println("Inserted group "+rowId);
 				
 			}
@@ -116,9 +110,9 @@ public class FirstTimeLoadService extends IntentService {
 		return groups;
 	}
 	
-	public void insertMembers(Integer groupId, DBAdapter db) {		
+	public void insertMembers(Integer groupId) {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
-		list.add(new BasicNameValuePair(DBAdapter.TMembers.GROUP_ID_FK,""+groupId));
+		list.add(new BasicNameValuePair(TMembers.GROUP_ID_FK,""+groupId));
 		list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.GET_MEMBERS));
 		ServiceHandler serviceHandler = new ServiceHandler();
 		String jsonString = serviceHandler.makeServiceCall(AppConstants.URL_API, AppConstants.REQUEST_METHOD_POST,list);
@@ -136,7 +130,7 @@ public class FirstTimeLoadService extends IntentService {
 				cv.put(TMembers.PHONE_NUMBER, jsonObject.getString(TMembers.PHONE_NUMBER));
 				cv.put(TMembers.GROUP_ID_FK, jsonObject.getInt(TMembers.GROUP_ID_FK));
 				//System.out.println("Content Values"+cv.toString());
-				db.insert(TMembers.TMEMBERS, cv);
+				DBImpl.insert(TMembers.TMEMBERS, cv);
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -144,7 +138,7 @@ public class FirstTimeLoadService extends IntentService {
 		}
 	}
 	
-	public void insertExpenses(Integer groupId, DBAdapter db) {
+	public void insertExpenses(Integer groupId) {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();			
 		list.add(new BasicNameValuePair(TExpenses.GROUP_ID_FK, ""+groupId));
 		list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.GET_EXPENSES));
@@ -168,7 +162,7 @@ public class FirstTimeLoadService extends IntentService {
 					cv.put(TExpenses.ITEM, jsonObject.getString(TExpenses.ITEM));
 					cv.put(TExpenses.EXPENSE_BY, jsonObject.getString(TExpenses.EXPENSE_BY));
 					cv.put(TExpenses.PARTICIPANTS, jsonObject.getString(TExpenses.PARTICIPANTS));
-					long rowIf = db.insert(TExpenses.TABLENAME, cv);
+					long rowIf = DBImpl.insert(TExpenses.TABLENAME, cv);
 					System.out.println("----expense "+rowIf);
 				}
 			} catch (JSONException e) {
@@ -177,7 +171,7 @@ public class FirstTimeLoadService extends IntentService {
 		}
 	}
 	
-	public void insertItems(Integer groupId, DBAdapter db) {
+	public void insertItems(Integer groupId) {
 		
 		List<NameValuePair> list = new ArrayList<NameValuePair>();			
 		list.add(new BasicNameValuePair("group_fk", ""+groupId));
@@ -198,7 +192,7 @@ public class FirstTimeLoadService extends IntentService {
 					cv.put(TItems.GROUP_FK, jsonObject.getInt(TItems.GROUP_FK));
 					cv.put(TItems.CATEGORY, jsonObject.getString(TItems.CATEGORY));
 					//System.out.println("Item is "+jsonObject.getInt(TItems.ITEM_ID));
-					db.insert(TItems.TITEMS, cv);
+                    DBImpl.insert(TItems.TITEMS, cv);
 					
 					System.out.println(cv.toString());
 				}
@@ -208,7 +202,7 @@ public class FirstTimeLoadService extends IntentService {
 		}
 	}
 
-	public void insertSettlements(Integer groupId, DBAdapter db) {
+	public void insertSettlements(Integer groupId) {
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
 		list.add(new BasicNameValuePair(TExpenses.GROUP_ID_FK, String.valueOf(groupId)));
 		list.add(new BasicNameValuePair(AppConstants.SERVICE_ID, ""+ServiceIDs.GET_SETTLEMENT_FOR_GROUP));
@@ -229,7 +223,7 @@ public class FirstTimeLoadService extends IntentService {
 				cv.put(TSettlement.TAKEN_BY, object.getString(TSettlement.TAKEN_BY));
 				cv.put(TSettlement.AMOUNT, Float.parseFloat(String.valueOf(object.getDouble(TExpenses.AMOUNT))));
 				cv.put(TSettlement.DATE, object.getDouble(TSettlement.DATE));
-				db.insert(TSettlement.TABLENAME, cv);
+                DBImpl.insert(TSettlement.TABLENAME, cv);
 				//System.out.println("Settlement id "+object.getInt(TSettlement.SET_ID));
 			}				
 		} catch (JSONException e) {

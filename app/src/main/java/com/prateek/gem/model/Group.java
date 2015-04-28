@@ -1,17 +1,20 @@
 package com.prateek.gem.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.prateek.gem.AppConstants;
+import com.prateek.gem.utils.AppSharedPreference;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.net.Uri;
-import android.os.Parcelable;
-
-public class Group implements Comparable<Group>{
+public class Group implements Parcelable, Comparable<Group>{
 
 	private Integer groupId;
-	private Integer groupIdServer;
+    private Integer groupIdServer;
 	private String groupName;
-	private Uri groupIcon;
+	private String groupIcon;
 	private String date;
 	private Float totalOfExpense;
 	private Integer membersCount;
@@ -20,8 +23,8 @@ public class Group implements Comparable<Group>{
 	
 
 	public Group(Integer groupId, Integer groupIdServer, String groupName,
-			Uri groupIcon, String date, Float totalOfExpense,
-			Integer membersCount, String admin) {
+                 String groupIcon, String date, Float totalOfExpense,
+                 Integer membersCount, String admin) {
 		super();
 		this.groupId = groupId;
 		this.groupIdServer = groupIdServer;
@@ -38,15 +41,7 @@ public class Group implements Comparable<Group>{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Group [groupId=" + groupId + ", groupIdServer=" + groupIdServer
-				+ ", groupName=" + groupName + ", groupIcon=" + groupIcon
-				+ ", date=" + date + ", totalOfExpense=" + totalOfExpense				
-				+ ", membersCount=" + membersCount + ", admin=" + admin + "]";
-	}
-
-	public Integer getGroupId() {
+    public Integer getGroupId() {
 		return groupId;
 	}
 
@@ -62,11 +57,11 @@ public class Group implements Comparable<Group>{
 		this.groupName = groupName;
 	}
 
-	public Uri getGroupIcon() {
+	public String getGroupIcon() {
 		return groupIcon;
 	}
 
-	public void setGroupIcon(Uri groupIcon) {
+	public void setGroupIcon(String groupIcon) {
 		this.groupIcon = groupIcon;
 	}
 
@@ -79,7 +74,10 @@ public class Group implements Comparable<Group>{
 	}
 
 	public Float getTotalOfExpense() {
-		return totalOfExpense;
+        if(totalOfExpense != null)
+		    return totalOfExpense;
+        else
+            return 0f;
 	}
 
 	public void setTotalOfExpense(Float totalOfExpense) {
@@ -146,6 +144,74 @@ public class Group implements Comparable<Group>{
 	public void setGroupIdServer(Integer groupIdServer) {
 		this.groupIdServer = groupIdServer;
 	}
+
+    public Group(Parcel in) {
+        readFromParcel(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Group> CREATOR = new Creator<Group>() {
+        public Group createFromParcel(Parcel in) {
+            return new Group(in);
+        }
+
+        public Group[] newArray(int size) {
+            return new Group[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel destination, int flags) {
+        destination.writeInt(groupId);
+        destination.writeInt(groupIdServer);
+        destination.writeString(groupName);
+        destination.writeString(groupIcon);
+        destination.writeString(date);
+        destination.writeFloat(totalOfExpense);
+        destination.writeInt(membersCount);
+        destination.writeString(admin);
+    }
+
+    public void readFromParcel(Parcel in) {
+        groupId = in.readInt();
+        groupIdServer = in.readInt();
+        groupName = in.readString();
+        groupIcon = in.readString();
+        date = in.readString();
+        totalOfExpense = in.readFloat();
+        membersCount = in.readInt();
+        admin = in.readString();
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "groupId=" + groupId +
+                ", groupIdServer=" + groupIdServer +
+                ", groupName='" + groupName + '\'' +
+                ", groupIcon='" + groupIcon + '\'' +
+                ", date='" + date + '\'' +
+                ", totalOfExpense=" + totalOfExpense +
+                ", membersCount=" + membersCount +
+                ", admin='" + admin + '\'' +
+                '}';
+    }
+
+    public static Group getPersonalGroup() {
+        Group group = new Group();
+        group.setGroupId(0);
+        group.setGroupIdServer(0);
+        group.setGroupIcon("0");
+        group.setAdmin(AppSharedPreference.getPreferenceString(AppConstants.ADMIN_NAME));
+        group.setGroupName("Personal");
+        group.setTotalOfExpense(0F);
+        group.setMembersCount(0);
+        return group;
+    }
 
     public long getLastUpdatedOn() {
         return lastUpdatedOn;

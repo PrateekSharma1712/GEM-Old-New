@@ -8,12 +8,12 @@ import android.support.v7.app.ActionBarActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.prateek.gem.groups.MainLandingScreen;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.Group;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.utils.AppSharedPreference;
 import com.prateek.gem.utils.Utils;
-import com.prateek.gem.views.GroupsLandingActivity;
 
 import java.io.IOException;
 
@@ -31,7 +31,7 @@ public abstract class BaseActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         baseActivity = this;
-        mainLandingIntent = new Intent(baseActivity,GroupsLandingActivity.class);
+        mainLandingIntent = new Intent(baseActivity,MainLandingScreen.class);
         AppDataManager.appContext = getApplicationContext();
         AppDataManager.currentScreen = baseActivity;
         if(Utils.isConnected(baseActivity)) {

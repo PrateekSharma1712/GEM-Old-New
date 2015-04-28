@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.prateek.gem.groups.MainLandingScreen">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/vToolbar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/vGroups"
+            android:paddingTop="@dimen/listPadding"
+            android:paddingBottom="@dimen/listPadding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.prateek.gem.widgets.AddFloatingActionButton
+            android:id="@+id/vAddGroupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_plusIconColor="@android:color/white"
+            fab:fab_colorNormal="@color/theme_default_primary"
+            fab:fab_colorPressed="@color/theme_default_primary_dark"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_gravity="right|bottom" />
+    </FrameLayout>
+
+
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/vToolbar" />
+
+
+</RelativeLayout>
