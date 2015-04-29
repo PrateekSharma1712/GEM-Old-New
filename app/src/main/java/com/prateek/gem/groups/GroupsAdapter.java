@@ -17,7 +17,6 @@ import com.prateek.gem.model.Group;
 import com.prateek.gem.utils.ImageLoader;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.MainActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

@@ -16,13 +16,6 @@
         <dex dex="/home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/classes-20f385a3913469f9ada4b52ed107ff81023e008d.jar" />
     </item>
     <item
-        jar="/home/prateek/my/GEM-Old-New/app/libs/picasso-2.5.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="/home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/picasso-2.5.2-c0d07781785052a7dc4813285994cb64f82447d2.jar" />
-    </item>
-    <item
         jar="/home/prateek/my/GEM-Old-New/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.2/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -63,6 +56,13 @@
         revision="21.1.2"
         sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
         <dex dex="/home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/classes-47a4142e2f1318f277b5f0b9e869487425a18ff9.jar" />
+    </item>
+    <item
+        jar="/home/prateek/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.0.9/6df6035161f0263100c3a70626bccbfd0bb545b7/MPAndroidChart-v2.0.9.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6df6035161f0263100c3a70626bccbfd0bb545b7">
+        <dex dex="/home/prateek/my/GEM-Old-New/app/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.0.9-73e19d7ef1d0cadb81aae669f099bf4e9dca2be3.jar" />
     </item>
 
 </items>
