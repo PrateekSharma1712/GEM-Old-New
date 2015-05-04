@@ -164,6 +164,10 @@ public class AppConstants {
 
     public static final String SELECTED_ITEMS = "selecteditems";
 
+    public static final String EXPENSES = "Expenses";
+    public static final String ITEMS = "Items";
+    public static final String MEMBERS = "Members";
+
 }
 
 

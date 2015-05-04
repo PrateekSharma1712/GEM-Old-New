@@ -18,6 +18,8 @@ import com.prateek.gem.model.Group;
 import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.utils.AppSharedPreference;
+import com.prateek.gem.utils.BottomItemDecorator;
+import com.prateek.gem.utils.DividerItemDecoration;
 import com.prateek.gem.utils.LoadingScreen;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.AddExpenseActivity;
@@ -58,6 +60,8 @@ public class MainLandingScreen extends MainActivity {
         vGroupsList = (RecyclerView) findViewById(R.id.vGroups);
 
         vGroupsList.setHasFixedSize(true);
+        vGroupsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        vGroupsList.addItemDecoration(new BottomItemDecorator(Utils.dpToPixels(8), Utils.dpToPixels(4)));
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -100,7 +104,7 @@ public class MainLandingScreen extends MainActivity {
 
     private void doFirstTimeLoad() {
         if(Utils.isConnected(base)){
-            LoadingScreen.showLoading(base, "Loading data, if you are old user");
+            LoadingScreen.showLoading(base, "Loading data, if you are existing user");
             dataLoadingIntent = new Intent(MainLandingScreen.this, FirstTimeLoadService.class);
             startService(dataLoadingIntent);
         }else{

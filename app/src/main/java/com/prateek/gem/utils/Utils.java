@@ -62,6 +62,8 @@ import com.prateek.gem.widgets.MyToast;
 
 public class Utils {
 
+    private static float xFactor = -1;
+
     public enum ColorFilter{
         PRIMARY, PRIMARYDARK, ACCENT
     }
@@ -126,6 +128,10 @@ public class Utils {
 		formattedDate = sdf.format(date);			
 		return formattedDate;
 	}
+
+    public static int dpToPixels(int dpValue) {
+        return (int) (dpValue * xFactor);
+    }
 	
 	/*
 	 * usage: loads same fragment to refresh the UI

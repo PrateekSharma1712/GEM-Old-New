@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.prateek.gem.R;
+import com.prateek.gem.groups.ItemsFragment;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.views.MainActivity;
@@ -20,16 +21,22 @@ import java.util.Map;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
     private String[] cats = null;
-    private MainActivity currentScreen = null;
+    private Object currentScreen = null;
     private LayoutInflater mInflater = null;
     private Map<String, Boolean> categories = null;
     private int lastSelected = 0;
 
-    CategoriesAdapter(MainActivity screen) {
+    public CategoriesAdapter(Object screen) {
         currentScreen = screen;
-        mInflater = LayoutInflater.from(screen);
         categories = new LinkedHashMap<String, Boolean>();
-        cats = currentScreen.getResources().getStringArray(R.array.categoryarray);
+        if(screen instanceof ItemsFragment) {
+            mInflater = LayoutInflater.from(((ItemsFragment) screen).getActivity());
+            cats = ((ItemsActivity) currentScreen).getResources().getStringArray(R.array.categoryarray);
+        } else {
+            mInflater = LayoutInflater.from(((SelectingItemsActivity) currentScreen));
+            cats = ((ItemsActivity) currentScreen).getResources().getStringArray(R.array.categoryarray);
+        }
+
         for(int i = 0;i<cats.length;i++) {
             categories.put(cats[i], false);
         }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.prateek.gem.R;
+import com.prateek.gem.groups.ItemsFragment;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.Items;
 import com.prateek.gem.persistence.DBImpl;
@@ -24,14 +25,17 @@ import java.util.List;
  */
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
-    private MainActivity currentScreen = null;
+    private Object currentScreen = null;
     private LayoutInflater mInflater = null;
     private ArrayList<Items> mItems = null;
     private SparseBooleanArray selectedPositions = new SparseBooleanArray();
 
-    ItemsAdapter(MainActivity screen) {
+    public ItemsAdapter(Object screen) {
         currentScreen = screen;
-        mInflater = LayoutInflater.from(screen);
+        if(screen instanceof ItemsFragment)
+            mInflater = LayoutInflater.from(((ItemsFragment) screen).getActivity());
+        else
+            mInflater = LayoutInflater.from((SelectingItemsActivity) screen);
     }
 
     public SparseBooleanArray getSelectedPositions() {

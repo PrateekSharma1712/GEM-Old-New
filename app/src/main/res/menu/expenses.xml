@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.prateek.gem.ExpensesActivity" >
+    tools:context="com.prateek.gem.ExpensesActivity">
 
     <item
         android:id="@+id/action_options"
@@ -10,18 +10,16 @@
         android:title="@string/action_settings"
         app:showAsAction="always">
         <menu>
-            <item
-                android:id="@+id/add_expense"
-                android:title="@string/option_addexpense"/>
+
             <item
                 android:id="@+id/items"
-                android:title="@string/option_item"/>
+                android:title="@string/option_item" />
             <item
                 android:id="@+id/members"
-                android:title="@string/option_members"/>
+                android:title="@string/option_members" />
             <item
                 android:id="@+id/calculate"
-                android:title="@string/option_calculate"/>
+                android:title="@string/option_calculate" />
 
             <!--
                  <item
@@ -31,27 +29,29 @@
 
             <item
                 android:id="@+id/mystats"
-                android:title="@string/title_activity_stats"/>
-            
-            <item android:id="@+id/export"
-                android:title="@string/export"/>
+                android:title="@string/title_activity_stats" />
 
-            <item android:id="@+id/action_piechart"
-                android:title="@string/export"/>
+            <item
+                android:id="@+id/export"
+                android:title="@string/export" />
+
+            <item
+                android:id="@+id/action_piechart"
+                android:title="@string/piechart" />
         </menu>
     </item>
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_action_action_search"
+        android:orderInCategory="2"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        android:orderInCategory="2"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_sync"
         android:icon="@drawable/ic_action_navigation_refresh"
-        android:title="@string/sync"
         android:orderInCategory="1"
-        app:showAsAction="always"/>
+        android:title="@string/sync"
+        app:showAsAction="always" />
 
 </menu>

@@ -2,20 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:background="@color/theme_background"
     tools:context="com.prateek.gem.accounts.RegisterActivity">
 
+    <include
+        android:id="@+id/vToolbar"
+        layout="@layout/toolbar" />
+
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:id="@+id/infoText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/adminName"
-        android:layout_alignParentTop="true"
-        android:singleLine="false"
-        android:textColor="@color/theme_default_accent"
+        android:layout_below="@id/vToolbar"
+        android:background="?attr/colorPrimary"
+        android:paddingLeft="20dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:text="@string/reg_hint"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:elevation="2dp"
+        android:textColor="@color/theme_default_icons" />
 
     <com.prateek.gem.widgets.FloatingHint
         android:id="@+id/adminName"
@@ -24,11 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="@dimen/margin_button_top_or_bottom"
+        android:layout_below="@+id/infoText"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="@string/prompt_name"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName">
 
         <requestFocus />
     </com.prateek.gem.widgets.FloatingHint>
@@ -41,6 +49,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/adminName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/margin_button_top_or_bottom"
         android:ems="10"
         android:hint="@string/prompt_email"
@@ -53,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/email"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="@dimen/margin_button_top_or_bottom"
         android:ems="10"
         android:gravity="right"
@@ -67,8 +78,9 @@
         android:layout_alignBaseline="@+id/code"
         android:layout_alignBottom="@+id/code"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/code"
-        android:layout_marginLeft="5dp"
         android:ems="10"
         android:hint="@string/prompt_number"
         android:inputType="number"
@@ -82,6 +94,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/password"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/margin_button_top_or_bottom"
         android:ems="10"
         android:hint="@string/confirmpassword"
@@ -95,11 +109,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/confirmPassword"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/margin_button_top_or_bottom"
-        android:textColor="@color/theme_default_primary"
+        android:text="@string/button_register"
+        android:textColor="@color/theme_default_primary_dark"
         android:textSize="@dimen/buttonTextSize"
-        android:textStyle="bold"
-        android:text="@string/button_register" />
+        android:textStyle="bold" />
 
     <com.prateek.gem.widgets.FloatingHint
         android:id="@+id/password"
@@ -109,6 +125,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/code"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="@dimen/margin_button_top_or_bottom"
         android:ems="10"
         android:hint="@string/password"

@@ -8,12 +8,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/vToolbar">
+        android:layout_below="@+id/infoText">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/vGroups"
-            android:paddingTop="@dimen/listPadding"
-            android:paddingBottom="@dimen/listPadding"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -34,6 +32,20 @@
     <include
         layout="@layout/toolbar"
         android:id="@+id/vToolbar" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vToolbar"
+        android:background="?attr/colorPrimary"
+        android:paddingLeft="20dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/group_info"
+        android:elevation="2dp"
+        android:textColor="@color/theme_default_icons" />
 
 
 </RelativeLayout>

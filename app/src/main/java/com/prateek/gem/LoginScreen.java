@@ -3,6 +3,7 @@ package com.prateek.gem;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +38,8 @@ public class LoginScreen extends BaseActivity {
     private String mPhoneNumber;
     private String mPassword;
     private Users user;
+    private Toolbar mToolbar = null;
+    private TextView mInfoText = null;
 
 
     @Override
@@ -53,9 +56,15 @@ public class LoginScreen extends BaseActivity {
             setContentView(R.layout.activity_login_screen);
 
 
+
+            mToolbar = (Toolbar) findViewById(R.id.vToolbar);
+            mInfoText = (TextView) findViewById(R.id.infoText);
             phoneNumberView = (EditText) findViewById(R.id.phoneNumber);
             mCodeView = (EditText) findViewById(R.id.code);
             mPasswordView = (EditText) findViewById(R.id.password);
+
+            setSupportActionBar(mToolbar);
+            mInfoText.setText("Login if already registered. Go to registration if new user. Login is required to keep your data secure.");
 
 
             mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {

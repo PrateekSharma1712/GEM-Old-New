@@ -67,7 +67,7 @@
     <string name="psamountvalid">Please enter valid amount</string>
     <string name="label_amount">Amount</string>
     <string name="label_date">Date</string>
-    <string name="label_particiapnts">Tap to choose participants</string>
+    <string name="label_particiapnts">Tap to select participants</string>
     <string name="inr">Rs. </string>
     <string name="amount">Amount</string>
     <string name="button_add" tools:ignore="MissingTranslation">Add</string>
@@ -165,6 +165,10 @@
 
     <string name="groups_edit_groupname">Tap on edit to edit group</string>
 
+    <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
     <string name="takephoto">Take Photo</string>
+    <string name="login_info">Login to GEM if already registered. If new user, tap on register. Login is required to keep your data secure.</string>
+    <string name="group_info">Tap on group to add expense, member, items. Or tap on plus to add a new group.</string>
 
 </resources>

@@ -4,11 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.prateek.gem.logger.DebugLogger;
@@ -32,6 +34,7 @@ public class RegisterActivity extends BaseActivity {
     private Spinner emailSpinner;
     private Button registerButton;
     private EditText adminName,adminNumber,numbercode,password,confirmPassword;
+    private Toolbar mToolbar;
     private AccountManager mAccountManager;
     public String name,email,number,passwordValue;
     private AsyncTask<String,Void,Boolean> checkRegistrationTask;
@@ -44,6 +47,7 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         DebugLogger.message("AppDataManager.appContext :: "+ AppDataManager.appContext);
 
+        mToolbar = (Toolbar) findViewById(R.id.vToolbar);
         emailSpinner = (Spinner) findViewById(R.id.email);
         adminName = (EditText) findViewById(R.id.adminName);
         adminNumber = (EditText) findViewById(R.id.adminNumber);
@@ -51,6 +55,8 @@ public class RegisterActivity extends BaseActivity {
         password = (EditText) findViewById(R.id.password);
         confirmPassword = (EditText) findViewById(R.id.confirmPassword);
         registerButton = (Button) findViewById(R.id.addregistrationButton);
+
+        setSupportActionBar(mToolbar);
 
         ArrayAdapter<String> emailAdapter = new ArrayAdapter<String>(baseActivity, android.R.layout.simple_spinner_dropdown_item, getAccountNames());
         emailAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);

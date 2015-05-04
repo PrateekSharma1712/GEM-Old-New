@@ -82,7 +82,7 @@
     </style>
 
     <style name="listStyle">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:minHeight">150dp</item>
         <item name="android:divider">@android:color/white</item>
@@ -255,7 +255,7 @@
     <color name="theme_default_icons">#FFFFFF</color>
     <color name="dividerColor">#B6B6B6</color>
 
-    <color name="theme_background">#f2f2f2</color>
+    <color name="theme_background">#ffffff</color>
 
     <array name="pie_colors">
         <item>#F2D06B</item>

@@ -2,38 +2,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:layout_margin="@dimen/activity_vertical_margin"
-    tools:context="com.prateek.gem.MainActivity$PlaceholderFragment"
-   >
+    android:background="@color/theme_background"
+    tools:context="com.prateek.gem.MainActivity$PlaceholderFragment">
+
+    <include
+        android:id="@+id/vToolbar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/infoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vToolbar"
+        android:background="?attr/colorPrimary"
+        android:paddingLeft="20dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/login_info"
+        android:elevation="2dp"
+        android:textColor="@color/theme_default_icons" />
 
     <LinearLayout
         android:id="@+id/buttonBar"
+        style="?android:buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        style="?android:buttonBarStyle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="15dp"
         android:divider="@android:color/transparent"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/registerButton"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dip"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/button_register"
             android:textColor="@color/theme_default_primary"
             android:textSize="@dimen/buttonTextSize"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/loginButton"
             style="?android:buttonBarButtonStyle"
             android:layout_width="0dip"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/button_login"
             android:textColor="@color/theme_default_primary_dark"
             android:textSize="@dimen/buttonTextSize"
@@ -47,7 +65,8 @@
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/password"
-        android:layout_alignTop="@+id/phoneNumber"
+        android:layout_alignStart="@+id/password"
+        android:layout_centerVertical="true"
         android:gravity="right"
         android:inputType="phone"
         android:text="@string/code" />
@@ -57,10 +76,11 @@
         style="@style/editTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/password"
-        android:layout_alignRight="@+id/password"
-        android:layout_marginBottom="@dimen/margin_fields_top_or_bottom"
-        android:layout_marginLeft="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/code"
+        android:layout_marginRight="10dp"
+        android:layout_toEndOf="@+id/code"
         android:layout_toRightOf="@+id/code"
         android:hint="@string/prompt_number"
         android:inputType="number"
@@ -76,9 +96,12 @@
         style="@style/editTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonBar"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/margin_fields_top_or_bottom"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/code"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="@dimen/margin_button_top_or_bottom"
         android:hint="@string/prompt_password"
         android:imeActionId="@+id/login"
         android:imeActionLabel="@string/action_sign_in_short"

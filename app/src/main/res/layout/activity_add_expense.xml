@@ -15,72 +15,89 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <EditText
+        <com.prateek.gem.widgets.FloatingHint
             android:id="@+id/dateField"
-            style="@style/editTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="@string/label_date"
             android:inputType="date">
+        </com.prateek.gem.widgets.FloatingHint>
 
-            <requestFocus />
-        </EditText>
+        <TextView
+            android:id="@+id/labelExpenseBy"
+            android:layout_below="@id/dateField"
+            android:text="Spent by"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="4dp"
+            android:textSize="@dimen/smaller"
+            android:layout_marginTop="@dimen/margin_fields_top_or_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Spinner
             android:id="@+id/expenseBy"
-            style="@style/editTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/dateField"
+            android:layout_below="@+id/labelExpenseBy"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:ems="10"
-            android:paddingLeft="0dp" />
+            android:layout_marginTop="2dp"
+            android:ems="10" />
 
-        <Spinner
+        <com.prateek.gem.widgets.FloatingHint
             android:id="@+id/expenseFor"
-            style="@style/editTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/expenseBy"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
-            android:inputType="textAutoComplete"
-            android:paddingLeft="0dp" />
+            android:layout_marginTop="@dimen/margin_fields_top_or_bottom"
+            android:focusableInTouchMode="false"
+            android:hint="@string/select_item"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:paddingRight="30dp" />
 
-        <EditText
+        <ImageButton
+            android:id="@+id/clearItems"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_action_content_discard"
+            android:layout_alignBottom="@id/expenseFor"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+
+        <com.prateek.gem.widgets.FloatingHint
             android:id="@+id/expenseAmount"
-            style="@style/editTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/expenseFor"
             android:layout_alignRight="@+id/expenseFor"
             android:layout_below="@+id/expenseFor"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="@dimen/margin_fields_top_or_bottom"
             android:ems="10"
             android:hint="@string/label_amount"
             android:inputType="number" />
 
-        <Button
+        <com.prateek.gem.widgets.FloatingHint
             android:id="@+id/participantsButton"
-            style="@style/editTextField"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/expenseAmount"
             android:layout_alignRight="@+id/expenseAmount"
             android:layout_below="@+id/expenseAmount"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_fields_top_or_bottom"
             android:ellipsize="end"
+            android:focusableInTouchMode="false"
             android:ems="10"
             android:hint="@string/label_particiapnts"
             android:singleLine="true" />

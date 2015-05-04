@@ -8,6 +8,8 @@
     android:minHeight="?attr/actionBarSize"
     android:backgroundTint="?attr/colorPrimary"
     android:gravity="center_vertical"
+    android:title="@string/app_name"
+    android:elevation="2dp"
     android:background="@color/theme_default_primary">
 
 

@@ -1,15 +1,6 @@
 package com.prateek.gem.views;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -21,7 +12,6 @@ import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.prateek.gem.App;
@@ -38,19 +28,33 @@ import com.prateek.gem.AppConstants.JSONConstants;
 import com.prateek.gem.AppConstants.ServiceIDs;
 import com.prateek.gem.FullFlowService;
 import com.prateek.gem.R;
+import com.prateek.gem.items.SelectingItemsActivity;
+import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
-import com.prateek.gem.model.Group;
-import com.prateek.gem.model.Items;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.persistence.DB.TExpenses;
 import com.prateek.gem.utils.LoadingScreen;
 import com.prateek.gem.utils.Utils;
+import com.prateek.gem.widgets.FloatingHint;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class AddExpenseActivity extends MainActivity implements OnClickListener,OnDateSetListener{
 
-	private Spinner expenseBy,expenseFor;
-	private EditText dateField,amountField;
-	private Button participantsButton;
+	private Spinner expenseBy;
+	private FloatingHint amountField,expenseFor;
+    private FloatingHint dateField;
+	private FloatingHint participantsButton;
+	private ImageButton clearItems;
 	private ArrayAdapter<String> itemsAdapter,membersAdapter;
 	private boolean[] checkedMembers;
 	List<Member> tempSelectedParticipantsList;	
@@ -85,19 +89,24 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 
     public void initUI(){
 		context = this;
-		dateField = (EditText) findViewById(R.id.dateField);
+		dateField = (FloatingHint) findViewById(R.id.dateField);
 		dateField.setOnClickListener(this);
-		participantsButton = (Button) findViewById(R.id.participantsButton);
+		participantsButton = (FloatingHint) findViewById(R.id.participantsButton);
 		participantsButton.setOnClickListener(this);
-		amountField = (EditText) findViewById(R.id.expenseAmount);
+        clearItems = (ImageButton) findViewById(R.id.clearItems);
+        clearItems.setOnClickListener(this);
+		amountField = (FloatingHint) findViewById(R.id.expenseAmount);
 		expenseBy = (Spinner) findViewById(R.id.expenseBy);
-		expenseFor = (Spinner) findViewById(R.id.expenseFor);
+		expenseFor = (FloatingHint) findViewById(R.id.expenseFor);
 		
-		items = Items.getItemNameOfItems(App.getInstance().getItems(), App.getInstance().getCurr_group().getGroupIdServer());
+		/*items = Items.getItemNameOfItems(App.getInstance().getItems(), App.getInstance().getCurr_group().getGroupIdServer());
 		itemsAdapter = new ArrayAdapter<String>(context, R.layout.my_simple_spinner_item,items);
         itemsAdapter.setDropDownViewResource(R.layout.listitem_dropdown);
         expenseFor.setAdapter(itemsAdapter);
-        
+        */
+
+        expenseFor.setOnClickListener(this);
+
         List<String> membersNames = new ArrayList<String>();
         checkedMembers = new boolean[App.getInstance().getCurr_Members().size()];
         //checking members
@@ -109,7 +118,7 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
         	i++;
         }       
         membersAdapter = new ArrayAdapter<String>(context, R.layout.my_simple_spinner_item, membersNames);
-        membersAdapter.setDropDownViewResource(R.layout.listitem_dropdown);
+        membersAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         expenseBy.setAdapter(membersAdapter);
         
         addExpenseReceiver = new AddExpenseRecevier();
@@ -122,8 +131,11 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
         	selectedPartcipants.add(m);
         }
         participantsButton.setText(App.getInstance().getCurr_Members().size()+" out of "+ App.getInstance().getCurr_Members().size()+" selected");
-		participantsButton.setBackgroundResource(R.drawable.edittext_style);
-		participantsButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_action_navigation_accept), null);
+		//participantsButton.setBackgroundResource(R.drawable.edittext_style);
+		//participantsButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_action_navigation_accept), null);
+
+        dateSelectedInMillis = Calendar.getInstance(Locale.getDefault()).getTimeInMillis();
+        dateField.setText(Utils.formatDate(String.valueOf(dateSelectedInMillis)));
 		
 	}	
 
@@ -151,7 +163,8 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 		App.getInstance().setParticipantsList(selectedPartcipants);
 		String amount = Utils.stringify(amountField.getText());
 		List<Member> participantsList = App.getInstance().getParticipantsList();
-		Items selectedItem = App.getInstance().getItems().get(expenseFor.getSelectedItemPosition());
+		//Items selectedItem = null; //App.getInstance().getItems().get(expenseFor.getSelectedItemPosition());
+        String selectedItem = expenseFor.getText().toString();
 		int selectedExpensee =  expenseBy.getSelectedItemPosition();
 		System.out.println("selected expensee"+ App.getInstance().getCurr_Members().get(selectedExpensee).getMemberName());
 		System.out.println("selected item"+selectedItem);
@@ -175,7 +188,7 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 			addingExpense = new ExpenseOject(dateSelectedInMillis, 
 					Utils.round(Float.parseFloat(amount), 3), 
 					Utils.round(share, 3), 
-					selectedItem.getItemName(), 
+					selectedItem,
 					App.getInstance().getCurr_Members().get(selectedExpensee).getMemberName(),
 					array.toString(), 
 					App.getInstance().getCurr_group().getGroupIdServer());
@@ -209,7 +222,7 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 	}
 
 
-	private boolean checkEntryValidation(long date, String amount, List<Member> participantsList, Items selectedItem, int selectedExpensee) {
+	private boolean checkEntryValidation(long date, String amount, List<Member> participantsList, String selectedItem, int selectedExpensee) {
 		boolean retVal = false;
 		if(date == 0){
 			Utils.showError(dateField, (AddExpenseActivity)context, getString(R.string.psdate));			
@@ -222,9 +235,9 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 		}else if(Float.parseFloat(amount) == 0f){
 			Utils.showError(amountField, (AddExpenseActivity)context, getString(R.string.psamountvalid));				
 		}else if(participantsList == null){
-			Utils.showErrorOnButton(participantsButton, (AddExpenseActivity)context, getString(R.string.psparticipants));
+			Utils.showError(participantsButton, (AddExpenseActivity)context, getString(R.string.psparticipants));
 		}else if(participantsList.size() == 0){
-			Utils.showErrorOnButton(participantsButton, (AddExpenseActivity)context, getString(R.string.psparticipants));
+			Utils.showError(participantsButton, (AddExpenseActivity)context, getString(R.string.psparticipants));
 		}else{
 			retVal = true;
 		}
@@ -252,11 +265,25 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 		case R.id.participantsButton:
 			showParticipantsDialog(context);
 			break;
+        case R.id.expenseFor:
+            openSelectItemsScreen();
+            break;
+        case R.id.clearItems:
+            expenseFor.setHint(R.string.select_item);
+            expenseFor.setText("");
+            break;
+
 
 		default:
 			break;
 		}
 	}
+
+    private void openSelectItemsScreen() {
+        Intent selectItemsIntent = new Intent(this, SelectingItemsActivity.class);
+        selectItemsIntent.putExtra(AppConstants.SELECTED_ITEMS, expenseFor.getText().toString());
+        startActivityForResult(selectItemsIntent, 123);
+    }
 	
 	private void showParticipantsDialog(Context context) {
 		
@@ -299,8 +326,8 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 				App.getInstance().setParticipantsList(selectedPartcipants);
 				System.out.println(selectedPartcipants);
 				participantsButton.setText(selectedPartcipants.size()+" out of "+members.length+" selected");
-				participantsButton.setBackgroundResource(R.drawable.edittext_style);
-				participantsButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_action_navigation_accept), null);				
+				//participantsButton.setBackgroundResource(R.drawable.edittext_style);
+				//participantsButton.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_action_navigation_accept), null);
 				ad.dismiss();
 			}
 		});
@@ -352,4 +379,20 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
 		super.onDestroy();
 		unregisterReceiver(addExpenseReceiver);
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 123) {
+            if(resultCode == Activity.RESULT_OK) {
+                DebugLogger.message("returned");
+                DebugLogger.message(data.getStringExtra("items"));
+                expenseFor.setText(data.getStringExtra("items"));
+                if(data.getStringExtra("items") != null && !data.getStringExtra("items").isEmpty())
+                    expenseFor.setHint("Selected items(" + data.getIntExtra("itemCount", 0) + ")");
+                else
+                    expenseFor.setHint(R.string.select_item);
+            }
+        }
+    }
 }

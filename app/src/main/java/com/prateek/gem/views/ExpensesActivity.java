@@ -58,6 +58,7 @@ import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.services.MyDBService;
 import com.prateek.gem.utils.CreateExcel;
 import com.prateek.gem.utils.Utils;
+import com.prateek.gem.widgets.FloatingActionButton;
 
 public class ExpensesActivity extends MainActivity {
 
@@ -75,6 +76,7 @@ public class ExpensesActivity extends MainActivity {
 	DeleteExpenseRecevier deleteExpenseReceiver;
 	SyncSuccessReceiver syncSuccessReceiver;
 	ExpenseOject deletingExpense;
+    private FloatingActionButton vAddExpenseButton = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,8 @@ public class ExpensesActivity extends MainActivity {
 		context = this;
 		expenses = (ListView) findViewById(R.id.expenses);
 		noExpensesView = (RelativeLayout) findViewById(R.id.noExpensesView);
-		instructionsView = (ScrollView) findViewById(R.id.instructionsView);		
+		instructionsView = (ScrollView) findViewById(R.id.instructionsView);
+        vAddExpenseButton = (FloatingActionButton) findViewById(R.id.vAddExpenseButton);
 		addExpenseIntent = new Intent(ExpensesActivity.this, AddExpenseActivity.class);
 		membersIntent = new Intent(ExpensesActivity.this, MembersActivity.class);
 		itemsIntent = new Intent(ExpensesActivity.this, ItemsActivity.class);
@@ -120,6 +123,7 @@ public class ExpensesActivity extends MainActivity {
 		mystatsIntent = new Intent(ExpensesActivity.this, MyStatsActivity.class);
 		graphIntent = new Intent(ExpensesActivity.this, GraphActivity.class);
         pieChartIntent = new Intent(ExpensesActivity.this, PieChartActivity.class);
+
 
 		deleteExpenseReceiver = new DeleteExpenseRecevier();
         deleteExpenseIntentFilter = new IntentFilter(DeleteExpenseRecevier.DELETEEXPENSESUCCESSRECEIVER);
@@ -130,6 +134,17 @@ public class ExpensesActivity extends MainActivity {
         syncDataIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         
         registerReceiver(deleteExpenseReceiver,deleteExpenseIntentFilter);
+
+        vAddExpenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!App.getInstance().getItems().isEmpty()){
+                    startActivity(addExpenseIntent);
+                }else{
+                    Utils.showToast(context, getString(R.string.addItemsMessage));
+                }
+            }
+        });
         
         
 	}
@@ -157,14 +172,6 @@ public class ExpensesActivity extends MainActivity {
 	    case android.R.id.home:
 	        NavUtils.navigateUpFromSameTask(this);
 	        return true;
-	    case R.id.add_expense:
-	    	if(!App.getInstance().getItems().isEmpty()){
-	    		startActivity(addExpenseIntent);
-	    	}else{
-	    		Utils.showToast(context, getString(R.string.addItemsMessage));
-	    	}
-	    	
-	    	return true;
 	    case R.id.members:
 	    	
 	    	startActivity(membersIntent);

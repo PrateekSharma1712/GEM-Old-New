@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/rightContentBg">
@@ -8,13 +9,31 @@
         android:id="@+id/vToolbar"
         layout="@layout/toolbar" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/vToolbar">
 
-    <ListView
-        android:id="@+id/expenses"
-        style="@style/listStyle"
-        android:layout_below="@+id/vToolbar"
-        android:divider="@color/rightContentBg"
-        android:visibility="visible"></ListView>
+
+        <ListView
+            android:id="@+id/expenses"
+            style="@style/listStyle"
+            android:divider="@color/rightContentBg"
+            android:visibility="visible"></ListView>
+
+        <com.prateek.gem.widgets.AddFloatingActionButton
+            android:id="@+id/vAddExpenseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            fab:fab_colorNormal="@color/theme_default_primary"
+            fab:fab_colorPressed="@color/theme_default_primary_dark"
+            fab:fab_plusIconColor="@android:color/white" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/noExpensesView"
@@ -54,10 +73,10 @@
         android:id="@+id/instructionsView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/vToolbar"
         android:layout_above="@+id/noExpensesView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/vToolbar"
         android:fillViewport="true"
         android:scrollbars="vertical"
         android:visibility="gone">
