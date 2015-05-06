@@ -30,7 +30,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.prateek.gem.R;
 import com.prateek.gem.logger.DebugLogger;
+
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -175,6 +177,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
+        textView.setTextColor(getContext().getResources().getColor(R.color.theme_default_icons));
         textView.setTypeface(Typeface.DEFAULT_BOLD);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);

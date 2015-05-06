@@ -156,7 +156,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
         if(item.getItemId() == R.id.saveMembers) {
             generateSelectedItemsString();
             if(itemNamesString != null && !itemNamesString.isEmpty())
-                Utils.openConfirmationDialog(AppDataManager.currentScreen,itemNamesString, true);
+                Utils.openConfirmationDialog(AppDataManager.currentScreen,itemNamesString, true, this);
             else
                 modeConfirmed();
 
@@ -201,7 +201,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
         } else if(v.equals(vStatusText)) {
             // open list showing item names
             generateSelectedItemsString();
-            Utils.openConfirmationDialog(AppDataManager.currentScreen, itemNamesString, false);
+            Utils.openConfirmationDialog(AppDataManager.currentScreen, itemNamesString, false, this);
         }
     }
 

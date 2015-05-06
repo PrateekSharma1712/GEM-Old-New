@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.prateek.gem.AppConstants;
+import com.prateek.gem.views.ExpensesActivity;
 
 /**
  * Created by prateek on 4/5/15.
@@ -17,23 +18,16 @@ public class ComponentsPagerAdapter extends FragmentPagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
-        GroupComponentsCreator creator = new GroupComponentsCreator();
-        return creator.getFragment(position);
+        return ExpensesActivity.mTabs.get(position).getFragment();
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return ExpensesActivity.mTabs.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 1:
-                return AppConstants.ITEMS;
-            case 0:
-            default:
-                return AppConstants.EXPENSES;
-        }
+       return ExpensesActivity.mTabs.get(position).getTitle();
     }
 }

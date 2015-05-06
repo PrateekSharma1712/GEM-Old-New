@@ -9,9 +9,12 @@ import android.widget.TextView;
 import com.prateek.gem.R;
 import com.prateek.gem.groups.ItemsFragment;
 import com.prateek.gem.logger.DebugLogger;
+import com.prateek.gem.model.Items;
+import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.views.MainActivity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,10 +34,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         categories = new LinkedHashMap<String, Boolean>();
         if(screen instanceof ItemsFragment) {
             mInflater = LayoutInflater.from(((ItemsFragment) screen).getActivity());
-            cats = ((ItemsActivity) currentScreen).getResources().getStringArray(R.array.categoryarray);
+            cats = ((ItemsFragment) currentScreen).getResources().getStringArray(R.array.categoryarray);
         } else {
             mInflater = LayoutInflater.from(((SelectingItemsActivity) currentScreen));
-            cats = ((ItemsActivity) currentScreen).getResources().getStringArray(R.array.categoryarray);
+            cats = ((SelectingItemsActivity) currentScreen).getResources().getStringArray(R.array.categoryarray);
         }
 
         for(int i = 0;i<cats.length;i++) {
@@ -50,17 +53,28 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        ArrayList<Items> items = DBImpl.getItems(AppDataManager.getCurrentGroup().getGroupIdServer(), cats[position]);
         holder.vCategoryName.setText(cats[position]);
+        holder.vNoOfItems.setText("("+String.valueOf(items.size())+")");
         DebugLogger.message("categories.get(cats[position])" + position + ".." + categories.get(cats[position]));
+
         if(categories.get(cats[position])) {
             holder.vCategoryName.setTextColor(AppDataManager.getThemePrimaryColor());
-            //holder.itemView.setBackgroundColor(Color.WHITE);
             holder.itemView.setActivated(true);
         } else {
             holder.vCategoryName.setTextColor(AppDataManager.getThemePrimaryTextColor());
-            //holder.itemView.setBackgroundColor(AppDataManager.getThemeButtonMaterialLight());
             holder.itemView.setActivated(false);
         }
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentScreen instanceof ItemsFragment) {
+                    toggleSelection(position);
+                    ((ItemsFragment)currentScreen).loadItems(cats[position]);
+                }
+            }
+        });
     }
 
     public void toggleSelection(int position) {
@@ -72,6 +86,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         notifyItemChanged(position);
         notifyItemChanged(lastSelected);
         lastSelected = position;
+        if(currentScreen instanceof ItemsFragment) {
+            ((ItemsFragment) currentScreen).setSelectedCategoryIndex(lastSelected);
+        }
     }
 
 
@@ -82,10 +99,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private TextView vCategoryName = null;
+        private TextView vNoOfItems = null;
+        private View view = null;
 
         public ViewHolder(View view) {
             super(view);
+            this.view = view;
             vCategoryName = (TextView) view.findViewById(android.R.id.text1);
+            vNoOfItems = (TextView) view.findViewById(android.R.id.text2);
         }
     }
 

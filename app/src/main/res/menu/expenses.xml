@@ -5,13 +5,14 @@
 
     <item
         android:id="@+id/action_options"
-        android:icon="@drawable/ic_action_core_overflow"
+        android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="always">
         <menu>
 
             <item
+                android:visible="false"
                 android:id="@+id/items"
                 android:title="@string/option_item" />
             <item
@@ -41,6 +42,7 @@
         </menu>
     </item>
     <item
+        android:visible="false"
         android:id="@+id/action_search"
         android:icon="@drawable/ic_action_action_search"
         android:orderInCategory="2"

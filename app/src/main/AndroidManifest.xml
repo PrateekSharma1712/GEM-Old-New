@@ -76,7 +76,6 @@
 
         <activity
             android:name=".views.ExpensesActivity"
-            android:label="@string/title_activity_expenses"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

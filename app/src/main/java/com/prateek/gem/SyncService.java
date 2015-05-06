@@ -2,7 +2,7 @@ package com.prateek.gem;
 
 import com.prateek.gem.persistence.DBAdapter;
 import com.prateek.gem.services.MyDBService;
-import com.prateek.gem.views.ExpensesActivity.SyncSuccessReceiver;
+import com.prateek.gem.views.ExpensesActivity;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -27,7 +27,7 @@ public class SyncService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		broadcastIntent = new Intent();
-		broadcastIntent.setAction(SyncSuccessReceiver.SUCCESS_RECEIVER);
+		broadcastIntent.setAction(ExpensesActivity.SyncSuccessReceiver.SUCCESS_RECEIVER);
 		broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
 		broadcastIntent.putExtra("done", true);
 

@@ -52,6 +52,7 @@ import android.widget.EditText;
 
 import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
+import com.prateek.gem.OnModeConfirmListener;
 import com.prateek.gem.R;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
@@ -725,8 +726,9 @@ public class Utils {
         return inFromBottom;
     }
 
-    public static void openConfirmationDialog(ActionBarActivity context, String itemNamesString, boolean withButtons) {
+    public static void openConfirmationDialog(ActionBarActivity context, String itemNamesString, boolean withButtons, OnModeConfirmListener onModeConfirmListener) {
         ConfirmationDialog mcd = new ConfirmationDialog();
+        mcd.setOnModeConfirmListener(onModeConfirmListener);
         Bundle bundle = new Bundle();
         bundle.putString(ConfirmationDialog.TITLE, context.getString(R.string.selected_item));
         bundle.putInt(AppConstants.ConfirmConstants.CONFIRM_KEY, AppConstants.ConfirmConstants.CONFIRM_SELECTED_ITEMS_LIST);

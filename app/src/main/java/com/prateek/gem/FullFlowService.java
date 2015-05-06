@@ -40,7 +40,7 @@ import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.views.AddExpenseActivity.AddExpenseRecevier;
 import com.prateek.gem.views.AddMembersActivity;
 import com.prateek.gem.views.AddMembersActivity.AddMemberRecevier;
-import com.prateek.gem.views.ExpensesActivity.DeleteExpenseRecevier;
+import com.prateek.gem.groups.ExpensesFragment.DeleteExpenseRecevier;
 import com.prateek.gem.views.HisabActivity.AddSettlementRecevier;
 import com.prateek.gem.views.MembersActivity.DeleteMemberRecevier;
 

@@ -70,11 +70,14 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
     private ActionMode mDeleteMode = null;
 
     private List<Integer> itemIdsToDelete;
+    private ItemsFragment self = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_items,
+        View rootView = inflater.inflate(R.layout.fragment_items,
                 container, false);
+
+        self = this;
 
         vAddItemButton = (AddFloatingActionButton) rootView.findViewById(R.id.vAddItemsButton);
         vAddItemButton.setOnClickListener(this);
@@ -103,7 +106,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
         itemSuccessFilter.addCategory(Intent.CATEGORY_DEFAULT);
 
         mCategoriesAdapter.toggleSelection(selectedCategoryIndex);
-        loadItems(mCategoriesAdapter.getSelectedCategory());
+        //loadItems(mCategoriesAdapter.getSelectedCategory());
 
         vItemsList.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -149,6 +152,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
 
     private void openDialog() {
         ConfirmationDialog mcd = new ConfirmationDialog();
+        mcd.setOnModeConfirmListener(this);
         Bundle bundle = new Bundle();
         bundle.putString(ConfirmationDialog.TITLE, getString(R.string.addGroup));
         bundle.putInt(AppConstants.ConfirmConstants.CONFIRM_KEY, AppConstants.ConfirmConstants.ITEM_ADD);
@@ -174,6 +178,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
 
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
+            ((ExpensesActivity) getActivity()).updateSlidingTabLayout(R.color.theme_default_primary);
             mItemsAdapter.resetSelectedPositions();
             actionMode.finish();
             mDeleteMode = null;
@@ -185,6 +190,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
 
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            ((ExpensesActivity) getActivity()).updateSlidingTabLayout(R.color.dividerColor);
             int totalSelected = mItemsAdapter.getSelectedCount();
             if(totalSelected > 0) {
                 actionMode.setTitle(totalSelected + " selected");
@@ -214,6 +220,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
                 }
 
                 ConfirmationDialog mcd = new ConfirmationDialog();
+                mcd.setOnModeConfirmListener(self);
                 Bundle bundle = new Bundle();
                 bundle.putString(ConfirmationDialog.TITLE, getString(R.string.button_delete));
                 bundle.putInt(AppConstants.ConfirmConstants.CONFIRM_KEY, AppConstants.ConfirmConstants.ITEM_DELETE);
@@ -247,6 +254,12 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
 
     }
 
+    public void stopActionMode() {
+        if(mDeleteModeCallback != null && mDeleteMode != null) {
+            mDeleteModeCallback.onDestroyActionMode(mDeleteMode);
+        }
+    }
+
     private class RecyclerViewDemoOnGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -268,7 +281,7 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
         }
     }
 
-    private void loadItems(String category) {
+    public void loadItems(String category) {
         DebugLogger.message("category" + category);
         ArrayList<Items> items = DBImpl.getItems(AppDataManager.getCurrentGroup().getGroupIdServer(), category);
         if(items.size() > 0) {
@@ -392,5 +405,15 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
             }
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadItems(mCategoriesAdapter.getSelectedCategory());
+    }
+
+    public void setSelectedCategoryIndex(int position) {
+        selectedCategoryIndex = position;
     }
 }

@@ -54,16 +54,8 @@ public class ConfirmationDialog extends DialogFragment {
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        System.out.println("on attach");
-        try {
-            onModeConfirmListener = (OnModeConfirmListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement onModeConfirmListener");
-        }
+    public void setOnModeConfirmListener(OnModeConfirmListener onModeConfirmListener) {
+        this.onModeConfirmListener = onModeConfirmListener;
     }
 
     @Override

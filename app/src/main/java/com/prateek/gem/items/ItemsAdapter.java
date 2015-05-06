@@ -18,6 +18,7 @@ import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.views.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(currentScreen instanceof ItemsActivity) {
+        if(currentScreen instanceof ItemsFragment) {
             View view = mInflater.inflate(R.layout.item_delete_text, parent, false);
             return new ViewHolder(view);
         } else {
@@ -81,8 +82,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
                     selectedPositions.put(item.getIdServer(), !selectedPositions.valueAt(selectedPositions.indexOfKey(item.getIdServer())));
                 }
 
-                if (currentScreen instanceof ItemsActivity) {
-                    ((ItemsActivity) currentScreen).runActionMode();
+                if (currentScreen instanceof ItemsFragment) {
+                    ((ItemsFragment) currentScreen).runActionMode();
                     notifyDataSetChanged();
                 }
 
@@ -102,6 +103,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public void setDataset(ArrayList<Items> items) {
         mItems = items;
+        Collections.sort(mItems);
         notifyDataSetChanged();
     }
 

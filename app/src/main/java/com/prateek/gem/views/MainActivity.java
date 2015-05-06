@@ -48,6 +48,11 @@ public abstract class MainActivity extends BaseActivity implements OnModeConfirm
         mToolBar.setLogo(null);
     }
 
+    protected void setToolbar(String titleName) {
+        DebugLogger.message("MainActivity :: setToolbar :: toolbar"+mToolBar);
+        mToolBar.setTitle(titleName);
+    }
+
     @Override
     public void modeConfirmed() {
 
