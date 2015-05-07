@@ -7,6 +7,7 @@ public class SectionHeaderObject implements Item,
 
 	private Long headerTitle;
 	private float amount;
+	private Calendar calendar;
 
 	public SectionHeaderObject(Long headerTitle) {
 		super();
@@ -38,9 +39,14 @@ public class SectionHeaderObject implements Item,
 		new_c.set(Calendar.HOUR_OF_DAY, 0);
 		new_c.set(Calendar.MINUTE, 0);
 		new_c.set(Calendar.SECOND, 0);
-		new_c.set(Calendar.MILLISECOND, 0);		
+		new_c.set(Calendar.MILLISECOND, 0);
+        this.calendar = new_c;
 		this.headerTitle = new_c.getTimeInMillis();
 	}
+
+    public Calendar getHeaderTitleCalendar() {
+        return calendar;
+    }
 
 	@Override
 	public String toString() {

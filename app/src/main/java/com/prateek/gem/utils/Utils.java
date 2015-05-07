@@ -91,6 +91,19 @@ public class Utils {
 		formattedDate = sdf.format(date);			
 		return formattedDate;
 	}
+
+    /*
+	 * usage: date formatting into Friday, Oct 18, 2013
+	 */
+    public static String formatDateWithoutYear(String dateString){
+        String formattedDate = "";
+        String format = "MMM dd";
+        Date date = new Date(Long.parseLong(dateString));
+        SimpleDateFormat sdf = new SimpleDateFormat(format,Locale.US);
+        formattedDate = sdf.format(date);
+        return formattedDate;
+    }
+
 	
 	/*
 	 * usage: date formatting into Friday, Oct 18, 2013

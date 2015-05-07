@@ -54,6 +54,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import jxl.write.WriteException;
@@ -134,6 +135,7 @@ public class ExpensesFragment extends Fragment {
 
         private List<Item> items;
         LayoutInflater li;
+        private Calendar currentCalendar = Calendar.getInstance();
 
         public ExpensesAdapter(List<Item> items) {
             super();
@@ -232,7 +234,21 @@ public class ExpensesFragment extends Fragment {
                     v = li.inflate(R.layout.list_element_header_view, null);
                     final TextView headerField = (TextView) v.findViewById(R.id.groupByField);
                     final TextView totalAmountField = (TextView) v.findViewById(R.id.amount);
-                    headerField.setText(Utils.formatDate(""+sectionHeader.getHeaderTitle()));
+                    final View emptyViewTop = v.findViewById(R.id.emptyViewTop);
+                    if(position != 0) {
+                        emptyViewTop.setVisibility(View.VISIBLE);
+                    } else {
+                        emptyViewTop.setVisibility(View.GONE);
+                    }
+
+                    String dateString = "";
+                    if(currentCalendar.get(Calendar.YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.YEAR)) {
+                        dateString = Utils.formatDateWithoutYear(""+sectionHeader.getHeaderTitle());
+                    } else {
+                        dateString = Utils.formatDate(""+sectionHeader.getHeaderTitle());
+                    }
+
+                    headerField.setText(dateString);
                     totalAmountField.setText(Utils.addRupeeIcon(Utils.round(sectionHeader.getAmount(), 2)));
                 }
             }
