@@ -3,78 +3,127 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/global_right_frame_item"
+    android:elevation="2dp"
     android:orientation="vertical"
-    android:padding="@dimen/expenseList_padding" >
+    android:paddingBottom="@dimen/expenseList_padding"
+    android:paddingLeft="@dimen/expenseList_padding"
+    android:paddingRight="@dimen/expenseList_padding"
+    android:paddingTop="@dimen/expenseList_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="0.10"
+            android:gravity="center"
+            android:text="@string/simple_arrow"
+            android:textColor="@color/theme_default_text_primary" />
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="match_parent"
-            android:layout_weight="0.70"
-            android:orientation="vertical" >
+            android:layout_weight="0.60"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
                 android:layout_weight="0.50"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/by"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/theme_default_text_primary"
+                    android:textSize="@dimen/small"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/expenseBy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/by"
                     android:layout_marginLeft="5dp"
                     android:ellipsize="marquee"
+                    android:text="@string/by"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/theme_default_text_primary"
+                    android:textSize="@dimen/small" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dip"
-                android:layout_weight="0.50"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal" >
+                android:layout_weight="0.50"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"                    
+                    android:layout_height="wrap_content"
                     android:text="@string/item"
                     android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/theme_default_text_primary"
+                    android:textSize="@dimen/small"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/expenseItem"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"                    
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/label_amount"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/amount"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/theme_default_text_primary"
+                    android:textSize="@dimen/small" />
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/expenseAmount"
+        <RelativeLayout
             android:layout_width="0dip"
+            android:orientation="vertical"
             android:layout_height="match_parent"
-            android:layout_weight="0.30"
-            android:gravity="right"
-            android:text="@string/amount"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
+            android:layout_weight="0.30">
+
+            <TextView
+                android:id="@+id/expenseAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="@string/amount"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/theme_default_text_primary"
+                android:textSize="@dimen/small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/expenseDetails"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="@string/detail"
+                android:layout_marginTop="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/link_text_material_light"
+                android:textSize="@dimen/small"
+                android:textStyle="bold"
+                android:layout_below="@+id/expenseAmount"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -82,13 +131,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dip"
@@ -106,22 +155,21 @@
                 android:layout_weight="0.52"
                 android:fadingEdge="none"
                 android:fillViewport="true"
-                android:scrollbarSize="10dp" >
+                android:scrollbarSize="10dp">
 
                 <LinearLayout
                     android:id="@+id/expenseParticipants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal" >
-                </LinearLayout>
+                    android:orientation="horizontal"></LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/editExpense"
@@ -154,6 +202,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:contentDescription="@string/imageEdit"
-        android:src="@drawable/ic_navigation_expand" />
+        android:src="@drawable/ic_navigation_expand"
+        android:visibility="gone" />
+
 
 </LinearLayout>

@@ -85,8 +85,9 @@ public class Utils {
 	 */
 	public static String formatDate(String dateString){
 		String formattedDate = "";
-		String format = "cccc, MMM dd, yyyy";
-		Date date = new Date(Long.parseLong(dateString));	
+		//String format = "cccc, MMM dd, yyyy";
+		String format = "MMM dd, yyyy";
+		Date date = new Date(Long.parseLong(dateString));
 		SimpleDateFormat sdf = new SimpleDateFormat(format,Locale.US);
 		formattedDate = sdf.format(date);			
 		return formattedDate;

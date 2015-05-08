@@ -68,8 +68,10 @@
     <string name="label_amount">Amount</string>
     <string name="label_date">Date</string>
     <string name="label_particiapnts">Tap to select participants</string>
-    <string name="inr">Rs. </string>
+    <string name="inr">\u20B9</string>
+    <string name="simple_arrow">&#187;</string>
     <string name="amount">Amount</string>
+    <string name="detail">DETAIL</string>
     <string name="button_add" tools:ignore="MissingTranslation">Add</string>
     <string name="button_cancel" tools:ignore="MissingTranslation">Cancel</string>
     <string name="button_ok">OK</string>

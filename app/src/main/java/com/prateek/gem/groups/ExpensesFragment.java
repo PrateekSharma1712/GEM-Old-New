@@ -171,7 +171,7 @@ public class ExpensesFragment extends Fragment {
                     final TextView expenseBy = (TextView) v.findViewById(R.id.expenseBy);
                     expenseBy.setText(expense.getExpenseBy());
                     final TextView expenseAmount = (TextView) v.findViewById(R.id.expenseAmount);
-                    expenseAmount.setText(Utils.addRupeeIcon(expense.getAmount()));
+                    expenseAmount.setText(getResources().getString(R.string.inr) + " " +expense.getAmount());
                     final TextView expenseItem = (TextView) v.findViewById(R.id.expenseItem);
                     expenseItem.setText(expense.getItem());
                     final LinearLayout expenseParticipants = (LinearLayout) v.findViewById(R.id.expenseParticipants);
@@ -243,13 +243,19 @@ public class ExpensesFragment extends Fragment {
 
                     String dateString = "";
                     if(currentCalendar.get(Calendar.YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.YEAR)) {
-                        dateString = Utils.formatDateWithoutYear(""+sectionHeader.getHeaderTitle());
+                        if(currentCalendar.get(Calendar.DAY_OF_YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
+                            dateString = "Today";
+                        } else if(currentCalendar.get(Calendar.DAY_OF_YEAR)-1 == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
+                            dateString = "Yesterday";
+                        } else {
+                            dateString = Utils.formatDateWithoutYear("" + sectionHeader.getHeaderTitle());
+                        }
                     } else {
                         dateString = Utils.formatDate(""+sectionHeader.getHeaderTitle());
                     }
 
                     headerField.setText(dateString);
-                    totalAmountField.setText(Utils.addRupeeIcon(Utils.round(sectionHeader.getAmount(), 2)));
+                    totalAmountField.setText(getResources().getString(R.string.inr) + " "+Utils.round(sectionHeader.getAmount(), 2));
                 }
             }
             return v;
