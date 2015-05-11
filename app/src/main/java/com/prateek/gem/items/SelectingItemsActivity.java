@@ -12,12 +12,15 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.prateek.gem.AppConstants;
@@ -50,6 +53,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
     private RecyclerView vCategoriesList = null;
     private TextView vEmptyView = null;
     private TextView vStatusText = null;
+    private EditText searchItems = null;
 
     private LinearLayoutManager mCategoryLayoutManager;
     private RecyclerView.LayoutManager mItemLayoutManager;
@@ -91,6 +95,8 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
         vCategoriesList = (RecyclerView) findViewById(R.id.vCategories);
         vEmptyView = (TextView) findViewById(android.R.id.text1);
         vStatusText = (TextView) findViewById(R.id.vStatusText);
+        searchItems = (EditText) findViewById(R.id.searchItems);
+        searchItems.setVisibility(View.VISIBLE);
         vStatusText.setOnClickListener(this);
 
         vItemsList.setHasFixedSize(true);
@@ -136,6 +142,35 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
                         Utils.toggleVisibility(vAddItemButton, true);
                     }
                     isActionButtonHidden = true;
+                }
+            }
+        });
+
+        searchItems.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                DebugLogger.message("search string .."+s.toString());
+                DebugLogger.message(DBImpl.getItemsLike(s.toString()));
+                ArrayList<Items> items = DBImpl.getItemsLike(s.toString());
+                if(items.size() > 0) {
+                    if(mItemsAdapter == null) {
+                        mItemsAdapter = new ItemsAdapter(this);
+                        vItemsList.setAdapter(mItemsAdapter);
+                        mItemsAdapter.setSelectedPositions(alreadySelectedItems);
+                    }
+                    mItemsAdapter.setDataset(items);
+                    vItemsList.setVisibility(View.VISIBLE);
+                    vEmptyView.setVisibility(View.GONE);
                 }
             }
         });

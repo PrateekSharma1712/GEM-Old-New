@@ -9,6 +9,7 @@ import com.prateek.gem.AppConstants;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.Group;
+import com.prateek.gem.model.Item;
 import com.prateek.gem.model.Items;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.model.SettlementObject;
@@ -488,6 +489,24 @@ public class DBImpl extends DB {
 
         return result;
 
+    }
+
+    public static ArrayList<Items> getItemsLike(String like) {
+        ArrayList<Items> items = new ArrayList<>();
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM "+TItems.TITEMS + " WHERE "+TItems.ITEM_NAME + " LIKE '%" + like + "%'", null);
+        if(cursor.moveToFirst()) {
+            do {
+                Items item = new Items();
+                item.setItemName(cursor.getString(cursor.getColumnIndex(TItems.ITEM_NAME)));
+                item.setCategory(cursor.getString(cursor.getColumnIndex(TItems.CATEGORY)));
+                item.setIdServer(cursor.getInt(cursor.getColumnIndex(TItems.ITEM_ID_SERVER)));
+                item.setGroupFK(cursor.getInt(cursor.getColumnIndex(TItems.GROUP_FK)));
+                item.setId(cursor.getInt(cursor.getColumnIndex(TItems.ITEM_ID)));
+                items.add(item);
+            } while(cursor.moveToNext());
+        }
+
+        return items;
     }
     
 }

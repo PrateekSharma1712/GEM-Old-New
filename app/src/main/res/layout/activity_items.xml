@@ -5,23 +5,44 @@
     android:layout_height="match_parent"
     tools:context="com.prateek.gem.groups.MainLandingScreen">
 
-    <TextView
-        android:id="@+id/vStatusText"
+    <RelativeLayout
+        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/base"
-        android:padding="10dp"
-        android:visibility="gone"
-        android:elevation="2dp"
-        android:text="@string/tap_to_view_select_item"
-        android:textColor="@color/theme_default_icons"
-        android:layout_below="@+id/vToolbar"
-        android:background="@color/dividerColor"/>
+        android:layout_below="@+id/vToolbar">
+
+        <TextView
+            android:id="@+id/vStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dividerColor"
+            android:elevation="2dp"
+            android:padding="10dp"
+            android:text="@string/tap_to_view_select_item"
+            android:textColor="@color/theme_default_icons"
+            android:textSize="@dimen/base"
+
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/searchItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_default_primary"
+            android:elevation="2dp"
+            android:padding="10dp"
+            android:hint="@string/search"
+            android:textColor="@color/theme_default_icons"
+            android:textSize="@dimen/base"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/vStatusText">
+        android:layout_below="@+id/info">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,18 +65,18 @@
                     android:id="@+id/vItems"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"
+                    android:background="@android:color/white"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:background="@android:color/white" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@android:id/text1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/no"
                     android:gravity="center"
-                    android:visibility="gone"/>
+                    android:text="@string/no"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
