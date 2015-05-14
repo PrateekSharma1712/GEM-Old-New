@@ -65,8 +65,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             holder.vActionImage.setColorFilter(AppDataManager.getThemePrimaryTextColor());
         } else {
             if (selectedPositions.valueAt(selectedPositions.indexOfKey(item.getIdServer()))) {
-                holder.vItemName.setTextColor(AppDataManager.getThemeSecondaryTextColor());
-                holder.vActionImage.setColorFilter(AppDataManager.getThemeSecondaryTextColor());
+                holder.vItemName.setTextColor(AppDataManager.getThemeDisabledColor());
+                holder.vActionImage.setColorFilter(AppDataManager.getThemeDisabledColor());
             } else {
                 holder.vItemName.setTextColor(AppDataManager.getThemePrimaryTextColor());
                 holder.vActionImage.setColorFilter(AppDataManager.getThemePrimaryTextColor());

@@ -176,6 +176,10 @@ public class AppDataManager {
         return appContext.getResources().getColor(R.color.theme_default_text_secondary);
     }
 
+    public static int getThemeDisabledColor() {
+        return appContext.getResources().getColor(R.color.theme_default_text_secondary);
+    }
+
     public static int getThemeBackground() {
         return appContext.getResources().getColor(R.color.theme_background);
     }

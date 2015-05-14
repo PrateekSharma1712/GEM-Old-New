@@ -14,6 +14,7 @@ import com.prateek.gem.model.Member;
 import com.prateek.gem.model.SettlementObject;
 import com.prateek.gem.model.Users;
 import com.prateek.gem.utils.AppDataManager;
+import com.prateek.gem.utils.Utils;
 
 public class App extends Application {
 
@@ -36,6 +37,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+
+        Utils.init(getApplicationContext());
     }
 
     public List<Group> getAllGroups() {

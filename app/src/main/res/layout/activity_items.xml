@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.prateek.gem.groups.MainLandingScreen">
+    tools:context="com.prateek.gem.items.SelectingItemsActivity">
 
     <RelativeLayout
         android:id="@+id/info"
@@ -28,13 +28,20 @@
             android:id="@+id/searchItems"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/theme_default_primary"
+            android:background="@color/theme_default_icons"
             android:elevation="2dp"
-            android:padding="10dp"
-            android:hint="@string/search"
-            android:textColor="@color/theme_default_icons"
+            android:padding="5dp"
+            android:hint="@string/search_item"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/base"
-            android:visibility="gone" />
+            android:drawableRight="@drawable/ic_action_content_remove"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/hLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/theme_default_primary" />
 
     </RelativeLayout>
 
@@ -56,6 +63,7 @@
                 android:layout_weight="0.4" />
 
             <RelativeLayout
+                android:id="@+id/itemsContainer"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"

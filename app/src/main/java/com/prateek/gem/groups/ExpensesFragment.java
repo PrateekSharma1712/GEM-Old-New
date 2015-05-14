@@ -38,6 +38,7 @@ import com.prateek.gem.services.MyDBService;
 import com.prateek.gem.utils.CreateExcel;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.AddExpenseActivity;
+import com.prateek.gem.views.ExpenseDetailActivity;
 import com.prateek.gem.views.GraphActivity;
 import com.prateek.gem.views.HisabActivity;
 import com.prateek.gem.views.MainActivity;
@@ -179,6 +180,7 @@ public class ExpensesFragment extends Fragment {
                     final ImageView expanderImage = (ImageView) v.findViewById(R.id.expanderImage);
                     final Button deleteExpense = (Button) v.findViewById(R.id.deleteExpense);
                     final Button editExpense = (Button) v.findViewById(R.id.editExpense);
+                    final TextView expenseDetails = (TextView) v.findViewById(R.id.expenseDetails);
                     final JSONArray array;
                     String participantsString = "";
                     try{
@@ -226,6 +228,17 @@ public class ExpensesFragment extends Fragment {
                         public void onClick(View v) {
                             editExpense(expense);
                             System.out.println("Edit Expense ID"+expense.getExpenseId());
+                        }
+                    });
+
+                    expenseDetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), ExpenseDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("expense", expense);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
                         }
                     });
                 }

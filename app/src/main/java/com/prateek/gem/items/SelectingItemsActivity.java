@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.prateek.gem.AppConstants;
@@ -54,6 +56,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
     private TextView vEmptyView = null;
     private TextView vStatusText = null;
     private EditText searchItems = null;
+    private View hline = null;
 
     private LinearLayoutManager mCategoryLayoutManager;
     private RecyclerView.LayoutManager mItemLayoutManager;
@@ -74,6 +77,9 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
     private boolean isActionButtonHidden = false;
     private String alreadySelectedItems = null;
     private Context context = null;
+    private LinearLayout.LayoutParams categoryParams = null;
+    private LinearLayout.LayoutParams itemsParams = null;
+    private RelativeLayout itemsContainer = null;
 
     @Override
     protected int getLayoutResource() {
@@ -93,10 +99,13 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
         vAddItemButton.setOnClickListener(this);
         vItemsList = (RecyclerView) findViewById(R.id.vItems);
         vCategoriesList = (RecyclerView) findViewById(R.id.vCategories);
+        itemsContainer = (RelativeLayout) findViewById(R.id.itemsContainer);
         vEmptyView = (TextView) findViewById(android.R.id.text1);
         vStatusText = (TextView) findViewById(R.id.vStatusText);
         searchItems = (EditText) findViewById(R.id.searchItems);
+        hline = findViewById(R.id.hLine);
         searchItems.setVisibility(View.VISIBLE);
+
         vStatusText.setOnClickListener(this);
 
         vItemsList.setHasFixedSize(true);
@@ -127,6 +136,9 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
             runActionMode();
         }
 
+        categoryParams = (LinearLayout.LayoutParams) vCategoriesList.getLayoutParams();
+        itemsParams = (LinearLayout.LayoutParams) itemsContainer.getLayoutParams();
+
         vItemsList.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -143,6 +155,25 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
                     }
                     isActionButtonHidden = true;
                 }
+            }
+        });
+
+        searchItems.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (searchItems.getRight() - searchItems.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        searchItems.setText("");
+
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
@@ -163,7 +194,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
                 DebugLogger.message(DBImpl.getItemsLike(s.toString()));
                 ArrayList<Items> items = DBImpl.getItemsLike(s.toString());
                 if(items.size() > 0) {
-                    if(mItemsAdapter == null) {
+                    if (mItemsAdapter == null) {
                         mItemsAdapter = new ItemsAdapter(this);
                         vItemsList.setAdapter(mItemsAdapter);
                         mItemsAdapter.setSelectedPositions(alreadySelectedItems);
@@ -171,7 +202,25 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
                     mItemsAdapter.setDataset(items);
                     vItemsList.setVisibility(View.VISIBLE);
                     vEmptyView.setVisibility(View.GONE);
+                } else {
+                    vItemsList.setVisibility(View.GONE);
+                    vEmptyView.setVisibility(View.VISIBLE);
+                    vEmptyView.setText("No items matching '"+s.toString()+"'");
+
                 }
+
+                if(s.toString().isEmpty()) {
+                    categoryParams.weight = 0.4f;
+                    vCategoriesList.setLayoutParams(categoryParams);
+                    itemsParams.weight = 0.6f;
+                    itemsContainer.setLayoutParams(itemsParams);
+                } else {
+                    categoryParams.weight = 0;
+                    vCategoriesList.setLayoutParams(categoryParams);
+                    itemsParams.weight = 1;
+                    itemsContainer.setLayoutParams(itemsParams);
+                }
+
             }
         });
 
@@ -242,6 +291,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
 
     private void openDialog() {
         ConfirmationDialog mcd = new ConfirmationDialog();
+        mcd.setOnModeConfirmListener(this);
         Bundle bundle = new Bundle();
         bundle.putString(ConfirmationDialog.TITLE, getString(R.string.addGroup));
         bundle.putInt(AppConstants.ConfirmConstants.CONFIRM_KEY, AppConstants.ConfirmConstants.ITEM_ADD);
@@ -260,7 +310,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
             inflater.inflate( R.menu.add_member_menu, menu );
             MenuItem item = menu.findItem(R.id.menu_search);
             item.setVisible(false);
-            Utils.toggleVisibility(vAddItemButton, true);
+            //Utils.toggleVisibility(vAddItemButton, true);
             vStatusText.setVisibility(View.VISIBLE);
             return false;
         }
@@ -286,7 +336,7 @@ public class SelectingItemsActivity extends MainActivity implements RecyclerView
             } else {
                 actionMode.finish();
                 mSelectionMode = null;
-                Utils.toggleVisibility(vAddItemButton, true);
+                //Utils.toggleVisibility(vAddItemButton, true);
                 vStatusText.setVisibility(View.GONE);
             }
 

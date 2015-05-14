@@ -1,5 +1,8 @@
 package com.prateek.gem.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +11,7 @@ import java.util.List;
 import com.prateek.gem.App;
 import com.prateek.gem.utils.Utils;
 
-public class ExpenseOject implements Item,Serializable{
+public class ExpenseOject implements Item,Serializable, Parcelable{
 
 	/**
 	 * 
@@ -202,4 +205,48 @@ public class ExpenseOject implements Item,Serializable{
 		Collections.sort(expenses, new DateComparator());
 		return expenses;
 	}
+
+    public ExpenseOject(Parcel in) {
+        readFromParcel(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ExpenseOject> CREATOR = new Creator<ExpenseOject>() {
+        public ExpenseOject createFromParcel(Parcel in) {
+            return new ExpenseOject(in);
+        }
+
+        public ExpenseOject[] newArray(int size) {
+            return new ExpenseOject[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel destination, int flags) {
+        destination.writeInt(expenseId);
+        destination.writeInt(expenseIdServer);
+        destination.writeLong(date);
+        destination.writeFloat(amount);
+        destination.writeFloat(share);
+        destination.writeString(item);
+        destination.writeString(expenseBy);
+        destination.writeString(participants);
+        destination.writeInt(groupId);
+    }
+
+    public void readFromParcel(Parcel in) {
+        expenseId = in.readInt();
+        expenseIdServer = in.readInt();
+        date = in.readLong();
+        amount = in.readFloat();
+        share = in.readFloat();
+        item = in.readString();
+        expenseBy = in.readString();
+        participants = in.readString();
+        groupId = in.readInt();
+    }
 }

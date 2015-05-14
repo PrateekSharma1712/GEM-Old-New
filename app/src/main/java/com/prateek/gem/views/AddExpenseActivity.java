@@ -78,6 +78,11 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
+        if(expenseFor.getText().toString().isEmpty()) {
+            clearItems.setVisibility(View.GONE);
+        } else {
+            clearItems.setVisibility(View.VISIBLE);
+        }
         setToolbar("Add Expense", R.drawable.ic_group);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -271,6 +276,7 @@ public class AddExpenseActivity extends MainActivity implements OnClickListener,
         case R.id.clearItems:
             expenseFor.setHint(R.string.select_item);
             expenseFor.setText("");
+            clearItems.setVisibility(View.GONE);
             break;
 
 

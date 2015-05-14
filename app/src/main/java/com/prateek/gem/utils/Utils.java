@@ -28,6 +28,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,7 +42,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -49,6 +53,7 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
@@ -64,6 +69,12 @@ import com.prateek.gem.widgets.MyToast;
 public class Utils {
 
     private static float xFactor = -1;
+
+    public static void init(Context context) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int valueInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, metrics);
+        xFactor = (float) valueInPx / 100;
+    }
 
     public enum ColorFilter{
         PRIMARY, PRIMARYDARK, ACCENT
@@ -740,6 +751,32 @@ public class Utils {
         return inFromBottom;
     }
 
+    public static Animation inFromLeftAnimation(long duration) {
+
+        Animation inFromBottom = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, -1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f);
+        inFromBottom.setDuration(duration);
+
+        inFromBottom.setInterpolator(new AccelerateInterpolator());
+        return inFromBottom;
+    }
+
+    public static Animation outFromLeftAnimation(long duration) {
+
+        Animation inFromBottom = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f);
+        inFromBottom.setDuration(duration);
+
+        inFromBottom.setInterpolator(new AccelerateInterpolator());
+        return inFromBottom;
+    }
+
     public static void openConfirmationDialog(ActionBarActivity context, String itemNamesString, boolean withButtons, OnModeConfirmListener onModeConfirmListener) {
         ConfirmationDialog mcd = new ConfirmationDialog();
         mcd.setOnModeConfirmListener(onModeConfirmListener);
@@ -911,5 +948,25 @@ public class Utils {
      */
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    public static float getTextHeight(TextView textView, String text) {
+        Rect bounds = new Rect();
+        Paint textPaint = textView.getPaint();
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+        int height = bounds.height();
+        int width = bounds.width();
+
+        DebugLogger.message("width" + width);
+        DebugLogger.message("height" + height);
+
+        return height;
+    }
+
+    public static float getTextWidth(TextView textView, String text) {
+        Rect bounds = new Rect();
+        Paint textPaint = textView.getPaint();
+        textPaint.getTextBounds(text, 0, text.length(), bounds);
+        return bounds.width();
     }
 }

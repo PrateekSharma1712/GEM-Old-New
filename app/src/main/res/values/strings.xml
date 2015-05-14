@@ -113,6 +113,7 @@
     <string name="deleteMember">Delete Member</string>
     <string name="admindeletemembers">Only admin has right to delete members.</string>
     <string name="search">Search</string>
+    <string name="search_item">Search item</string>
     <string name="sync">Sync</string>
     <string name="groups_new_groupname">Enter New Group Name</string>
     <string name="title_activity_expense_searchable">Expense Search</string>
@@ -172,5 +173,9 @@
     <string name="takephoto">Take Photo</string>
     <string name="login_info">Login to GEM if already registered. If new user, tap on register. Login is required to keep your data secure.</string>
     <string name="group_info">Tap on group to add expense, member, items. Or tap on plus to add a new group.</string>
+
+    <string name="spentby">Spent by</string>
+    <string name="spentfor">Spent for</string>
+    <string name="labelParticipants">Participants</string>
 
 </resources>

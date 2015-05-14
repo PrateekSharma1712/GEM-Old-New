@@ -61,7 +61,7 @@ public class MainLandingScreen extends MainActivity {
 
         vGroupsList.setHasFixedSize(true);
         vGroupsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        vGroupsList.addItemDecoration(new BottomItemDecorator(Utils.dpToPixels(8), Utils.dpToPixels(4)));
+        //vGroupsList.addItemDecoration(new BottomItemDecorator(Utils.dpToPixels(8), Utils.dpToPixels(4)));
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
