@@ -112,9 +112,14 @@
                 android:value="com.prateek.gem.views.ExpensesActivity" />
         </activity>
 
-        <activity android:name=".views.ExpenseDetailActivity" />
+        <activity android:name=".views.ExpenseDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.prateek.gem.views.ExpensesActivity" />
+        </activity>
 
-        <activity android:name=".items.SelectingItemsActivity"
+        <activity
+            android:name=".items.SelectingItemsActivity"
             android:windowSoftInputMode="adjustResize">
 
         </activity>

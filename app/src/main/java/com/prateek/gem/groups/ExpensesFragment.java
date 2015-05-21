@@ -13,6 +13,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,26 +27,16 @@ import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
 import com.prateek.gem.FullFlowService;
 import com.prateek.gem.R;
-import com.prateek.gem.SyncService;
-import com.prateek.gem.items.ItemsActivity;
+import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
-import com.prateek.gem.model.Group;
 import com.prateek.gem.model.Item;
 import com.prateek.gem.model.SectionHeaderObject;
 import com.prateek.gem.persistence.DB;
-import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.services.MyDBService;
-import com.prateek.gem.utils.CreateExcel;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.AddExpenseActivity;
 import com.prateek.gem.views.ExpenseDetailActivity;
-import com.prateek.gem.views.GraphActivity;
-import com.prateek.gem.views.HisabActivity;
-import com.prateek.gem.views.MainActivity;
-import com.prateek.gem.views.MembersActivity;
 import com.prateek.gem.views.MyProgressDialog;
-import com.prateek.gem.views.MyStatsActivity;
-import com.prateek.gem.views.PieChartActivity;
 import com.prateek.gem.widgets.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
@@ -53,12 +44,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import jxl.write.WriteException;
 
 /**
  * Created by prateek on 4/5/15.
@@ -101,7 +89,9 @@ public class ExpensesFragment extends Fragment {
         dbServiceIntent = new Intent(getActivity(), MyDBService.class);
         dbServiceIntent.putExtra(AppConstants.SERVICE_ID, AppConstants.ServiceIDs.GET_EXPENSES);
         dbServiceIntent.putExtra(DB.TGroups.GROUPID_SERVER, currentGroupId);
-        
+
+        context.startService(dbServiceIntent);
+
         return rootView;
     }
 
@@ -113,7 +103,6 @@ public class ExpensesFragment extends Fragment {
         vAddExpenseButton = (FloatingActionButton) view.findViewById(R.id.vAddExpenseButton);
         addExpenseIntent = new Intent(getActivity(), AddExpenseActivity.class);
 
-
         deleteExpenseReceiver = new DeleteExpenseRecevier();
         deleteExpenseIntentFilter = new IntentFilter(DeleteExpenseRecevier.DELETEEXPENSESUCCESSRECEIVER);
         deleteExpenseIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -121,18 +110,16 @@ public class ExpensesFragment extends Fragment {
         vAddExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!App.getInstance().getItems().isEmpty()){
+                if (!App.getInstance().getItems().isEmpty()) {
                     startActivity(addExpenseIntent);
-                }else{
+                } else {
                     Utils.showToast(context, getString(R.string.addItemsMessage));
                 }
             }
         });
-
-
     }
 
-    public class ExpensesAdapter extends BaseAdapter {
+    public class ExpensesAdapter extends BaseAdapter{
 
         private List<Item> items;
         LayoutInflater li;
@@ -144,6 +131,11 @@ public class ExpensesFragment extends Fragment {
             li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             System.out.println("items");
             System.out.println(items);
+        }
+
+        public void setExpenses(List<Item> items) {
+            this.items = items;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -161,119 +153,176 @@ public class ExpensesFragment extends Fragment {
             return position;
         }
 
+        class HeaderHolder {
+
+            private TextView headerField, totalAmountField;
+            private View emptyViewTop;
+            private View view = null;
+
+            HeaderHolder(View view) {
+                this.view = view;
+                headerField = (TextView) this.view.findViewById(R.id.groupByField);
+                totalAmountField = (TextView) this.view.findViewById(R.id.amount);
+                emptyViewTop = this.view.findViewById(R.id.emptyViewTop);
+            }
+        }
+
+        class SectionHolder {
+
+            private View view = null;
+            private TextView expenseBy, expenseAmount, expenseItem, expenseDetails;
+            private LinearLayout expenseParticipants, expenseDetailsLayout;
+
+            SectionHolder(View view) {
+                this.view = view;
+                expenseBy = (TextView) view.findViewById(R.id.expenseBy);
+                expenseAmount = (TextView) view.findViewById(R.id.expenseAmount);
+                expenseItem = (TextView) view.findViewById(R.id.expenseItem);
+                expenseDetails = (TextView) view.findViewById(R.id.expenseDetails);
+                expenseParticipants = (LinearLayout) view.findViewById(R.id.expenseParticipants);
+                expenseDetailsLayout = (LinearLayout) view.findViewById(R.id.expenseDetailsLayout);
+            }
+        }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
+            HeaderHolder headerHolder = null;
+            SectionHolder sectionHolder = null;
             final Item item = items.get(position);
-            if(item != null){
-                if(item.isSection()){
-                    final ExpenseOject expense = (ExpenseOject) item;
+            if(v == null) { // if view is null
+                if(item.isSection()) {
                     v = li.inflate(R.layout.list_element_expense_view, null);
-                    final TextView expenseBy = (TextView) v.findViewById(R.id.expenseBy);
-                    expenseBy.setText(expense.getExpenseBy());
-                    final TextView expenseAmount = (TextView) v.findViewById(R.id.expenseAmount);
-                    expenseAmount.setText(getResources().getString(R.string.inr) + " " +expense.getAmount());
-                    final TextView expenseItem = (TextView) v.findViewById(R.id.expenseItem);
-                    expenseItem.setText(expense.getItem());
-                    final LinearLayout expenseParticipants = (LinearLayout) v.findViewById(R.id.expenseParticipants);
-                    final LinearLayout expenseDetailsLayout = (LinearLayout) v.findViewById(R.id.expenseDetailsLayout);
-                    final ImageView expanderImage = (ImageView) v.findViewById(R.id.expanderImage);
-                    final Button deleteExpense = (Button) v.findViewById(R.id.deleteExpense);
-                    final Button editExpense = (Button) v.findViewById(R.id.editExpense);
-                    final TextView expenseDetails = (TextView) v.findViewById(R.id.expenseDetails);
-                    final JSONArray array;
-                    String participantsString = "";
-                    try{
-                        array = new JSONArray(expense.getParticipants());
-                        for(int i = 0;i<array.length();i++){
-                            participantsString += array.getJSONObject(i).getString(AppConstants.JSONConstants.MEMBERNAME);
-                            participantsString += ", ";
-                        }
-                    }catch(JSONException e){
-                        e.printStackTrace();
-                    }
-                    TextView textView = new TextView(context);
-                    textView.setText(participantsString.subSequence(0, participantsString.length()-2));
-                    textView.setTextColor(getResources().getColor(android.R.color.black));
-                    textView.setSingleLine(true);
-                    textView.setTextSize(18);
-                    expenseParticipants.addView(textView);
-
-                    expanderImage.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-                            if(expenseDetailsLayout.getVisibility() == View.GONE){
-                                expenseDetailsLayout.setVisibility(View.VISIBLE);
-                                expanderImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_navigation_collapse));
-                            }else{
-                                expenseDetailsLayout.setVisibility(View.GONE);
-                                expanderImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_navigation_expand));
-                            }
-                        }
-                    });
-
-                    deleteExpense.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            deleteExpense(expense);
-                            System.out.println("Delete Expense ID"+expense.getExpenseId());
-                        }
-                    });
-
-                    editExpense.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            editExpense(expense);
-                            System.out.println("Edit Expense ID"+expense.getExpenseId());
-                        }
-                    });
-
-                    expenseDetails.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), ExpenseDetailActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelable("expense", expense);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        }
-                    });
-                }
-                else{
-                    SectionHeaderObject sectionHeader = (SectionHeaderObject) item;
+                    sectionHolder = new SectionHolder(v);
+                    v.setTag(sectionHolder);
+                } else {
                     v = li.inflate(R.layout.list_element_header_view, null);
-                    final TextView headerField = (TextView) v.findViewById(R.id.groupByField);
-                    final TextView totalAmountField = (TextView) v.findViewById(R.id.amount);
-                    final View emptyViewTop = v.findViewById(R.id.emptyViewTop);
-                    if(position != 0) {
-                        emptyViewTop.setVisibility(View.VISIBLE);
-                    } else {
-                        emptyViewTop.setVisibility(View.GONE);
-                    }
-
-                    String dateString = "";
-                    if(currentCalendar.get(Calendar.YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.YEAR)) {
-                        if(currentCalendar.get(Calendar.DAY_OF_YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
-                            dateString = "Today";
-                        } else if(currentCalendar.get(Calendar.DAY_OF_YEAR)-1 == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
-                            dateString = "Yesterday";
-                        } else {
-                            dateString = Utils.formatDateWithoutYear("" + sectionHeader.getHeaderTitle());
-                        }
-                    } else {
-                        dateString = Utils.formatDate(""+sectionHeader.getHeaderTitle());
-                    }
-
-                    headerField.setText(dateString);
-                    totalAmountField.setText(getResources().getString(R.string.inr) + " "+Utils.round(sectionHeader.getAmount(), 2));
+                    headerHolder = new HeaderHolder(v);
+                    v.setTag(headerHolder);
                 }
+            } else {
+                if (v.getTag() instanceof SectionHolder) {
+                    sectionHolder = (SectionHolder) v.getTag();
+                } else {
+                    headerHolder = (HeaderHolder) v.getTag();
+                }
+            }
+
+            // will run all time
+            if(item.isSection()) {
+
+                final ExpenseOject expense = (ExpenseOject) item;
+
+                if(sectionHolder == null) {
+                    v = li.inflate(R.layout.list_element_expense_view, null);
+                    sectionHolder = new SectionHolder(v);
+                    v.setTag(sectionHolder);
+                }
+
+                sectionHolder.expenseBy.setText(expense.getExpenseBy());
+
+                sectionHolder.expenseAmount.setText(getResources().getString(R.string.inr) + " " + expense.getAmount());
+
+                sectionHolder.expenseItem.setText(expense.getItem());
+
+                /*final ImageView expanderImage = (ImageView) v.findViewById(R.id.expanderImage);
+                final Button deleteExpense = (Button) v.findViewById(R.id.deleteExpense);
+                final Button editExpense = (Button) v.findViewById(R.id.editExpense);*/
+
+                final JSONArray array;
+                String participantsString = "";
+                try {
+                    array = new JSONArray(expense.getParticipants());
+                    for (int i = 0; i < array.length(); i++) {
+                        participantsString += array.getJSONObject(i).getString(AppConstants.JSONConstants.MEMBERNAME);
+                        participantsString += ", ";
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                TextView textView = new TextView(context);
+                textView.setText(participantsString.subSequence(0, participantsString.length() - 2));
+                textView.setTextColor(getResources().getColor(android.R.color.black));
+                textView.setSingleLine(true);
+                textView.setTextSize(18);
+                sectionHolder.expenseParticipants.addView(textView);
+
+                /*expanderImage.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View arg0) {
+                        if (expenseDetailsLayout.getVisibility() == View.GONE) {
+                            expenseDetailsLayout.setVisibility(View.VISIBLE);
+                            expanderImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_navigation_collapse));
+                        } else {
+                            expenseDetailsLayout.setVisibility(View.GONE);
+                            expanderImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_navigation_expand));
+                        }
+                    }
+                });
+
+                deleteExpense.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        deleteExpense(expense);
+                        System.out.println("Delete Expense ID" + expense.getExpenseId());
+                    }
+                });
+
+                editExpense.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        editExpense(expense);
+                        System.out.println("Edit Expense ID" + expense.getExpenseId());
+                    }
+                });*/
+
+                sectionHolder.expenseDetails.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ExpenseDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("expense", expense);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                SectionHeaderObject sectionHeader = (SectionHeaderObject) item;
+
+                if(headerHolder == null) {
+                    v = li.inflate(R.layout.list_element_header_view, null);
+                    headerHolder = new HeaderHolder(v);
+                    v.setTag(headerHolder);
+                }
+
+                if (position != 0) {
+                    headerHolder.emptyViewTop.setVisibility(View.VISIBLE);
+                } else {
+                    headerHolder.emptyViewTop.setVisibility(View.GONE);
+                }
+
+                String dateString = "";
+                if (currentCalendar.get(Calendar.YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.YEAR)) {
+                    if (currentCalendar.get(Calendar.DAY_OF_YEAR) == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
+                        dateString = "Today";
+                    } else if (currentCalendar.get(Calendar.DAY_OF_YEAR) - 1 == sectionHeader.getHeaderTitleCalendar().get(Calendar.DAY_OF_YEAR)) {
+                        dateString = "Yesterday";
+                    } else {
+                        dateString = Utils.formatDateWithoutYear("" + sectionHeader.getHeaderTitle());
+                    }
+                } else {
+                    dateString = Utils.formatDate("" + sectionHeader.getHeaderTitle());
+                }
+
+                headerHolder.headerField.setText(dateString);
+                headerHolder.totalAmountField.setText(getResources().getString(R.string.inr) + " " + Utils.round(sectionHeader.getAmount(), 2));
+
             }
             return v;
         }
-
     }
 
     public void deleteExpense(final ExpenseOject expense){
@@ -344,13 +393,16 @@ public class ExpensesFragment extends Fragment {
 
     public void populateExpenses() {
         if(App.getInstance().getExpensesList() != null && App.getInstance().getExpensesList().size() != 0){
-            System.out.println("Expenses"+ App.getInstance().getExpensesList());
+            System.out.println("Expenses" + App.getInstance().getExpensesList());
             expenses.setVisibility(View.VISIBLE);
             noExpensesView.setVisibility(View.GONE);
             instructionsView.setVisibility(View.GONE);
-
-            expenseAdapter = new ExpensesAdapter(Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList()));
-            expenses.setAdapter(expenseAdapter);
+            if(expenseAdapter == null) {
+                expenseAdapter = new ExpensesAdapter(Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList()));
+                expenses.setAdapter(expenseAdapter);
+            } else {
+                expenseAdapter.setExpenses(Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList()));
+            }
         }
         else{
             instructionsView.setVisibility(View.VISIBLE);
@@ -397,15 +449,7 @@ public class ExpensesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         System.out.println("RESUME");
-        context.startService(dbServiceIntent);
-        //((MainActivity)context).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*if(App.getInstance().getExpensesList() != null){
-            System.out.println("inside");
-            System.out.println("starting service"+currentGroupId);
-            context.startService(dbServiceIntent);
-            //populateExpenses();
-        }*/
-
+        populateExpenses();
     }
 
     public class DeleteExpenseRecevier extends BroadcastReceiver{

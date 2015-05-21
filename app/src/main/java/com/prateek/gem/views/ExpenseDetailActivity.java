@@ -37,6 +37,8 @@ public class ExpenseDetailActivity extends MainActivity implements ScreenContain
         context = this;
         expense = getIntent().getExtras().getParcelable("expense");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if(expense != null) {
             date = (TextView) findViewById(R.id.date);
             spentBy = (TextView) findViewById(R.id.spentBy);
@@ -67,6 +69,12 @@ public class ExpenseDetailActivity extends MainActivity implements ScreenContain
             participants.show(8, this);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setToolbar("Expense Detail", R.drawable.ic_group);
     }
 
     @Override

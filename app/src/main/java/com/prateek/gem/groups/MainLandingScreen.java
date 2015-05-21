@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
@@ -36,6 +40,7 @@ public class MainLandingScreen extends MainActivity {
 
     private RecyclerView.LayoutManager mLayoutManager;
     private AddFloatingActionButton vAddGroupButton;
+    private TextView infoText;
 
     private Intent mAddGroupScreenIntent = null;
     private Intent mExpensesScreenIntent = null;
@@ -58,6 +63,7 @@ public class MainLandingScreen extends MainActivity {
 
         vAddGroupButton = (AddFloatingActionButton) findViewById(R.id.vAddGroupButton);
         vGroupsList = (RecyclerView) findViewById(R.id.vGroups);
+        infoText = (TextView) findViewById(R.id.infoText);
 
         vGroupsList.setHasFixedSize(true);
         vGroupsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
@@ -88,6 +94,33 @@ public class MainLandingScreen extends MainActivity {
         successIntentFilter = new IntentFilter(AppConstants.SUCCESS_RECEIVER);
         successIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
         successReceiver = new MySuccessReceiver();
+
+        vGroupsList.setOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
+    }
+
+    private void hideViews() {
+        mToolBar.animate().translationY(-mToolBar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+        infoText.animate().translationY(-infoText.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) vAddGroupButton.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        vAddGroupButton.animate().translationY(vAddGroupButton.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showViews() {
+        mToolBar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+        infoText.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+        vAddGroupButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     @Override
@@ -204,5 +237,34 @@ public class MainLandingScreen extends MainActivity {
     protected void onDestroy() {
         super.onDestroy();
         DBImpl.closeDatabase();
+    }
+
+    abstract class HidingScrollListener extends RecyclerView.OnScrollListener {
+        private static final int HIDE_THRESHOLD = 20;
+        private int scrolledDistance = 0;
+        private boolean controlsVisible = true;
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            if (scrolledDistance > HIDE_THRESHOLD && controlsVisible) {
+                onHide();
+                controlsVisible = false;
+                scrolledDistance = 0;
+            } else if (scrolledDistance < -HIDE_THRESHOLD && !controlsVisible) {
+                onShow();
+                controlsVisible = true;
+                scrolledDistance = 0;
+            }
+
+            if((controlsVisible && dy>0) || (!controlsVisible && dy<0)) {
+                scrolledDistance += dy;
+            }
+        }
+
+        public abstract void onHide();
+        public abstract void onShow();
+
     }
 }

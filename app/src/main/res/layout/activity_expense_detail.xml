@@ -19,15 +19,12 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/detail_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_head"
                 android:text="@string/label_date" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor" />
+            <View style="@style/detail_hline" />
 
             <TextView
                 android:id="@+id/date"
@@ -37,75 +34,63 @@
                 android:text="@string/date" />
 
             <TextView
+                style="@style/detail_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_head"
                 android:text="@string/spentby" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor" />
+            <View style="@style/detail_hline" />
 
             <TextView
                 android:id="@+id/spentBy"
+                style="@style/detail_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_value"
                 android:text="@string/spentby" />
 
             <TextView
+                style="@style/detail_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_head"
                 android:text="@string/amount" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor" />
+            <View style="@style/detail_hline" />
 
             <TextView
                 android:id="@+id/amount"
+                style="@style/detail_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_value"
                 android:text="@string/amount" />
 
             <TextView
+                style="@style/detail_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_head"
                 android:text="@string/spentfor" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor" />
+            <View style="@style/detail_hline" />
 
             <com.prateek.gem.widgets.TagLayout
                 android:id="@+id/spentFor"
+                style="@style/detail_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_value"
                 android:text="@string/spentfor" />
 
             <TextView
+                style="@style/detail_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_head"
                 android:text="@string/labelParticipants" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/dividerColor" />
+            <View style="@style/detail_hline" />
 
             <com.prateek.gem.widgets.TagLayout
                 android:id="@+id/participants"
+                style="@style/detail_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/detail_value"
                 android:text="@string/spentfor" />
 
         </LinearLayout>

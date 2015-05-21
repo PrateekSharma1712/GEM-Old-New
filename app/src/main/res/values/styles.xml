@@ -230,14 +230,29 @@
 
     <style name="detail_head">
         <item name="android:layout_marginTop">5dp</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
         <item name="android:textSize">@dimen/small</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="detail_value">
-        <item name="android:padding">12dp</item>
-        <item name="android:textSize">@dimen/base</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:textSize">@dimen/small</item>
+    </style>
+
+    <style name="detail_hline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:background">@color/dividerColor</item>
     </style>
 
     <color name="android_basic_blue">#33b5e5</color>
