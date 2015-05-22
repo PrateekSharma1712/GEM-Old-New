@@ -31,16 +31,13 @@ import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.Member;
 import com.prateek.gem.persistence.DB;
 import com.prateek.gem.persistence.DB.TExpenses;
-import com.prateek.gem.persistence.DB.TItems;
-import com.prateek.gem.persistence.DB.TMembers;
 import com.prateek.gem.persistence.DB.TSettlement;
 import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.services.ServiceHandler;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.views.AddExpenseActivity.AddExpenseRecevier;
 import com.prateek.gem.views.AddMembersActivity;
-import com.prateek.gem.views.AddMembersActivity.AddMemberRecevier;
-import com.prateek.gem.groups.ExpensesFragment.DeleteExpenseRecevier;
+import com.prateek.gem.groups.ExpensesFragment.DeleteExpenseReceiver;
 import com.prateek.gem.views.HisabActivity.AddSettlementRecevier;
 import com.prateek.gem.views.MembersActivity.DeleteMemberRecevier;
 
@@ -103,7 +100,7 @@ public class FullFlowService extends IntentService {
 
 	public static void ServiceDeleteExpense(Context context, int notDeleteExpense,List<NameValuePair> listArrived) {
 		expenseIntent = new Intent();
-		expenseIntent.setAction(DeleteExpenseRecevier.DELETEEXPENSESUCCESSRECEIVER);
+		expenseIntent.setAction(DeleteExpenseReceiver.DELETEEXPENSESUCCESSRECEIVER);
 		expenseIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
 		Intent intent = new Intent(context, FullFlowService.class);

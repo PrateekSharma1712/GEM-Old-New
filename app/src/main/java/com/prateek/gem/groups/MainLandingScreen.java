@@ -22,8 +22,8 @@ import com.prateek.gem.model.Group;
 import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.utils.AppDataManager;
 import com.prateek.gem.utils.AppSharedPreference;
-import com.prateek.gem.utils.BottomItemDecorator;
 import com.prateek.gem.utils.DividerItemDecoration;
+import com.prateek.gem.utils.HidingScrollListener;
 import com.prateek.gem.utils.LoadingScreen;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.AddExpenseActivity;
@@ -237,34 +237,5 @@ public class MainLandingScreen extends MainActivity {
     protected void onDestroy() {
         super.onDestroy();
         DBImpl.closeDatabase();
-    }
-
-    abstract class HidingScrollListener extends RecyclerView.OnScrollListener {
-        private static final int HIDE_THRESHOLD = 20;
-        private int scrolledDistance = 0;
-        private boolean controlsVisible = true;
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            if (scrolledDistance > HIDE_THRESHOLD && controlsVisible) {
-                onHide();
-                controlsVisible = false;
-                scrolledDistance = 0;
-            } else if (scrolledDistance < -HIDE_THRESHOLD && !controlsVisible) {
-                onShow();
-                controlsVisible = true;
-                scrolledDistance = 0;
-            }
-
-            if((controlsVisible && dy>0) || (!controlsVisible && dy<0)) {
-                scrolledDistance += dy;
-            }
-        }
-
-        public abstract void onHide();
-        public abstract void onShow();
-
     }
 }

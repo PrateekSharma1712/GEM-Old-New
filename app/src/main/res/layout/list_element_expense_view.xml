@@ -51,6 +51,7 @@
                     android:layout_marginLeft="5dp"
                     android:ellipsize="marquee"
                     android:text="@string/by"
+                    android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/theme_default_text_primary"
                     android:textSize="@dimen/small" />

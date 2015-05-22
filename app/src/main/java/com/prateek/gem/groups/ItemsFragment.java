@@ -21,6 +21,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.prateek.gem.AppConstants;
@@ -34,6 +37,7 @@ import com.prateek.gem.model.Items;
 import com.prateek.gem.persistence.DB;
 import com.prateek.gem.persistence.DBImpl;
 import com.prateek.gem.utils.AppDataManager;
+import com.prateek.gem.utils.HidingScrollListener;
 import com.prateek.gem.utils.LoadingScreen;
 import com.prateek.gem.utils.Utils;
 import com.prateek.gem.views.ExpensesActivity;
@@ -108,7 +112,8 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
         mCategoriesAdapter.toggleSelection(selectedCategoryIndex);
         //loadItems(mCategoriesAdapter.getSelectedCategory());
 
-        vItemsList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        /*vItemsList.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -126,9 +131,30 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
                     }
                 }
             }
-        });
+        });*/
 
+        vItemsList.setOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
         return rootView;
+    }
+
+    private void hideViews() {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) vAddItemButton.getLayoutParams();
+        int fabBottomMargin = lp.bottomMargin;
+        vAddItemButton.animate().translationY(vAddItemButton.getHeight()+fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
+    }
+
+    private void showViews() {
+        vAddItemButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
     }
 
     @Override
@@ -285,13 +311,14 @@ public class ItemsFragment extends Fragment implements RecyclerView.OnItemTouchL
         DebugLogger.message("category" + category);
         ArrayList<Items> items = DBImpl.getItems(AppDataManager.getCurrentGroup().getGroupIdServer(), category);
         if(items.size() > 0) {
-            if(mItemsAdapter != null) {
-                mItemsAdapter.setDataset(items);
-            } else {
+            if(mItemsAdapter == null) {
                 mItemsAdapter = new ItemsAdapter(this);
-                vItemsList.setAdapter(mItemsAdapter);
-                mItemsAdapter.setDataset(items);
+
+
             }
+            vItemsList.setAdapter(mItemsAdapter);
+            mItemsAdapter.setDataset(items);
+
             vItemsList.setVisibility(View.VISIBLE);
             vEmptyView.setVisibility(View.GONE);
         } else {

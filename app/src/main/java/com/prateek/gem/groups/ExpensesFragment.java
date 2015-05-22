@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,7 +25,6 @@ import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
 import com.prateek.gem.FullFlowService;
 import com.prateek.gem.R;
-import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.ExpenseOject;
 import com.prateek.gem.model.Item;
 import com.prateek.gem.model.SectionHeaderObject;
@@ -64,7 +61,9 @@ public class ExpensesFragment extends Fragment {
     int currentGroupId;
     MyProgressDialog pd;
     IntentFilter deleteExpenseIntentFilter;
-    DeleteExpenseRecevier deleteExpenseReceiver;
+    DeleteExpenseReceiver deleteExpenseReceiver;
+    private boolean isExpenseLoading;
+    private AsyncTask loadExpenseTask;
 
     ExpenseOject deletingExpense;
     private FloatingActionButton vAddExpenseButton = null;
@@ -95,6 +94,43 @@ public class ExpensesFragment extends Fragment {
         return rootView;
     }
 
+    private class LoadExpenseTask extends AsyncTask<Void, Void, Boolean> {
+
+        private List<Item> items;
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if(App.getInstance().getExpensesList() != null && App.getInstance().getExpensesList().size() != 0) {
+                items = Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList());
+                if(expenseAdapter == null) {
+                    expenseAdapter = new ExpensesAdapter(items);
+                }
+
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(result) {
+                expenses.setVisibility(View.VISIBLE);
+                noExpensesView.setVisibility(View.GONE);
+                instructionsView.setVisibility(View.GONE);
+                expenses.setAdapter(expenseAdapter);
+                expenseAdapter.setExpenses(items);
+            }
+            else{
+                instructionsView.setVisibility(View.VISIBLE);
+                noExpensesView.setVisibility(View.VISIBLE);
+                expenses.setVisibility(View.GONE);
+            }
+
+            isExpenseLoading = false;
+        }
+    }
+
     private void initUI(View view) {
         context = getActivity();
         expenses = (ListView) view.findViewById(R.id.expenses);
@@ -103,8 +139,8 @@ public class ExpensesFragment extends Fragment {
         vAddExpenseButton = (FloatingActionButton) view.findViewById(R.id.vAddExpenseButton);
         addExpenseIntent = new Intent(getActivity(), AddExpenseActivity.class);
 
-        deleteExpenseReceiver = new DeleteExpenseRecevier();
-        deleteExpenseIntentFilter = new IntentFilter(DeleteExpenseRecevier.DELETEEXPENSESUCCESSRECEIVER);
+        deleteExpenseReceiver = new DeleteExpenseReceiver();
+        deleteExpenseIntentFilter = new IntentFilter(DeleteExpenseReceiver.DELETEEXPENSESUCCESSRECEIVER);
         deleteExpenseIntentFilter.addCategory(Intent.CATEGORY_DEFAULT);
 
         vAddExpenseButton.setOnClickListener(new View.OnClickListener() {
@@ -175,12 +211,12 @@ public class ExpensesFragment extends Fragment {
 
             SectionHolder(View view) {
                 this.view = view;
-                expenseBy = (TextView) view.findViewById(R.id.expenseBy);
-                expenseAmount = (TextView) view.findViewById(R.id.expenseAmount);
-                expenseItem = (TextView) view.findViewById(R.id.expenseItem);
-                expenseDetails = (TextView) view.findViewById(R.id.expenseDetails);
-                expenseParticipants = (LinearLayout) view.findViewById(R.id.expenseParticipants);
-                expenseDetailsLayout = (LinearLayout) view.findViewById(R.id.expenseDetailsLayout);
+                expenseBy = (TextView) this.view.findViewById(R.id.expenseBy);
+                expenseAmount = (TextView) this.view.findViewById(R.id.expenseAmount);
+                expenseItem = (TextView) this.view.findViewById(R.id.expenseItem);
+                expenseDetails = (TextView) this.view.findViewById(R.id.expenseDetails);
+                expenseParticipants = (LinearLayout) this.view.findViewById(R.id.expenseParticipants);
+                expenseDetailsLayout = (LinearLayout) this.view.findViewById(R.id.expenseDetailsLayout);
             }
         }
 
@@ -392,24 +428,11 @@ public class ExpensesFragment extends Fragment {
     }
 
     public void populateExpenses() {
-        if(App.getInstance().getExpensesList() != null && App.getInstance().getExpensesList().size() != 0){
-            System.out.println("Expenses" + App.getInstance().getExpensesList());
-            expenses.setVisibility(View.VISIBLE);
-            noExpensesView.setVisibility(View.GONE);
-            instructionsView.setVisibility(View.GONE);
-            if(expenseAdapter == null) {
-                expenseAdapter = new ExpensesAdapter(Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList()));
-                expenses.setAdapter(expenseAdapter);
-            } else {
-                expenseAdapter.setExpenses(Utils.gatherExpenses(AppConstants.DATE_WISE, App.getInstance().getExpensesList()));
-            }
-        }
-        else{
-            instructionsView.setVisibility(View.VISIBLE);
-            noExpensesView.setVisibility(View.VISIBLE);
-            expenses.setVisibility(View.GONE);
-        }
+        isExpenseLoading = true;
+        loadExpenseTask = new LoadExpenseTask().execute();
     }
+
+
 
     public class MyResultReceiver extends BroadcastReceiver {
 
@@ -452,7 +475,7 @@ public class ExpensesFragment extends Fragment {
         populateExpenses();
     }
 
-    public class DeleteExpenseRecevier extends BroadcastReceiver{
+    public class DeleteExpenseReceiver extends BroadcastReceiver{
 
         public static final String DELETEEXPENSESUCCESSRECEIVER = "com.prateek.gem.views.AddExpenseActivity.DELETEEXPENSESUCCESSRECEIVER";
 

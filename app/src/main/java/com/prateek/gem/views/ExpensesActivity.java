@@ -14,6 +14,8 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.prateek.gem.App;
 import com.prateek.gem.AppConstants;
@@ -23,6 +25,7 @@ import com.prateek.gem.groups.ComponentsPagerAdapter;
 import com.prateek.gem.groups.ExpensesFragment;
 import com.prateek.gem.groups.ItemsFragment;
 import com.prateek.gem.groups.MainLandingScreen;
+import com.prateek.gem.groups.MembersFragment;
 import com.prateek.gem.items.ItemsActivity;
 import com.prateek.gem.logger.DebugLogger;
 import com.prateek.gem.model.SamplePagerItem;
@@ -45,23 +48,20 @@ public class ExpensesActivity extends MainActivity {
     private SlidingTabLayout mSlidingTabLayout;
     public static List<SamplePagerItem> mTabs = new ArrayList<SamplePagerItem>();
     
-    Intent membersIntent,itemsIntent,calculateIntent,graphIntent,mystatsIntent, pieChartIntent;
+    Intent itemsIntent,calculateIntent, pieChartIntent;
     SyncSuccessReceiver syncSuccessReceiver;
     IntentFilter syncDataIntentFilter;
 
     private ExpensesFragment expensesFragment;
     private ItemsFragment itemsFragment;
-    private Intent mExpensesScreenIntent;
+    private MembersFragment membersFragment;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        membersIntent = new Intent(this, MembersActivity.class);
         itemsIntent = new Intent(this, ItemsActivity.class);
         calculateIntent = new Intent(this, HisabActivity.class);
-        mystatsIntent = new Intent(this, MyStatsActivity.class);
-        graphIntent = new Intent(this, GraphActivity.class);
         pieChartIntent = new Intent(this, PieChartActivity.class);
 
         if(itemsFragment == null) {
@@ -72,9 +72,14 @@ public class ExpensesActivity extends MainActivity {
             expensesFragment = new ExpensesFragment();
         }
 
+        if(membersFragment == null) {
+            membersFragment = new MembersFragment();
+        }
+
 
         mTabs.add(new SamplePagerItem(AppConstants.EXPENSES, R.color.theme_default_icons, android.R.color.transparent, expensesFragment));
         mTabs.add(new SamplePagerItem(AppConstants.ITEMS, R.color.theme_default_icons, android.R.color.transparent, itemsFragment));
+        mTabs.add(new SamplePagerItem(AppConstants.MEMBERS, R.color.theme_default_icons, android.R.color.transparent, membersFragment));
 
         syncSuccessReceiver = new SyncSuccessReceiver();
         syncDataIntentFilter = new IntentFilter(SyncSuccessReceiver.SUCCESS_RECEIVER);
@@ -105,7 +110,6 @@ public class ExpensesActivity extends MainActivity {
 
             }
         });
-
 	}
 
     @Override
@@ -142,10 +146,10 @@ public class ExpensesActivity extends MainActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.members:
+            /*case R.id.members:
 
                 startActivity(membersIntent);
-                return true;
+                return true;*/
             case R.id.items:
 
                 startActivity(itemsIntent);
@@ -154,17 +158,12 @@ public class ExpensesActivity extends MainActivity {
 
                 startActivity(calculateIntent);
                 return true;
-	    /*case R.id.graph:
 
-	    	startActivity(graphIntent);
-	    	return true;*/
-
-
-            case R.id.mystats:
+            /*case R.id.mystats:
                 startActivity(mystatsIntent);
                 System.out.println("in mystats click"+App.getInstance().getCurr_group());
 
-                return true;
+                return true;*/
 
             case R.id.action_sync:
                 performSync();
@@ -222,6 +221,22 @@ public class ExpensesActivity extends MainActivity {
         if(mSlidingTabLayout != null) {
             mSlidingTabLayout.setBackgroundColor(getResources().getColor(color));
         }
+    }
+
+    public void hideToolbar() {
+        mToolBar.animate().translationY(-mToolBar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+    public void showToolbar() {
+        mToolBar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+    }
+
+    public void hideInfo() {
+        mSlidingTabLayout.animate().translationY(-mSlidingTabLayout.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+    public void showInfo() {
+        mSlidingTabLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
     }
 
     public class SyncSuccessReceiver extends BroadcastReceiver {

@@ -1,6 +1,8 @@
 package com.prateek.gem.groups;
 
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +28,16 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
     private static final int TYPE_HEADER = 2;
     private static final int TYPE_ITEM = 1;
 
+    int firstItemHeight = 0;
+
     public GroupsAdapter(MainActivity screen) {
         mScreen = screen;
+        int[] actionBarHeight = new int[] { R.attr.actionBarSize };
+        int indexOfAttrTextSize = 0;
+        TypedArray a = screen.obtainStyledAttributes(actionBarHeight);
+        firstItemHeight = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
+        a.recycle();
+        DebugLogger.message("firstItemHeight"+firstItemHeight);
     }
 
     public void setGroups(ArrayList<Group> groups) {
@@ -72,13 +82,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
             viewHolder.vView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    App.getInstance().setCurr_group(mGroups.get(position));
-                    ((MainLandingScreen) mScreen).onItemSelected(group, position, viewHolder.vGroupName);
+                    App.getInstance().setCurr_group(mGroups.get(position-1));
+                    ((MainLandingScreen) mScreen).onItemSelected(group, position-1, viewHolder.vGroupName);
                 }
             });
         }
-
-
     }
 
     @Override
@@ -96,7 +104,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.ViewHolder
         } else if (viewType == TYPE_HEADER) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_group, parent, false);
-            v.setMinimumHeight(180);
+            v.setMinimumHeight(firstItemHeight*2);
             vh = new ViewHolder(v, TYPE_HEADER);
         }
         return vh;
